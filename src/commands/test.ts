@@ -5,12 +5,11 @@ import { Call } from '../types/call.ts'
 // Context
 import { context } from '../../main.ts'
 
-export let test: Command = {
-	aliases: ['test', 'tst'],
+context.commands.push({
+	aliases: ['test', 'tst', 'ping'],
 	permission: [0],
-	main: (message: Message, call: Call) => {
+	main: (message: Message, call: Object) => {
 		// Call : {command, arguments}
-		console.log('yee')
 		sendMessage(message.channel, 'hello there !')
 	}
-}
+})
