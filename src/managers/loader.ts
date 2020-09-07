@@ -1,8 +1,8 @@
-import { context } from '../../main.ts';
+import { cache } from '../../main.ts';
 
 let uniqueFilePathCounter = 0;
 
-export async function loadFiles() {
+export async function loadFiles(): Promise<void> {
 	let paths = [
 		'./src/commands'
 	]
@@ -13,7 +13,7 @@ export async function loadFiles() {
 	}
 }
 
-async function loadPath(path: string){
+async function loadPath(path: string): Promise<void> {
 	let files = Deno.readDirSync(Deno.realPathSync(path));
 
 	for (const file of files) {
@@ -27,4 +27,9 @@ async function loadPath(path: string){
 
 		loadPath(currentPath);
 	}
+}
+
+export async function loadConfig(): Promise<void>{
+	cache.config = await import('file://' + Deno.realPathSync('./config.ts'));
+	console.log(cache.config)
 }
