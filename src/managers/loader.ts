@@ -1,4 +1,5 @@
 import { cache } from '../../main.ts';
+import { Config } from '../types/configSchema.ts';
 
 let uniqueFilePathCounter = 0;
 
@@ -30,6 +31,16 @@ async function loadPath(path: string): Promise<void> {
 }
 
 export async function loadConfig(): Promise<void>{
-	cache.config = await import('file://' + Deno.realPathSync('./config.ts'));
-	console.log(cache.config)
+	
+	try {
+		let config: Config = JSON.parse(Deno.readTextFileSync(Deno.realPathSync('./config/config.json')))
+		cache.config = config;
+	} catch (error){
+		console.log(
+			'\nError : config file could not be loaded \n' +
+			`└ Make sure ${Deno.realPathSync('./')}/config/config.json exists and is correctly configured`
+		);
+		Deno.exit(0);
+	}
+	
 }

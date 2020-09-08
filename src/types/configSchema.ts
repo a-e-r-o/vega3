@@ -1,11 +1,5 @@
-export interface ConfigSchema {
-	token: string;
-	prefix: string;
-	owner: string;
-}
-
-export class Config implements ConfigSchema {
+export class Config {
 	public token!: string;
 	public prefix!: string;
-	public owner!: string;
+	public owner?: string;
 }
