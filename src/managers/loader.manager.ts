@@ -1,17 +1,16 @@
 import { cache } from '../../main.ts';
-import { Config } from '../types/configSchema.ts';
+import { Config } from '../types/types.ts';
 
 let uniqueFilePathCounter = 0;
 
-export async function loadFiles(): Promise<void> {
-	let paths = [
-		'./src/commands'
-	]
+export async function loadCommands(): Promise<void> {
+	let path = './src/commands'
+	await loadPath(Deno.realPathSync(path));		
+}
 
-	for(let i = 0; i < paths.length; i++){
-		await loadPath(Deno.realPathSync(paths[i]));		
-		uniqueFilePathCounter++;
-	}
+export async function loadHandlers(): Promise<void> {
+	let path = './src/handlers'
+	await loadPath(Deno.realPathSync(path));
 }
 
 async function loadPath(path: string): Promise<void> {
@@ -31,7 +30,6 @@ async function loadPath(path: string): Promise<void> {
 }
 
 export async function loadConfig(): Promise<void>{
-	
 	try {
 		let config: Config = JSON.parse(Deno.readTextFileSync(Deno.realPathSync('./config/config.json')))
 		cache.config = config;
@@ -42,5 +40,4 @@ export async function loadConfig(): Promise<void>{
 		);
 		Deno.exit(0);
 	}
-	
 }

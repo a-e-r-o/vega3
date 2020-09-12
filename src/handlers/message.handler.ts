@@ -4,7 +4,8 @@ import { Command, Call } from '../types/types.ts'
 // cache
 import { cache } from '../../main.ts'
 
-cache.commands.push({
+/*
+cache.handlers.message({
 	aliases: ['test', 'tst', 'ping'],
 	permission: [0],
 	main: (message: Message, call: Object) => {
@@ -12,3 +13,4 @@ cache.commands.push({
 		sendMessage(message.channel, 'hello there !')
 	}
 })
+*/

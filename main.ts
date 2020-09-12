@@ -1,22 +1,22 @@
 // - Libs -
 import * as Discord from 'https://deno.land/x/discordeno@v8.0.0/mod.ts'
-import { Intents, sendMessage } from 'https://deno.land/x/discordeno@v8.0.0/mod.ts'
+import { eventHandlers, Intents, sendMessage } from 'https://deno.land/x/discordeno@v8.0.0/mod.ts'
 // - Types -
-import { Config } from './src/types/configSchema.ts';
-import { Command } from './src/types/command.ts'
-import { Call } from './src/types/call.ts'
-import { loadFiles, loadConfig } from './src/managers/loader.ts'
+import { Config, Command, Call } from './src/types/types.ts';
+import { loadCommands, loadConfig, loadHandlers } from './src/managers/managers.ts'
 
 // -- Context --
 
 export const cache = {
 	config: new Config(),
 	commands: new Array<Command>(),
-	managers: new Array<Object>()
+	managers: new Array<Object>(),
+	handlers: new Object()
 };
 
-await loadFiles();
 await loadConfig();
+await loadCommands();
+await loadHandlers();
 
 // -- Main --
 console.log('starting...');
@@ -29,7 +29,7 @@ Discord.createClient(
 			ready: () => {
 				console.log('ready')
 			},
-			reactionAdd: () => { },
+			reactionAdd: ()=>{},
 			reactionRemove: () => { },
 			messageCreate: (msg: Discord.Message) => {
 				if (msg.content.match('ping')) {
