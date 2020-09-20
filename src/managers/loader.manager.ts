@@ -1,5 +1,5 @@
 import { cache } from '../../main.ts';
-import { Config } from '../types/types.ts';
+import { Config } from '../class/class.ts';
 
 let uniqueFilePathCounter = 0;
 
@@ -13,8 +13,10 @@ export async function loadHandlers(): Promise<void> {
 	await loadPath(Deno.realPathSync(path));
 }
 
-async function loadPath(path: string): Promise<void> {
+export async function loadPath(path: string): Promise<void> {
 	let files = Deno.readDirSync(Deno.realPathSync(path));
+
+	uniqueFilePathCounter ++;
 
 	for (const file of files) {
 		if (!file.name) continue;

@@ -2,16 +2,17 @@
 import * as Discord from 'https://deno.land/x/discordeno@v8.0.0/mod.ts'
 import { Intents, sendMessage } from 'https://deno.land/x/discordeno@v8.0.0/mod.ts'
 // - Types -
-import { Config, Command, Call, BotCache } from './src/types/types.ts';
+import { Config, Command, Call, BotCache } from './src/class/class.ts';
 import { loadCommands, loadConfig, loadHandlers } from './src/managers/managers.ts'
 
 // -- Context --
 
 export const cache: BotCache = {
 	config: new Config(),
-	commands: new Array<Command>(),
+	commands: new Map<String, Command>(),
 	managers: new Array<Object>(),
-	handlers: new Object()
+	handlers: new Object(),
+	startTime: new Date(),
 };
 
 await loadConfig();

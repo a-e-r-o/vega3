@@ -2,10 +2,23 @@
 import { sendMessage, Message } from 'https://deno.land/x/discordeno@v8.0.0/mod.ts';
 // cache
 import { cache } from '../../main.ts'
+import { Command } from '../class/class.ts';
 
 cache.handlers.messageCreate = (message: Message) => {
-	if (message.content.match(/^ping$/)) {
-		console.log(message);
-		sendMessage(message.channel, 'pong')
+	// if message is not a command, do nothing
+	if (!message.content.match(RegExp(cache.config.prefix, 'gi'))) {
+		return
+	}
+
+	let cmdName = message.content.replace(RegExp(cache.config.prefix, 'gi'), '');
+	let command: Command | undefined = 
+		Array
+				.from(cache.commands.values())
+				.find(
+					(cmd: Command) => cmd.aliases.includes(cmdName)
+				);
+
+	if (command !== undefined) {
+		command.main(message);
 	}
 }
