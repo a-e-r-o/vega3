@@ -2,7 +2,7 @@
 import { sendMessage, Message } from 'https://deno.land/x/discordeno@v8.0.0/mod.ts';
 // cache
 import { cache } from '../../main.ts'
-import { Command } from '../class/class.ts';
+import { Call, Command } from '../class/class.ts';
 
 cache.handlers.messageCreate = (message: Message) => {
 	// if message is not a command, do nothing
@@ -19,6 +19,6 @@ cache.handlers.messageCreate = (message: Message) => {
 				);
 
 	if (command !== undefined) {
-		command.main(message);
+		command.main(message, new Call(message));
 	}
 }

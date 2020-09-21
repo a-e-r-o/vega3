@@ -4,7 +4,7 @@ import { Call } from '../class/class.ts'
 // cache
 import { cache } from '../../main.ts'
 // managers
-import { loadCommands, loadConfig, loadHandlers, loadPath } from '../managers/loader.manager.ts'
+import { loadCommands, loadConfig, loadHandlers, loadPath } from '../managers/loader.ts'
 
 cache.commands.set('reload', {
 	aliases: ['reload'],

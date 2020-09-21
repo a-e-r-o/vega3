@@ -1,4 +1,3 @@
-export * from './call.class.ts'
-export * from './command.class.ts'
-export * from './config.class.ts'
-export * from './cache.interface.ts'
+export * from './call.ts'
+export * from './command.ts'
+export * from './config.ts'

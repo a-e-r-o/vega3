@@ -2,7 +2,8 @@
 import * as Discord from 'https://deno.land/x/discordeno@v8.0.0/mod.ts'
 import { Intents, sendMessage } from 'https://deno.land/x/discordeno@v8.0.0/mod.ts'
 // - Types -
-import { Config, Command, Call, BotCache } from './src/class/class.ts';
+import { Command, Call, Config } from './src/class/class.ts';
+import { BotCache } from './src/types/types.ts';
 import { loadCommands, loadConfig, loadHandlers } from './src/managers/managers.ts'
 
 // -- Context --

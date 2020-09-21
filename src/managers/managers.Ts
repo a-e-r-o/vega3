@@ -1,1 +1,1 @@
-export * from './loader.manager.ts'
+export * from './loader.ts'
