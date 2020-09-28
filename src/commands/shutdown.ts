@@ -4,11 +4,11 @@ import { Call } from '../class/class.ts'
 // cache
 import { cache } from '../../main.ts'
 
-cache.commands.set('test', {
-	aliases: ['test', 'tst', 'ping'],
+cache.commands.set('shutdown', {
+	aliases: ['shutdown', 'exit(0)'],
 	permission: [0],
-	main: (call: Call) => {
-		// Call : {command, arguments}
-		sendMessage(call.msg.channel, 'pong')
+	main: async(call: Call) => {
+		await sendMessage(call.msg.channel, '/!\\ Emergency shutdown engaged /!\\');
+		Deno.exit(0);
 	}
 })

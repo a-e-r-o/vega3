@@ -1,5 +1,6 @@
 import * as Discord from 'https://deno.land/x/discordeno@v8.0.0/mod.ts'
-import { Command, Config } from '../class/class.ts'
+import { Config } from '../class/class.ts'
+import { Command } from '../types/types.ts'
 
 export interface BotCache {
 	config: Config;

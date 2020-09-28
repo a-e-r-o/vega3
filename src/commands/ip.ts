@@ -7,7 +7,7 @@ import { cache } from '../../main.ts'
 cache.commands.set('ip', {
 	aliases: ['ip'],
 	permission: [0],
-	main: async(message: Message, call: Call) => {
+	main: async(call: Call) => {
 		let resMsg = 'Cannot resolve IPv4';
 
 		try {
@@ -20,6 +20,6 @@ cache.commands.set('ip', {
 		}
 
 		// Call : {command, arguments}
-		sendMessage(message.channel, resMsg);
+		sendMessage(call.msg.channel, resMsg);
 	}
 })

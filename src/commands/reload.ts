@@ -9,8 +9,8 @@ import { loadCommands, loadConfig, loadHandlers, loadPath } from '../managers/lo
 cache.commands.set('reload', {
 	aliases: ['reload'],
 	permission: [0], 
-	main: async(message: Message, call: Call) => {
+	main: async(call: Call) => {
 		await loadCommands();
-		sendMessage(message.channel, 'Reload complete')
+		sendMessage(call.msg.channel, 'Reload complete')
 	}
 })
