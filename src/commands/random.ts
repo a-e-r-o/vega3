@@ -35,9 +35,9 @@ cache.commands.set('random', {
 		// the remaining args after desc parsing are the options
 		let options: Array<string> = call.args;
 		
-		// if there are less than 2 options, abort
+		// if there are no options, abort
 		if (options.length < 1) {
-			sendMessage(call.msg.channel, 'Error : no enough options provided');
+			sendMessage(call.msg.channel, 'Error : not enough options provided');
 			return
 		}
 
