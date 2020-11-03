@@ -1,4 +1,4 @@
-import { Message } from 'https://deno.land/x/discordeno@v8.0.0/mod.ts'
+import { Message } from '../../deps.ts'
 
 export class Call {
 	public msg!: Message;

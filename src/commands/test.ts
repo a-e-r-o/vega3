@@ -1,5 +1,5 @@
 // Types
-import { Message, sendMessage } from 'https://deno.land/x/discordeno@v8.0.0/mod.ts'
+import { Message, sendMessage } from '../../deps.ts'
 import { Call } from '../class/class.ts'
 // cache
 import { cache } from '../../main.ts'
@@ -9,6 +9,6 @@ cache.commands.set('test', {
 	permission: [0],
 	main: (call: Call) => {
 		// Call : {command, arguments}
-		sendMessage(call.msg.channel, 'pong')
+		sendMessage(call.msg.channelID, 'pong')
 	}
 })

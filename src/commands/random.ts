@@ -1,5 +1,5 @@
 // Types
-import { Message, sendMessage } from 'https://deno.land/x/discordeno@v8.0.0/mod.ts'
+import { Message, sendMessage } from '../../deps.ts'
 import { Call } from '../class/class.ts'
 // cache
 import { cache } from '../../main.ts'
@@ -37,7 +37,7 @@ cache.commands.set('random', {
 		
 		// if there are no options, abort
 		if (options.length < 1) {
-			sendMessage(call.msg.channel, 'Error : not enough options provided');
+			sendMessage(call.msg.channelID, 'Error : not enough options provided');
 			return
 		}
 
@@ -46,9 +46,9 @@ cache.commands.set('random', {
 		
 		// send result
 		if (desc.length > 0) {
-			sendMessage(call.msg.channel, desc + '\n' + selectedItem);
+			sendMessage(call.msg.channelID, desc + '\n' + selectedItem);
 		} else {
-			sendMessage(call.msg.channel, selectedItem);
+			sendMessage(call.msg.channelID, selectedItem);
 		}
 	}
 })

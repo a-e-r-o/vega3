@@ -1,4 +1,4 @@
-import * as Discord from 'https://deno.land/x/discordeno@v8.0.0/mod.ts'
+import * as Discord from '../../deps.ts'
 import { Config } from '../class/class.ts'
 import { Command } from '../types/types.ts'
 

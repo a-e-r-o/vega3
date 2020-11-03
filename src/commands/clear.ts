@@ -1,6 +1,5 @@
 // Types
-import { Message, sendMessage, getMessages, deleteMessage, deleteMessages, memberHasPermission, Permission } from 'https://deno.land/x/discordeno@v8.0.0/mod.ts'
-import * as Discord from 'https://deno.land/x/discordeno@v8.0.0/mod.ts'
+import { sendMessage, getMessages, deleteMessages, getMember, Member, memberIDHasPermission } from '../../deps.ts'
 import { Call } from '../class/class.ts'
 // cache
 import { cache } from '../../main.ts'
@@ -9,17 +8,17 @@ cache.commands.set('clear', {
 	aliases: ['clear', 'cls', 'clean'],
 	permission: [0],
 	main: async(call: Call) => {
-		let member: Discord.Member | undefined = await Discord.getMember(call.msg.guildID, call.msg.author.id);
-		let guild: Discord.Guild | undefined = call.msg.guild();
-		if(member !== undefined && guild !== undefined){
-			if (!memberHasPermission(
-				call.msg.author.id,
-				guild,
-				member.roles,
-				["MANAGE_MESSAGES"]
-			)) {
+		let member: Member | undefined = await getMember(call.msg.guildID, call.msg.author.id);
+		if(member !== undefined){
+			if (
+				!memberIDHasPermission(
+					call.msg.author.id,
+					member.guildID,
+					["MANAGE_MESSAGES"]
+				)
+			) {
 				sendMessage(
-					call.msg.channel,
+					call.msg.channelID,
 					'Messages deletion failed : Missing permissions'
 				)
 				return
@@ -34,19 +33,19 @@ cache.commands.set('clear', {
 
 		try {
       const messagesToDelete = await getMessages(
-        call.msg.channel,
+        call.msg.channelID,
         { limit: 100 },
       );
       if (!messagesToDelete) return;
 
       await deleteMessages(
-        call.msg.channel,
+        call.msg.channelID,
         // + 1 to include the message that triggered the command
         messagesToDelete.slice(0, msgNumber + 1).map((m) => m.id),
       );
     } catch (error) {
 			sendMessage(
-				call.msg.channel,
+				call.msg.channelID,
         'Messages deletion failed',
 			);
 			return 

@@ -23,7 +23,7 @@ export async function loadPath(path: string): Promise<void> {
 		const currentPath = `${path}/${file.name}`;
 
 		if (file.isFile) {
-			await import(`file:///${currentPath}#${uniqueFilePathCounter}`);
+			import(`file:///${currentPath}#${uniqueFilePathCounter}`);
 			continue;
 		}
 

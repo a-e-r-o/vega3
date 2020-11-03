@@ -1,5 +1,5 @@
 // Libs
-import { sendMessage, Message } from 'https://deno.land/x/discordeno@v8.0.0/mod.ts';
+import { sendMessage, Message } from '../../deps.ts';
 // cache
 import { cache } from '../../main.ts'
 import { Call } from '../class/class.ts';
