@@ -1,1 +1,1 @@
-export * from 'https://deno.land/x/discordeno@v9.0.1/mod.ts'
+export * from 'https://deno.land/x/discordeno@10.0.2/mod.ts'

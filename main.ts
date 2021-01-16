@@ -22,7 +22,7 @@ await loadHandlers();
 
 console.log('starting...');
 
-Dcd.createClient(
+Dcd.startBot(
 	{
 		token: cache.config.token,
 		intents: [Dcd.Intents.GUILDS, Dcd.Intents.GUILD_MESSAGES],
