@@ -1,5 +1,5 @@
 // - deps -
-import * as Dcd from './deps.ts'
+import * as Di from './deps.ts'
 // - Types -
 import { Call, Config } from './src/class/class.ts';
 import { BotCache, Command } from './src/types/types.ts';
@@ -22,10 +22,10 @@ await loadHandlers();
 
 console.log('starting...');
 
-Dcd.startBot(
+Di.startBot(
 	{
 		token: cache.config.token,
-		intents: [Dcd.Intents.GUILDS, Dcd.Intents.GUILD_MESSAGES, Dcd.Intents.DIRECT_MESSAGES],
+		intents: [Di.Intents.GUILDS, Di.Intents.GUILD_MESSAGES, Di.Intents.DIRECT_MESSAGES],
 		eventHandlers: cache.handlers
 	}
 )
