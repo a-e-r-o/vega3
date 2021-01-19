@@ -6,7 +6,7 @@ import { cache } from '../../main.ts'
 
 cache.commands.set('ip', {
 	aliases: ['ip'],
-	permission: [0],
+	clearance: 1,
 	main: async(call: Call) => {
 		let resMsg = 'Cannot resolve IPv4';
 

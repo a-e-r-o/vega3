@@ -6,9 +6,9 @@ import { cache } from '../../main.ts'
 
 cache.commands.set('test', {
 	aliases: ['test', 'tst', 'ping'],
-	permission: [0],
+	clearance: 0,
 	main: (call: Call) => {
 		// Call : {command, arguments}
-		sendMessage(call.msg.channelID, 'pong')
+		sendMessage(call.msg.channelID, 'test successful')
 	}
 })

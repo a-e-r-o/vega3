@@ -12,9 +12,9 @@
 			"description": "Default prefix messages to be interpreted as commands",
 			"type": "string"
 		},
-		"owner": {
-			"description": "Bot owner's DiscordUser ID",
-			"type": "string"
+		"botAdmins": {
+			"description": "(Temprorary) users' IDs allowed to use bot's \"admin\" commands",
+			"type": "array"
 		}
   },
   "required": [ "token", "prefix" ]

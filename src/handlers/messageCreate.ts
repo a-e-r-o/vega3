@@ -24,7 +24,13 @@ cache.handlers.messageCreate = (message: Message) => {
 				(cmd: Command) => cmd.aliases.includes(call.cmd)
 			);
 
-	if (command !== undefined) {
-		command.main(call);
+	if (!command)
+		return
+	// temporary solution until implementation of a better clearance system
+	if (command.clearance > 0 && !cache.config.botAdmins.includes(call.msg.author.id)){
+		sendMessage(call.msg.channelID, 'Insufficient user clearance level')
+		return false
 	}
+
+	command.main(call);
 }

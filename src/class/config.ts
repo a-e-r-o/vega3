@@ -1,5 +1,6 @@
 export class Config {
 	public token!: string;
 	public prefix!: string;
-	public owner!: string;
+	// temporary solution until implementation of a better clearance system
+	public botAdmins!: string[];
 }

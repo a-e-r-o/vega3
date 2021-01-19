@@ -1,5 +1,5 @@
 export interface Command {
 	aliases: Array<string>;
-	permission: Array<number>;
+	clearance: number;
 	main: Function;
 }

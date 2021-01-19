@@ -6,7 +6,7 @@ import { cache } from '../../main.ts'
 
 cache.commands.set('random', {
 	aliases: ['rand', 'random', 'choose'],
-	permission: [0],
+	clearance: 0,
 	main: (call: Call) => {
 		let desc: string = ''
 

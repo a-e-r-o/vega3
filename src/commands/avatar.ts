@@ -7,7 +7,7 @@ import { cache } from '../../main.ts'
 
 cache.commands.set('avatar', {
 	aliases: ['avatar', 'pp'],
-	permission: [0],
+	clearance: 0,
 	main: async (call: Call) => {
 
 		let mentions: Array<Member> = [];

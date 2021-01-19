@@ -6,7 +6,7 @@ import { cache } from '../../main.ts'
 
 cache.commands.set('clear', {
 	aliases: ['clear', 'cls', 'clean'],
-	permission: [0],
+	clearance: 0,
 	main: async(call: Call) => {
 		// if member has permission to manage messages
 		if (
