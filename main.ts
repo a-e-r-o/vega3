@@ -25,7 +25,7 @@ console.log('starting...');
 Dcd.startBot(
 	{
 		token: cache.config.token,
-		intents: [Dcd.Intents.GUILDS, Dcd.Intents.GUILD_MESSAGES],
+		intents: [Dcd.Intents.GUILDS, Dcd.Intents.GUILD_MESSAGES, Dcd.Intents.DIRECT_MESSAGES],
 		eventHandlers: cache.handlers
 	}
 )
