@@ -20,36 +20,36 @@ cache.commands.set('clear', {
 				call.msg.channelID,
 				'Messages deletion failed *(User missing permissions)*'
 			)
-			return;
+			return
 		}
 
-		let msgNumber: number = parseInt(call.args[0]);
+		let msgNumber: number = parseInt(call.args[0])
 		// Check if not NaN and more than 0
 		if (!(msgNumber > 0))
 			// Default value is 5
-			msgNumber = 5;
+			msgNumber = 5
 
 		// +1 to include the message that triggered the command
-		msgNumber += 1;
+		msgNumber += 1
 
 		while (msgNumber > 0) {
 			try {
 	      const messagesToDelete = await getMessages(
 	        call.msg.channelID,
 	        { limit: 100 },
-	      );
-	      if (!messagesToDelete) return;
+	      )
+	      if (!messagesToDelete) return
 
 	      await deleteMessages(
 	        call.msg.channelID,
 	        messagesToDelete.slice(0, msgNumber).map((m) => m.id),
-				);
-				msgNumber -= messagesToDelete.length;
+				)
+				msgNumber -= messagesToDelete.length
 	    } catch (error) {
 				sendMessage(
 					call.msg.channelID,
 	        'Could not delete message',
-				);
+				)
 				return 
 			}
 		}

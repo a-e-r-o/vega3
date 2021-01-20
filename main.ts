@@ -1,8 +1,8 @@
 // - deps -
 import * as Di from './deps.ts'
 // - Types -
-import { Call, Config } from './src/class/class.ts';
-import { BotCache, Command } from './src/types/types.ts';
+import { Call, Config } from './src/class/class.ts'
+import { BotCache, Command } from './src/types/types.ts'
 import { loadCommands, loadConfig, loadHandlers } from './src/managers/managers.ts'
 
 // -- Context --
@@ -13,14 +13,14 @@ export const cache: BotCache = {
 	managers: new Array<Object>(),
 	handlers: new Object(),
 	startTime: new Date(),
-};
+}
 
 
-await loadConfig();
-await loadCommands();
-await loadHandlers();
+await loadConfig()
+await loadCommands()
+await loadHandlers()
 
-console.log('starting...');
+console.log('starting...')
 
 Di.startBot(
 	{

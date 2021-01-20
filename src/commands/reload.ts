@@ -10,7 +10,7 @@ cache.commands.set('reload', {
 	aliases: ['reload'],
 	clearance: 0, 
 	main: async(call: Call) => {
-		await loadCommands();
+		await loadCommands()
 		sendMessage(call.msg.channelID, 'Reload complete')
 	}
 })

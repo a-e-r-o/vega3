@@ -18,10 +18,10 @@ cache.commands.set('random', {
 			// remove the separator from the arg to have a clean desc
 			if (call.args[descIndex] === '') {
 				// if it's only the separator by itself remove the arg altogether
-				call.args.splice(descIndex, 1);
+				call.args.splice(descIndex, 1)
 			} else {
 				// else, remove the separator from the arg
-				call.args[descIndex] = call.args[descIndex].replace(/^--/, '');
+				call.args[descIndex] = call.args[descIndex].replace(/^--/, '')
 			}
 
 			// join all args following the one with the separator
@@ -33,22 +33,22 @@ cache.commands.set('random', {
 		}
 
 		// the remaining args after desc parsing are the options
-		let options: Array<string> = call.args;
+		let options: Array<string> = call.args
 		
 		// if there are no options, abort
 		if (options.length < 1) {
-			sendMessage(call.msg.channelID, 'Error : not enough options provided');
+			sendMessage(call.msg.channelID, 'Error : not enough options provided')
 			return
 		}
 
 		// select at random among the args
-		let selectedItem: string = '=> ' + options[Math.floor(Math.random() * options.length)];
+		let selectedItem: string = '=> ' + options[Math.floor(Math.random() * options.length)]
 		
 		// send result
 		if (desc.length > 0) {
-			sendMessage(call.msg.channelID, desc + '\n' + selectedItem);
+			sendMessage(call.msg.channelID, desc + '\n' + selectedItem)
 		} else {
-			sendMessage(call.msg.channelID, selectedItem);
+			sendMessage(call.msg.channelID, selectedItem)
 		}
 	}
 })
