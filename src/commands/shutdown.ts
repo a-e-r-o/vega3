@@ -1,14 +1,14 @@
 // Types
 import { Message, sendMessage } from '../../deps.ts'
-import { Call } from '../class/class.ts'
+import { CmdContext } from '../class/class.ts'
 // cache
-import { cache } from '../../main.ts'
+import { botCache } from '../../main.ts'
 
-cache.commands.set('shutdown', {
+botCache.commands.set('shutdown', {
 	aliases: ['shutdown', 'exit(0)'],
 	clearance: 1,
-	main: async(call: Call) => {
-		await sendMessage(call.msg.channelID, '/!\\ Emergency shutdown engaged /!\\')
+	main: async(cmdCtx: CmdContext) => {
+		await sendMessage(cmdCtx.msg.channelID, '__**/!\\ Emergency shutdown engaged /!\\**__')
 		Deno.exit(0)
 	}
 })

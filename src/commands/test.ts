@@ -1,14 +1,14 @@
 // Types
 import { Message, sendMessage } from '../../deps.ts'
-import { Call } from '../class/class.ts'
+import { CmdContext } from '../class/class.ts'
 // cache
-import { cache } from '../../main.ts'
+import { botCache } from '../../main.ts'
 
-cache.commands.set('test', {
+botCache.commands.set('test', {
 	aliases: ['test', 'tst', 'ping'],
 	clearance: 0,
-	main: (call: Call) => {
-		// Call : {command, arguments}
-		sendMessage(call.msg.channelID, 'test successful')
+	main: (cmdCtx: CmdContext) => {
+		// CmdContext : {command, arguments}
+		sendMessage(cmdCtx.msg.channelID, 'test successful')
 	}
 })

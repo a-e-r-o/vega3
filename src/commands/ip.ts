@@ -1,25 +1,23 @@
 // Types
 import { Message, sendMessage } from '../../deps.ts'
-import { Call } from '../class/class.ts'
+import { CmdContext } from '../class/class.ts'
 // cache
-import { cache } from '../../main.ts'
+import { botCache } from '../../main.ts'
 
-cache.commands.set('ip', {
+botCache.commands.set('ip', {
 	aliases: ['ip'],
 	clearance: 1,
-	main: async(call: Call) => {
-		let resMsg = 'Cannot resolve IPv4'
+	main: async(cmdCtx: CmdContext) => {
+		let resMsg: string;
 
 		try {
-			const data = await (await fetch('https://api.ipify.org?format=json')).json()
-			resMsg = data['ip']
-			
-			//resMsg = await res.json()
+			const rawData: Response = await fetch('https://api.ipify.org?format=json');			
+			const data: Record<string, unknown> = await rawData.json()
+			resMsg = `\`${data.ip}\``
 		} catch (error) {
-			resMsg = 'API error'
+			resMsg = 'Cannot resolve IP adress : API error'
 		}
 
-		// Call : {command, arguments}
-		sendMessage(call.msg.channelID, resMsg)
+		sendMessage(cmdCtx.msg.channelID, resMsg)
 	}
 })

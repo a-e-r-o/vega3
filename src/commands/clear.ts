@@ -1,29 +1,30 @@
 // Types
 import { sendMessage, getMessages, deleteMessages, getMember, Member, memberIDHasPermission } from '../../deps.ts'
-import { Call } from '../class/class.ts'
+import { CmdContext } from '../class/class.ts'
 // cache
-import { cache } from '../../main.ts'
+import { botCache } from '../../main.ts'
 
-cache.commands.set('clear', {
+botCache.commands.set('clear', {
 	aliases: ['clear', 'cls', 'clean'],
 	clearance: 0,
-	main: async(call: Call) => {
+	main: async (cmdCtx: CmdContext) => {
 		// if member has permission to manage messages
+		const canDelMsgPerm = await memberIDHasPermission(
+			cmdCtx.msg.author.id,
+			cmdCtx.msg.guildID,
+			["MANAGE_MESSAGES"]
+		)
 		if (
-			!await memberIDHasPermission(
-				call.msg.author.id,
-				call.msg.guildID,
-				["MANAGE_MESSAGES"]
-			)
+			// need permission to manage messages, but me, I own the bot I don't need no permission. gang gang
+			!canDelMsgPerm && !botCache.config.botAdmins.includes(cmdCtx.msg.author.id)
 		) {
-			sendMessage(
-				call.msg.channelID,
+			return sendMessage(
+				cmdCtx.msg.channelID,
 				'Messages deletion failed *(User missing permissions)*'
 			)
-			return
 		}
 
-		let msgNumber: number = parseInt(call.args[0])
+		let msgNumber: number = parseInt(cmdCtx.args[0])
 		// Check if not NaN and more than 0
 		if (!(msgNumber > 0))
 			// Default value is 5
@@ -34,23 +35,22 @@ cache.commands.set('clear', {
 
 		while (msgNumber > 0) {
 			try {
-	      const messagesToDelete = await getMessages(
-	        call.msg.channelID,
-	        { limit: 100 },
-	      )
-	      if (!messagesToDelete) return
+				const messagesToDelete = await getMessages(
+					cmdCtx.msg.channelID,
+					{ limit: 100 },
+				)
+				if (!messagesToDelete) return
 
-	      await deleteMessages(
-	        call.msg.channelID,
-	        messagesToDelete.slice(0, msgNumber).map((m) => m.id),
+				await deleteMessages(
+					cmdCtx.msg.channelID,
+					messagesToDelete.slice(0, msgNumber).map((m) => m.id),
 				)
 				msgNumber -= messagesToDelete.length
-	    } catch (error) {
-				sendMessage(
-					call.msg.channelID,
-	        'Could not delete message',
+			} catch (error) {
+				return sendMessage(
+					cmdCtx.msg.channelID,
+					'Could not delete message',
 				)
-				return 
 			}
 		}
 	}

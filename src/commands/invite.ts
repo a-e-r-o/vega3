@@ -1,13 +1,12 @@
-import * as Di from '../../deps.ts'
-import { Message, sendMessage } from '../../deps.ts'
-import { Call } from '../class/class.ts'
+import { Message, sendMessage, botID } from '../../deps.ts'
+import { CmdContext } from '../class/class.ts'
 // cache
-import { cache } from '../../main.ts'
+import { botCache } from '../../main.ts'
 
-cache.commands.set('invite', {
+botCache.commands.set('invite', {
 	aliases: ['invite','inv'],
 	clearance: 0,
-	main: (call: Call) => {
-		sendMessage(call.msg.channelID, `https://discordapp.com/oauth2/authorize?client_id=${Di.botID}&scope=bot`)
+	main: (cmdCtx: CmdContext) => {
+		sendMessage(cmdCtx.msg.channelID, `https://discordapp.com/oauth2/authorize?client_id=${botID}&scope=bot`)
 	}
 })

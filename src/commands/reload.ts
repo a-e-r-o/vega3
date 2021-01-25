@@ -1,16 +1,16 @@
 // Types
 import { Message, sendMessage } from '../../deps.ts'
-import { Call } from '../class/class.ts'
+import { CmdContext } from '../class/class.ts'
 // cache
-import { cache } from '../../main.ts'
+import { botCache } from '../../main.ts'
 // managers
 import { loadCommands, loadConfig, loadHandlers, loadPath } from '../managers/loader.ts'
 
-cache.commands.set('reload', {
+botCache.commands.set('reload', {
 	aliases: ['reload'],
 	clearance: 0, 
-	main: async(call: Call) => {
-		await loadCommands()
-		sendMessage(call.msg.channelID, 'Reload complete')
+	main: (cmdCtx: CmdContext) => {
+		loadCommands()
+		sendMessage(cmdCtx.msg.channelID, 'Reload complete')
 	}
 })

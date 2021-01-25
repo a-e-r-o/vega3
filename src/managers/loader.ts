@@ -1,26 +1,26 @@
-import { cache } from '../../main.ts'
+import { botCache } from '../../main.ts'
 import { Config } from '../class/class.ts'
 
 // todo : make this a map<string,int> with pairs of dir and count loaded
 let uniqueFilePathCounter = 0
 
 // COMMANDS
-export async function loadCommands(): Promise<void> {
-	let path = './src/commands'
-	await loadPath(Deno.realPathSync(path))		
+export function loadCommands(): void {
+	const path = './src/commands'
+	loadPath(Deno.realPathSync(path))		
 }
 
 // HANDLERS
-export async function loadHandlers(): Promise<void> {
-	let path = './src/handlers'
-	await loadPath(Deno.realPathSync(path))
+export function loadHandlers(): void {
+	const path = './src/handlers'
+	loadPath(Deno.realPathSync(path))
 }
 
 // CONFIG
-export async function loadConfig(): Promise<void>{
+export function loadConfig(): void{
 	try {
-		let config: Config = JSON.parse(Deno.readTextFileSync(Deno.realPathSync('./config/config.json')))
-		cache.config = config
+		const config: Config = JSON.parse(Deno.readTextFileSync(Deno.realPathSync('./config/config.json')))
+		botCache.config = config
 	} catch (error){
 		console.log(
 			'\nError : config file could not be loaded \n' +
@@ -30,8 +30,8 @@ export async function loadConfig(): Promise<void>{
 	}
 }
 
-export async function loadPath(path: string): Promise<void> {
-	let files = Deno.readDirSync(Deno.realPathSync(path))
+export function loadPath(path: string): void {
+	const files = Deno.readDirSync(Deno.realPathSync(path))
 
 	uniqueFilePathCounter ++
 

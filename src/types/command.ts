@@ -1,5 +1,7 @@
+import { CmdContext } from "../class/class.ts";
+
 export interface Command {
-	aliases: Array<string>
+	aliases: string[]
 	clearance: number
-	main: Function
+	main: (cmdCtx: CmdContext) => void
 }
