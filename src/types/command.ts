@@ -1,4 +1,4 @@
-import { CmdContext } from "../class/class.ts";
+import { CmdContext } from "../class/class.ts"
 
 export interface Command {
 	aliases: string[]

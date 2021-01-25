@@ -8,13 +8,13 @@ botCache.commands.set('random', {
 	aliases: ['rand', 'random', 'choose'],
 	clearance: 0,
 	main: (cmdCtx: CmdContext) => {
-		let desc: string | undefined;
+		let desc: string | undefined
 
 		// If first char of an arg is a dash, consider the first beginning of the description
 		const descIndex: number = cmdCtx.args.findIndex(x => x.match(/^--/))
 
 		// If there is a desc, it is the one beginning with a dash and all the ones after it
-		if (descIndex > 0) {
+		if (descIndex >= 0) {
 			// remove the separator from the arg to have a clean desc
 			if (cmdCtx.args[descIndex] === '--') {
 				// if it's only the separator by itself remove the arg altogether

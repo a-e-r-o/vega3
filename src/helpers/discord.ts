@@ -18,14 +18,14 @@ export function isDiscordTag (testValue: string): boolean {
 export function splitDiscordTag (tag: string): {name: string, discriminator: string} {
 	const matches = tag.split(/#(\d{4})$/).filter(x => x !== '')
 	if (matches.length !== 2)
-		throw new Error("Could not dissect tag properly");
+		throw new Error("Could not dissect tag properly")
 	return {name: matches[0], discriminator: matches[1]}
 }
 
 export function mentionToId(mentionStr: string): string {
 	const matches = mentionStr.match(/[0-9]{18}/)
 	if (!matches)
-		throw new Error("Could not convert mention to id : incorrect argument");
+		throw new Error("Could not convert mention to id : incorrect argument")
 	return matches[0]
 }
 
@@ -42,15 +42,15 @@ export async function getMembersByMentionIdNameTag (msg: Message, args: string[]
 	}
 
 	// remove duplicates with a filter based on a set of unique ids
-	const uniqueIds = new Set<string>();
+	const uniqueIds = new Set<string>()
 	members = members.filter(member => {
 		// if the set already has the id, it's a duplicate
-		const duplicate = !uniqueIds.has(member.id);	
-		uniqueIds.add(member.id);
-		return duplicate;
-	});
+		const duplicate = !uniqueIds.has(member.id)
+		uniqueIds.add(member.id)
+		return duplicate
+	})
 
-	return members;
+	return members
 }
 
 // === function to get a single member by multiple identifiers ===

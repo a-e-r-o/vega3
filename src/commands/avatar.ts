@@ -15,7 +15,7 @@ botCache.commands.set('avatar', {
 			return sendMessage(cmdCtx.msg.channelID, 'Command limited maximum 5 users at once')
 			
 		// search users
-		const users: Member[] = await getMembersByMentionIdNameTag(cmdCtx.msg, cmdCtx.args);
+		const users: Member[] = await getMembersByMentionIdNameTag(cmdCtx.msg, cmdCtx.args)
 
 		// If no users mentionned, or found
 		if (users.length == 0){
@@ -24,7 +24,7 @@ botCache.commands.set('avatar', {
 
 			const sender: Member | undefined = cache.members.get(cmdCtx.msg.author.id)
 			if (sender)
-				users.push(sender); console.log(sender)
+				users.push(sender)
 		}
 
 		// send links to profile pictures
