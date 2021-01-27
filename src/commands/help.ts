@@ -4,10 +4,10 @@ import { CmdContext } from '../class/class.ts'
 // cache
 import { botCache } from '../../main.ts'
 
-botCache.commands.set('test', {
-	aliases: ['test', 'tst', 'ping'],
+botCache.commands.set('help', {
+	aliases: ['help', 'h'],
 	clearance: 0,
 	main: (cmdCtx: CmdContext) => {
-		sendMessage(cmdCtx.msg.channelID, 'test successful')
+		sendMessage(cmdCtx.msg.channelID, '`// todo` :smile:')
 	}
 })
