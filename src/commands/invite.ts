@@ -1,5 +1,5 @@
-import { Message, sendMessage, botID } from '../../deps.ts'
-import { CmdContext } from '../class/class.ts'
+import { sendMessage, botID } from '../../deps.ts'
+import { CmdContext } from '../class/common.ts'
 // cache
 import { botCache } from '../../main.ts'
 

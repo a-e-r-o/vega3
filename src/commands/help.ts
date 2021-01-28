@@ -1,6 +1,6 @@
 // Types
-import { Message, sendMessage } from '../../deps.ts'
-import { CmdContext } from '../class/class.ts'
+import { sendMessage } from '../../deps.ts'
+import { CmdContext } from '../class/common.ts'
 // cache
 import { botCache } from '../../main.ts'
 

@@ -1,5 +1,5 @@
-import { sendMessage, getMessages, deleteMessages, getMember, Member, Channel, Message } from '../../deps.ts'
-import { vegaMsgOptions } from '../types/vegaMsgOptions.ts'
+import { sendMessage, Message } from '../../deps.ts'
+import { vegaMsgOptions } from '../types/common.ts'
 
 export function send(content : string, channelID: string, options?: vegaMsgOptions): Promise<Message> {
 	return sendMessage(

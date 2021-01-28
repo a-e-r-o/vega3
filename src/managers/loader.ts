@@ -1,5 +1,5 @@
 import { botCache } from '../../main.ts'
-import { Config } from '../class/class.ts'
+import { Config } from '../class/common.ts'
 
 // todo : make this a map<string,int> with pairs of dir and count loaded
 let uniqueFilePathCounter = 0

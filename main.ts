@@ -1,9 +1,9 @@
 // - deps -
 import { startBot, Intents } from './deps.ts'
 // - Types -
-import { Config } from './src/class/class.ts'
-import { BotCache, Command } from './src/types/types.ts'
-import { loadCommands, loadConfig, loadHandlers } from './src/managers/managers.ts'
+import { Config } from './src/class/common.ts'
+import { BotCache, Command } from './src/types/common.ts'
+import { loadCommands, loadConfig, loadHandlers } from './src/managers/loader.ts'
 
 // -- Context --
 

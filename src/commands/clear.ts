@@ -1,6 +1,6 @@
 // Types
-import { sendMessage, getMessages, deleteMessages, getMember, Member, memberIDHasPermission } from '../../deps.ts'
-import { CmdContext } from '../class/class.ts'
+import { sendMessage, getMessages, deleteMessages, memberIDHasPermission } from '../../deps.ts'
+import { CmdContext, ExError } from '../class/common.ts'
 // cache
 import { botCache } from '../../main.ts'
 
@@ -18,10 +18,7 @@ botCache.commands.set('clear', {
 			// need permission to manage messages, but me, I own the bot I don't need no permission. gang gang
 			!canDelMsgPerm && !botCache.config.botAdmins.includes(cmdCtx.msg.author.id)
 		) {
-			return sendMessage(
-				cmdCtx.msg.channelID,
-				'Messages deletion failed *(User missing permissions)*'
-			)
+			throw new ExError('Messages deletion failed *(User missing permissions)*')
 		}
 
 		let msgNumber: number = parseInt(cmdCtx.args[0])
@@ -47,10 +44,7 @@ botCache.commands.set('clear', {
 				)
 				msgNumber -= messagesToDelete.length
 			} catch (error) {
-				return sendMessage(
-					cmdCtx.msg.channelID,
-					'Could not delete message',
-				)
+				throw new ExError('Could not delete message (no permission, or no message to delete)')
 			}
 		}
 	}

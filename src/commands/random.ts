@@ -1,6 +1,6 @@
 // Types
-import { Message, sendMessage } from '../../deps.ts'
-import { CmdContext } from '../class/class.ts'
+import { sendMessage } from '../../deps.ts'
+import { CmdContext, ExError } from '../class/common.ts'
 // cache
 import { botCache } from '../../main.ts'
 
@@ -36,19 +36,14 @@ botCache.commands.set('random', {
 		const options: string[] = cmdCtx.args
 		
 		// if there are no options, abort
-		if (options.length < 1) {
-			sendMessage(cmdCtx.msg.channelID, 'Error : not enough options provided')
-			return
-		}
+		if (options.length < 1)
+			throw new ExError('Error : not enough options provided')
 
 		// select at random among the args
 		const selectedItem: string = '=> ' + options[Math.floor(Math.random() * options.length)]
+
+		const resMsg = desc ? desc + '\n' + selectedItem : selectedItem
 		
-		// send result
-		if (desc) {
-			sendMessage(cmdCtx.msg.channelID, desc + '\n' + selectedItem)
-		} else {
-			sendMessage(cmdCtx.msg.channelID, selectedItem)
-		}
+		sendMessage(cmdCtx.msg.channelID, resMsg)
 	}
 })

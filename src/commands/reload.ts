@@ -1,10 +1,10 @@
 // Types
-import { Message, sendMessage } from '../../deps.ts'
-import { CmdContext } from '../class/class.ts'
+import { sendMessage } from '../../deps.ts'
+import { CmdContext } from '../class/common.ts'
 // cache
 import { botCache } from '../../main.ts'
 // managers
-import { loadCommands, loadConfig, loadHandlers, loadPath } from '../managers/loader.ts'
+import { loadCommands } from '../managers/loader.ts'
 
 botCache.commands.set('reload', {
 	aliases: ['reload'],

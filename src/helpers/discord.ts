@@ -8,7 +8,7 @@ export function isDiscordId (testValue: string): boolean {
 }
 
 export function isDiscordMention(testValue: string): boolean {
-	return /<@![0-9]{18}>/.test(testValue)
+	return /<(?:@)?(?:!)?[0-9]{18}>/.test(testValue)
 }
 
 export function isDiscordTag (testValue: string): boolean {
