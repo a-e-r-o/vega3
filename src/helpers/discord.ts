@@ -1,10 +1,22 @@
-import { Member, MentionedUser, cache, getMembersByQuery, Message, getMember } from "../../deps.ts"
+import { Member, cache, getMembersByQuery, Message, getMember, deleteMessages, deleteMessage } from "../../deps.ts"
 import { strLowNoAccents } from './miscellaneous.ts'
 
-// === misc utility functions ===
+// === msg utility functions ===
+
+export async function deleteMsgs(messages: Message[], channelID: string): Promise<void> {
+	// if there is multiple messages, delete them all
+	if (messages.length > 1) {
+		await deleteMessages(channelID, messages.map((m) => m.id))
+	// if there is a single message, delete it
+	} else if (messages.length == 1) {
+		await deleteMessage(messages[0])
+	}
+}
+
+// === args parsing functions ===
 
 export function isDiscordId (testValue: string): boolean {
-	return /[0-9]{18}/.test(testValue)
+	return /^[0-9]{18}$/.test(testValue)
 }
 
 export function isDiscordMention(testValue: string): boolean {

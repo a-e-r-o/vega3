@@ -1,4 +1,5 @@
 import { Message } from '../../deps.ts'
+import { strLowNoAccents } from '../helpers/miscellaneous.ts'
 
 export class CmdContext {
 	public msg: Message
@@ -8,7 +9,7 @@ export class CmdContext {
 	constructor (message: Message, prefix: string) {
 		this.msg = message
 		const args = this.parseArgs(message.content, prefix)
-		this.cmd = args.shift() || ''
+		this.cmd = strLowNoAccents(args.shift() ?? '')
 		this.args = args
 	}
 

@@ -11,18 +11,19 @@ botCache.handlers.messageCreate = async(message: Message) => {
 		return
 	}
 	// if message is not a command, do nothing
-	if (!message.content.match(RegExp(botCache.config.prefix, 'gi'))) {
+	if (!message.content.match(RegExp(botCache.config.prefix, 'gi')) || message.author.bot)
 		return
-	}
 
 	const cmdCtx: CmdContext = new CmdContext(message, botCache.config.prefix)
 
-	const command: Command | undefined = 
-		Array
-			.from(botCache.commands.values())
-			.find(
-				(cmd: Command) => cmd.aliases.includes(cmdCtx.cmd)
-			)
+	let command: Command | undefined
+
+	for (const cmd of botCache.commands.values()) {
+		if (cmd.aliases.includes(cmdCtx.cmd)) {
+			command = cmd
+			break
+		}
+	}
 
 	if (!command)
 		return
