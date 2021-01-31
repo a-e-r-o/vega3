@@ -26,7 +26,7 @@ export function parseHoroscope(rawHtml: string): horoscopeData | undefined {
 		// abord if a section's text/tile isn't formed correctly
 		if (split.length !== 3 || split.includes('')) continue
 		// get text cleaned up of HTML tags
-		split[1] = split[1].replace(/<[^>]*>/gmi, '').replace(/&#039;/gmi, "'")
+		split[1] = split[1].replace(/<[^>]*>/gmi, '').replace(/&#039;/gmi, "'").replace(/&quot;/gmi, '"')
 
 		// build object with data
 		const objSection: horoscopeSection = {

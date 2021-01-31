@@ -1,3 +1,4 @@
+import { parse } from '../../deps.ts'
 import { botCache } from '../../main.ts'
 import { Config } from '../class/common.ts'
 
@@ -19,12 +20,12 @@ export function loadHandlers(): void {
 // CONFIG
 export function loadConfig(): void{
 	try {
-		const config: Config = JSON.parse(Deno.readTextFileSync(Deno.realPathSync('./config/config.json')))
+		const config: Config = parse(Deno.readTextFileSync(Deno.realPathSync('./config/config.yaml'))) as Config
 		botCache.config = config
 	} catch (error){
 		console.log(
 			'\nError : config file could not be loaded \n' +
-			`└ Make sure ${Deno.realPathSync('./')}/config/config.json exists and is correctly configured`
+			`└ Make sure ${Deno.realPathSync('./')}/config/config.yaml exists and is correctly configured`
 		)
 		Deno.exit(0)
 	}
