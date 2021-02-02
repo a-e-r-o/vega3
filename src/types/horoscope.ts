@@ -26,3 +26,10 @@ export const signs: sign[] = [
 	{ eng: 'aquarius', fr: 'Verseau', color: '050b5b' },
 	{ eng: 'pisces', fr: 'Poissons', color: '37c2e2' }
 ]
+export enum routes {
+	'horoscope-du-jour',
+	'horoscope-de-demain',
+	'horoscope-apres-demain',
+	'horoscope-dans-3-jours',
+	'horoscope-dans-4-jours'
+}
