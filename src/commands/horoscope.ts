@@ -20,7 +20,7 @@ botCache.commands.set('horoscope', {
 
 		const arg1: number = parseInt(cmdCtx.args[1]) || 0
 		if (arg1 < 0 || arg1 > 4)
-			throw new ExError(`Invalid argumemnt : ${cmdCtx.args[1]}`)
+			throw new ExError(`Invalid argument : "${cmdCtx.args[1]}". Must be a number between 1 and 4`)
 
 		const route = routes[parseInt(cmdCtx.args[1])] || routes[0]
 
@@ -37,7 +37,7 @@ botCache.commands.set('horoscope', {
 		const data = parseHoroscope(await res.text())
 
 		if (!data)
-			throw new Error("could not retrieve horoscope for sign : " + selectedSign.fr);
+			throw new Error("Could not retrieve horoscope for sign : " + selectedSign.fr);
 		
 		for (const section of data.sections) {
 			embed.fields.push({
