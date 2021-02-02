@@ -1,5 +1,6 @@
 export interface horoscopeData {
 	day: string
+	title: string
 	sections: horoscopeSection[]
 }
 export interface horoscopeSection {

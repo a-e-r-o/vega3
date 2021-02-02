@@ -30,7 +30,6 @@ botCache.commands.set('horoscope', {
 		// init embed
 		const embed: Embed = {}
 		embed.fields = []
-		embed.title = `:${selectedSign.eng}: Horoscope du jour : ${selectedSign.fr}`
 		embed.color = parseInt(selectedSign.color, 16)
 
 		// fetch data based on sign
@@ -47,7 +46,7 @@ botCache.commands.set('horoscope', {
 			})
 		}
 
-		// add footer with date
+		embed.title = `:${selectedSign.eng}: ${data.title} : ${selectedSign.fr}`
 		embed.footer = { text: data.day }
 
 		sendMessage(cmdCtx.msg.channelID, {embed: embed})

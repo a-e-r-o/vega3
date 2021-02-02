@@ -13,6 +13,11 @@ export function parseHoroscope(rawHtml: string): horoscopeData | undefined {
 	if (!dateMatch) return
 	const day = dateMatch[0].replace(/<..>.*>|<\/.*1">/gi, '')
 
+	// get date of the day and clean it
+	const titleMatch = rawHtml.match(/"name": "Horoscope.*",/i)
+	if (!titleMatch) return
+	const title = titleMatch[0].replace(/"name": "|",/gi, '')
+
 	for (const section of sections) {
 		// get number of stars (out of 5)
 		const ratingMatch = section.match(/data-rank="*."/gmi)
@@ -38,5 +43,5 @@ export function parseHoroscope(rawHtml: string): horoscopeData | undefined {
 		categories.push(objSection)
 	}
 
-	return { day: day, sections: categories };
+	return { title: title, day: day, sections: categories };
 }
