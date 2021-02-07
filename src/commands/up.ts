@@ -1,12 +1,8 @@
-import { parse } from '../../deps.ts'
-// Types
-import { sendMessage, Embed, botID, cache } from '../../deps.ts'
-import { CmdContext } from '../class/common.ts'
-// cache
-import { botCache } from '../../main.ts'
+import { sendMessage, Embed, botID, cache, parse } from '../../deps.ts'
+import { CmdContext, Command } from '../types/common.ts'
 
-botCache.commands.set('up', {
-	aliases: ['up', 'uptime', 'stats'],
+export const cmd: Command = {
+	aliases: ['up', 'uptime', 'stats', 'version'],
 	clearance: 0,
 	main: (cmdCtx: CmdContext) => {
 		const vFile: Record<string, unknown> = parse(Deno.readTextFileSync(Deno.realPathSync('./version.yaml'))) as Record<string, unknown>
@@ -16,11 +12,11 @@ botCache.commands.set('up', {
 		embed.thumbnail = {
 			url: cache.members.get(botID)?.avatarURL || '',
 		}
-		embed.title = 'V.E.G.A.'
+		embed.title = 'ᴠ.ᴇ.ɢ.ᴀ.'
 		embed.color = 16316664
 		embed.url= 'https://gitlab.com/AeroCloud/vega2'
 		embed.footer = { text: 'v' + version }
 		
 		sendMessage(cmdCtx.msg.channelID, {embed: embed})
 	}
-})
+}

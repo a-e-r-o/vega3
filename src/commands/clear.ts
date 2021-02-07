@@ -1,12 +1,9 @@
-// helpers
-import { deleteMsgs } from '../helpers/discord.ts'
-// Types
 import { getMessages, memberIDHasPermission } from '../../deps.ts'
-import { CmdContext, ExError } from '../class/common.ts'
-// cache
-import { botCache } from '../../main.ts'
+import { CmdContext, Command } from '../types/common.ts'
+import { deleteMsgs } from '../helpers/discord.ts'
+import { botCache } from '../../cache.ts'
 
-botCache.commands.set('clear', {
+export const cmd: Command = {
 	aliases: ['clear', 'cls', 'clean'],
 	clearance: 0,
 	main: async (cmdCtx: CmdContext) => {
@@ -19,7 +16,7 @@ botCache.commands.set('clear', {
 
 		// need permission to manage messages, but me, I own the bot I don't need no permission. gang gang
 		if (!canDelMsgPerm && !botCache.config.botAdmins.includes(cmdCtx.msg.author.id))
-			throw new ExError('Messages deletion failed *(User missing permissions)*')
+			throw 'Messages deletion failed *(User missing permissions)*'
 
 		let msgNumber: number = parseInt(cmdCtx.args[0])
 		// Check if not NaN and more than 0
@@ -30,7 +27,7 @@ botCache.commands.set('clear', {
 		msgNumber += 1
 
 		if (msgNumber > 1000)
-			throw new ExError('This command is limited to 1000 messages at a time')
+			throw 'This command is limited to 1000 messages at a time'
 
 		do {
 			const limit = msgNumber > 100 ? 100 : msgNumber;
@@ -44,8 +41,8 @@ botCache.commands.set('clear', {
 				
 				await deleteMsgs(messages, cmdCtx.msg.channelID)
 			} catch (error) {
-				throw new ExError('Could not delete message (no permission, or no message to delete)')
+				throw 'Could not delete message (no permission, or no message to delete)'
 			}
 		}	while (msgNumber > 0)
 	}
-})
+}

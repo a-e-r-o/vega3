@@ -1,11 +1,13 @@
 // Libs
 import { sendMessage, Message } from '../../deps.ts'
 // cache
-import { botCache } from '../../main.ts'
-import { CmdContext, ExError } from '../class/common.ts'
-import { Command } from '../types/common.ts'
+import { botCache } from '../../cache.ts'
+import { parseCommand } from "../helpers/miscellaneous.ts"
+import { Command, CmdContext } from '../types/common.ts'
 
-botCache.handlers.messageCreate = async(message: Message) => {
+export const handler = {event: 'messageCreate', handler: handle}
+
+async function handle (message: Message) {
 	// if author is a bot
 	if (message.author.bot) {
 		return
@@ -14,7 +16,7 @@ botCache.handlers.messageCreate = async(message: Message) => {
 	if (!message.content.match(RegExp(botCache.config.prefix, 'gi')) || message.author.bot)
 		return
 
-	const cmdCtx: CmdContext = new CmdContext(message, botCache.config.prefix)
+	const cmdCtx: CmdContext = parseCommand(message, botCache.config.prefix)
 
 	let command: Command | undefined
 
@@ -26,7 +28,7 @@ botCache.handlers.messageCreate = async(message: Message) => {
 	}
 
 	if (!command)
-		return
+		return sendMessage(cmdCtx.msg.channelID, 'Unkown command')
 
 	// temporary solution until implementation of a better clearance system
 	if (command.clearance > 0 && !botCache.config.botAdmins.includes(cmdCtx.msg.author.id))
@@ -35,10 +37,10 @@ botCache.handlers.messageCreate = async(message: Message) => {
 	try {
 		await command.main(cmdCtx)
 	} catch (e){
-		let feedbackMsg = e.message
+		let feedbackMsg = e.message ?? e
 
-		// If the error is not an ExError, it means it's a critical error
-		if (!(e instanceof ExError)){
+		// If what was thrown was an error, and not a strong, then it's critical
+		if (e instanceof Error){
 			console.log(
 				`- Error executing command : ${cmdCtx.cmd} with args [${cmdCtx.args.join(',')}]\n`,
 				` └ ${e.message}`

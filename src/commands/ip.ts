@@ -1,10 +1,7 @@
-// Types
 import { sendMessage } from '../../deps.ts'
-import { CmdContext } from '../class/common.ts'
-// cache
-import { botCache } from '../../main.ts'
+import { CmdContext, Command } from '../types/common.ts'
 
-botCache.commands.set('ip', {
+export const cmd: Command = {
 	aliases: ['ip'],
 	clearance: 1,
 	main: async(cmdCtx: CmdContext) => {
@@ -15,4 +12,4 @@ botCache.commands.set('ip', {
 
 		sendMessage(cmdCtx.msg.channelID, `\`${data.ip}\``)
 	}
-})
+}

@@ -1,6 +1,5 @@
 import { EventHandlers } from '../../deps.ts'
-import { Config } from '../class/common.ts'
-import { CmdContext } from "../class/common.ts"
+import { Message } from '../../deps.ts'
 
 export interface BotCache {
 	config: Config
@@ -11,15 +10,22 @@ export interface BotCache {
 	startTime: Date
 }
 
-export interface Command {
+export type CmdContext = {
+	msg: Message
+	cmd: string
+	args: string[]
+}
+
+export type Command = {
 	aliases: string[]
 	clearance: number
 	main: (cmdCtx: CmdContext) => void
 }
 
-export interface vegaMsgOptions {
-	txtColor?: string
-	embColor?: string
-	timeOut?: number
-	format?: string
+export type Config = {
+	token: string
+	prefix: string
+	// temporary solution until implementation of a better clearance system
+	botAdmins: string[]
 }
+

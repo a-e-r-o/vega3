@@ -1,12 +1,9 @@
-// Helpers
-import { isDiscordId, deleteMsgs } from '../helpers/discord.ts'
-// Types
 import { getMessages, Message, memberIDHasPermission } from '../../deps.ts'
-import { CmdContext, ExError } from '../class/common.ts'
-// cache
-import { botCache } from '../../main.ts'
+import { isDiscordId, deleteMsgs } from '../helpers/discord.ts'
+import { CmdContext, Command } from '../types/common.ts'
+import { botCache } from '../../cache.ts'
 
-botCache.commands.set('order66', {
+export const cmd: Command = {
 	aliases: ['order66', '66'],
 	clearance: 0,
 	main: async(cmdCtx: CmdContext) => {
@@ -18,10 +15,10 @@ botCache.commands.set('order66', {
 		
 		// need permission to manage messages, but me, I own the bot I don't need no permission. gang gang
 		if (!canDelMsgPerm && !botCache.config.botAdmins.includes(cmdCtx.msg.author.id))
-			throw new ExError('Messages deletion failed *(User missing permissions)*')
+			throw 'Messages deletion failed *(User missing permissions)*'
 
 		if (!isDiscordId(cmdCtx.args[0]) || cmdCtx.args.length > 1)
-			throw new ExError('please provide a single, correct, user ID')
+			throw 'please provide a single, correct, user ID'
 
 		const targetId = cmdCtx.args[0]
 		let lastMessage: Message | undefined
@@ -61,4 +58,4 @@ botCache.commands.set('order66', {
 			}
 		} while (lastMessage)
 	}
-})
+}

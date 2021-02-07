@@ -1,12 +1,10 @@
 import { sendMessage, botID } from '../../deps.ts'
-import { CmdContext } from '../class/common.ts'
-// cache
-import { botCache } from '../../main.ts'
+import { CmdContext, Command } from '../types/common.ts'
 
-botCache.commands.set('invite', {
+export const cmd: Command = {
 	aliases: ['invite','inv'],
-	clearance: 0,
+	clearance: 1,
 	main: (cmdCtx: CmdContext) => {
 		sendMessage(cmdCtx.msg.channelID, `https://discordapp.com/oauth2/authorize?client_id=${botID}&scope=bot`)
 	}
-})
+}

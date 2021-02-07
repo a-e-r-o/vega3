@@ -1,13 +1,10 @@
-// Types
 import { sendMessage } from '../../deps.ts'
-import { CmdContext } from '../class/common.ts'
-// cache
-import { botCache } from '../../main.ts'
+import { Command, CmdContext } from "../types/common.ts"
 
-botCache.commands.set('test', {
+export const cmd: Command = {
 	aliases: ['test', 'tst', 'ping'],
 	clearance: 0,
 	main: (cmdCtx: CmdContext) => {
 		sendMessage(cmdCtx.msg.channelID, 'test successful')
 	}
-})
+}

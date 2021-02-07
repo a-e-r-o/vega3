@@ -1,14 +1,10 @@
-// helpers
-import { strLowNoAccents } from '../helpers/miscellaneous.ts'
-import { parseHoroscope } from '../helpers/parse.ts'
-// Types
 import { sendMessage, Embed } from '../../deps.ts'
-import { CmdContext, ExError } from '../class/common.ts'
+import { CmdContext, Command } from '../types/common.ts'
+import { strLowNoAccents } from '../helpers/miscellaneous.ts'
+import { parseHoroscope } from '../helpers/horoscope.ts'
 import { signs, sign, routes } from '../types/horoscope.ts'
-// cache
-import { botCache } from '../../main.ts'
 
-botCache.commands.set('horoscope', {
+export const cmd: Command = {
 	aliases: ['horoscope', 'horo', 'bullshit'],
 	clearance: 0,
 	main: async (cmdCtx: CmdContext) => {
@@ -20,12 +16,12 @@ botCache.commands.set('horoscope', {
 
 		const arg1: number = parseInt(cmdCtx.args[1]) || 0
 		if (arg1 < 0 || arg1 > 4)
-			throw new ExError(`Invalid argument : "${cmdCtx.args[1]}". Must be a number between 1 and 4`)
+			throw `Invalid argument : "${cmdCtx.args[1]}". Must be a number between 1 and 4`
 
 		const route = routes[parseInt(cmdCtx.args[1])] || routes[0]
 
 		if (!selectedSign)
-			throw new ExError('Unknown or missing zodiac sign')
+			throw 'Unknown or missing zodiac sign'
 		
 		// init embed
 		const embed: Embed = {}
@@ -51,4 +47,4 @@ botCache.commands.set('horoscope', {
 
 		sendMessage(cmdCtx.msg.channelID, {embed: embed})
 	}
-})
+}

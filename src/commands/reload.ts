@@ -1,16 +1,20 @@
-// Types
 import { sendMessage } from '../../deps.ts'
-import { CmdContext } from '../class/common.ts'
-// cache
-import { botCache } from '../../main.ts'
-// managers
-import { loadCommands } from '../managers/loader.ts'
+import { CmdContext, Command } from '../types/common.ts'
+import { loadCommands } from '../helpers/loaders.ts'
+import { botCache } from "../../cache.ts"
 
-botCache.commands.set('reload', {
+const counters = {
+	commands: 0,
+	handlers: 0,
+	managers: 0
+}
+
+export const cmd: Command = {
 	aliases: ['reload'],
-	clearance: 0, 
-	main: (cmdCtx: CmdContext) => {
-		loadCommands()
+	clearance: 1, 
+	main: async (cmdCtx: CmdContext) => {
+		counters.commands += 1
+		botCache.commands = await loadCommands(counters.commands)
 		sendMessage(cmdCtx.msg.channelID, 'Reload complete')
 	}
-})
+}

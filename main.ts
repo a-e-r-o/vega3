@@ -1,24 +1,14 @@
 // - deps -
 import { startBot, Intents } from './deps.ts'
 // - Types -
-import { Config } from './src/class/common.ts'
-import { BotCache, Command } from './src/types/common.ts'
-import { loadCommands, loadConfig, loadHandlers } from './src/managers/loader.ts'
+import { loadCommands, loadConfig, loadHandlers } from './src/helpers/loaders.ts'
+import { botCache } from './cache.ts'
 
 // -- Context --
 
-export const botCache: BotCache = {
-	config: new Config(),
-	commands: new Map<string, Command>(),
-	managers: [],
-	handlers: {},
-	startTime: new Date(),
-}
-
-
-loadConfig()
-loadCommands()
-loadHandlers()
+botCache.config = loadConfig()
+botCache.commands = await loadCommands()
+botCache.handlers = await loadHandlers()
 
 console.log('starting...')
 
