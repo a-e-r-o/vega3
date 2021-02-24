@@ -13,7 +13,7 @@ async function handle (message: Message) {
 		return
 	}
 	// if message is not a command, do nothing
-	if (!message.content.match(RegExp(botCache.config.prefix, 'gi')) || message.author.bot)
+	if (!message.content.match(RegExp('^'+botCache.config.prefix, 'gi')) || message.author.bot)
 		return
 
 	const cmdCtx: CmdContext = parseCommand(message, botCache.config.prefix)

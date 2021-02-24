@@ -10,18 +10,18 @@ export const cmd: Command = {
 	main: async (cmdCtx: CmdContext) => {
 		let selectedSign: sign | undefined
 		
-		const sign = signs.find(x => strLowNoAccents(x.fr) == strLowNoAccents(cmdCtx.args[0]))
+		const sign = signs.find(x => strLowNoAccents(x.fr) == strLowNoAccents(cmdCtx.args[0] ?? ''))
 		if (sign)
 			selectedSign = sign
+
+		if (!selectedSign)
+			throw 'Unknown or missing zodiac sign'
 
 		const arg1: number = parseInt(cmdCtx.args[1]) || 0
 		if (arg1 < 0 || arg1 > 4)
 			throw `Invalid argument : "${cmdCtx.args[1]}". Must be a number between 1 and 4`
 
 		const route = routes[parseInt(cmdCtx.args[1])] || routes[0]
-
-		if (!selectedSign)
-			throw 'Unknown or missing zodiac sign'
 		
 		// init embed
 		const embed: Embed = {}
@@ -41,9 +41,9 @@ export const cmd: Command = {
 				value: section.text
 			})
 		}
-
-		embed.title = `:${selectedSign.eng}: ${data.title} : ${selectedSign.fr}`
-		embed.footer = { text: data.day }
+		// ajout du disclaimer à la fin 
+		embed.fields[embed.fields.length-1].value += '\n\n*Si vous trouvez que votre horoscope correspond particulièrement bien à la réalité, cliquez [ici](https://fr.wikipedia.org/wiki/Effet_Barnum)*'
+		embed.title = `:${selectedSign.eng}:  ${selectedSign.fr} : Horoscope du ${data.day.toLowerCase()}`
 
 		sendMessage(cmdCtx.msg.channelID, {embed: embed})
 	}

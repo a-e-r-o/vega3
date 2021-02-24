@@ -1,4 +1,4 @@
-token: // secret token
-prefix: // prefix for the bot to interpret messages as commands default is 'v!'
+token: # secret token
+prefix: # prefix for the bot to interpret messages as commands default is 'v!'
 botAdmins:
-  - // (Temprorary) users' IDs allowed to use VEGA's management commands
+  - # (Temprorary) users' IDs allowed to use VEGA's management commands
