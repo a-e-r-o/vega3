@@ -1,6 +1,6 @@
 import { sendMessage } from '../../deps.ts'
 import { CmdContext, Command } from '../types/common.ts'
-import { loadCommands } from '../helpers/loaders.ts'
+import { loadCommands } from '../helpers/loader.ts'
 import { botCache } from "../../cache.ts"
 
 const counters = {

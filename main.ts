@@ -1,7 +1,7 @@
 // - deps -
 import { startBot, Intents } from './deps.ts'
 // - Types -
-import { loadCommands, loadConfig, loadHandlers } from './src/helpers/loaders.ts'
+import { loadCommands, loadConfig, loadHandlers } from './src/helpers/loader.ts'
 import { botCache } from './cache.ts'
 
 // -- Context --
