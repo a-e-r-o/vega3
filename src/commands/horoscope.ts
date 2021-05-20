@@ -10,9 +10,9 @@ export const cmd: Command = {
 	main: async (cmdCtx: CmdContext) => {
 		let selectedSign: sign | undefined
 		
-		const sign = signs.find(x => strLowNoAccents(x.fr) == strLowNoAccents(cmdCtx.args[0] ?? ''))
-		if (sign)
-			selectedSign = sign
+		const parsedSign = signs.find(x => strLowNoAccents(x.fr) == strLowNoAccents(cmdCtx.args[0] ?? ''))
+		if (parsedSign)
+			selectedSign = parsedSign
 
 		if (!selectedSign)
 			throw 'Unknown or missing zodiac sign'
@@ -28,6 +28,10 @@ export const cmd: Command = {
 		embed.fields = []
 		embed.color = parseInt(selectedSign.color, 16)
 
+		// temporary sytem, due to Deno being unable to handle fetch with SSL errors and Evozen having an invalid certificate
+		await sendMessage(cmdCtx.msg.channelID, `__**https://www.evozen.fr/horoscope/${route}/${strLowNoAccents(selectedSign.fr)}**__\n*Ceci est un comportement temporaire de la commande, dû à des difficultés techniques*`)
+
+		/*
 		// fetch data based on sign
 		const res = await fetch(`https://www.evozen.fr/horoscope/${route}/${strLowNoAccents(selectedSign.fr)}`)
 		const data = parseHoroscope(await res.text())
@@ -46,5 +50,6 @@ export const cmd: Command = {
 		embed.title = `:${selectedSign.eng}:  ${selectedSign.fr} : Horoscope du ${data.day.toLowerCase()}`
 
 		sendMessage(cmdCtx.msg.channelID, {embed: embed})
+		*/
 	}
 }
