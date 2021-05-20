@@ -27,13 +27,12 @@ export const cmd: Command = {
 		const embed: Embed = {}
 		embed.fields = []
 		embed.color = parseInt(selectedSign.color, 16)
-
-		// temporary sytem, due to Deno being unable to handle fetch with SSL errors and Evozen having an invalid certificate
-		await sendMessage(cmdCtx.msg.channelID, `__**https://www.evozen.fr/horoscope/${route}/${strLowNoAccents(selectedSign.fr)}**__\n*Ceci est un comportement temporaire de la commande, dû à des difficultés techniques*`)
-
-		/*
+		
+		
 		// fetch data based on sign
-		const res = await fetch(`https://www.evozen.fr/horoscope/${route}/${strLowNoAccents(selectedSign.fr)}`)
+		// const res = await fetch(`https://www.evozen.fr/horoscope/${route}/${strLowNoAccents(selectedSign.fr)}`)
+		// Temporary fix with a intermediate local server because deno is stupid and doesn't have an option to ignore invalid SSL certificates
+		const res = await fetch(`http://localhost:8000/horoscope/${route}/${strLowNoAccents(selectedSign.fr)}`)
 		const data = parseHoroscope(await res.text())
 
 		if (!data)
@@ -50,6 +49,5 @@ export const cmd: Command = {
 		embed.title = `:${selectedSign.eng}:  ${selectedSign.fr} : Horoscope du ${data.day.toLowerCase()}`
 
 		sendMessage(cmdCtx.msg.channelID, {embed: embed})
-		*/
 	}
 }
