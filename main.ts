@@ -15,7 +15,7 @@ console.log('starting...')
 startBot(
 	{
 		token: botCache.config.token,
-		intents: [Intents.GUILDS, Intents.GUILD_MESSAGES, Intents.DIRECT_MESSAGES],
+		intents: [Intents.Guilds, Intents.GuildMessages, Intents.DirectMessages],
 		eventHandlers: botCache.handlers
 	}
 )

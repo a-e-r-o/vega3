@@ -30,7 +30,7 @@ export async function  loadHandlers(): Promise<EventHandlers> {
 export function loadConfig(): Config {
 	try {
 		return parse(Deno.readTextFileSync(Deno.realPathSync('./config/config.yaml'))) as Config
-	} catch (error){
+	} catch (_error){
 		throw new Error(
 			'\nError : config file could not be loaded \n' +
 			`└ Make sure ${Deno.realPathSync('./')}/config/config.yaml exists and is correctly configured`

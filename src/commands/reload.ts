@@ -15,6 +15,6 @@ export const cmd: Command = {
 	main: async (cmdCtx: CmdContext) => {
 		counters.commands += 1
 		botCache.commands = await loadCommands(counters.commands)
-		sendMessage(cmdCtx.msg.channelID, 'Reload complete')
+		sendMessage(cmdCtx.channel, 'Reload complete')
 	}
 }

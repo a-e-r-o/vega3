@@ -41,6 +41,6 @@ export const cmd: Command = {
 
 		const resMsg = desc ? '- ' + desc + '\n' + selectedItem : selectedItem
 		
-		sendMessage(cmdCtx.msg.channelID, resMsg)
+		sendMessage(cmdCtx.channel, resMsg)
 	}
 }

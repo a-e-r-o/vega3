@@ -1,5 +1,5 @@
 // Libs
-import { sendMessage, Message } from '../../deps.ts'
+import { sendMessage, DiscordenoMessage } from '../../deps.ts'
 // cache
 import { botCache } from '../../cache.ts'
 import { parseCommand } from "../helpers/miscellaneous.ts"
@@ -7,13 +7,13 @@ import { Command, CmdContext } from '../types/common.ts'
 
 export const handler = {event: 'messageCreate', handler: handle}
 
-async function handle (message: Message) {
+async function handle (message: DiscordenoMessage) {
 	// if author is a bot
-	if (message.author.bot) {
+	if (message.isBot) {
 		return
 	}
 	// if message is not a command, do nothing
-	if (!message.content.match(RegExp('^'+botCache.config.prefix, 'gi')) || message.author.bot)
+	if (!message.content?.match(RegExp('^'+botCache.config.prefix, 'gi')))
 		return
 
 	const cmdCtx: CmdContext = parseCommand(message, botCache.config.prefix)
@@ -28,11 +28,11 @@ async function handle (message: Message) {
 	}
 
 	if (!command)
-		return sendMessage(cmdCtx.msg.channelID, 'Unkown command')
+		return sendMessage(cmdCtx.channel, 'Unkown command')
 
 	// temporary solution until implementation of a better clearance system
-	if (command.clearance > 0 && !botCache.config.botAdmins.includes(cmdCtx.msg.author.id))
-		return sendMessage(cmdCtx.msg.channelID, 'Insufficient user clearance level')
+	if (command.clearance > 0 && !botCache.config.botAdmins.includes(cmdCtx.msg.authorId.toString()))
+		return sendMessage(cmdCtx.channel, 'Insufficient user clearance level')
 
 	try {
 		await command.main(cmdCtx)
@@ -48,6 +48,6 @@ async function handle (message: Message) {
 			feedbackMsg = ':warning: Critical error !\n' + feedbackMsg
 		}
 
-		sendMessage(cmdCtx.msg.channelID, feedbackMsg)
+		sendMessage(cmdCtx.channel, feedbackMsg)
 	}
 }

@@ -10,6 +10,6 @@ export const cmd: Command = {
 		if (!data.ip)
 			throw new Error('Cannot resolve IP adress')
 
-		sendMessage(cmdCtx.msg.channelID, `\`${data.ip}\``)
+		sendMessage(cmdCtx.channel, `\`${data.ip}\``)
 	}
 }

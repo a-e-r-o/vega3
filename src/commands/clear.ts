@@ -1,4 +1,4 @@
-import { getMessages, memberIDHasPermission } from '../../deps.ts'
+import { getMessages, hasGuildPermissions, Message } from '../../deps.ts'
 import { CmdContext, Command } from '../types/common.ts'
 import { deleteMsgs } from '../helpers/discord.ts'
 import { botCache } from '../../cache.ts'
@@ -8,14 +8,14 @@ export const cmd: Command = {
 	clearance: 0,
 	main: async (cmdCtx: CmdContext) => {
 		// if member has permission to manage messages
-		const canDelMsgPerm = await memberIDHasPermission(
-			cmdCtx.msg.author.id,
-			cmdCtx.msg.guildID,
+		const canDelMsgPerm = await hasGuildPermissions(
+			BigInt(cmdCtx.msg.guildId || 0),
+			BigInt(cmdCtx.msg.authorId),
 			["MANAGE_MESSAGES"]
 		)
 
 		// need permission to manage messages, but me, I own the bot I don't need no permission. gang gang
-		if (!canDelMsgPerm && !botCache.config.botAdmins.includes(cmdCtx.msg.author.id))
+		if (!canDelMsgPerm && !botCache.config.botAdmins.includes(cmdCtx.msg.authorId.toString()))
 			throw 'Messages deletion failed *(User missing permissions)*'
 
 		let msgNumber: number = parseInt(cmdCtx.args[0])
@@ -32,15 +32,15 @@ export const cmd: Command = {
 		do {
 			const limit = msgNumber > 100 ? 100 : msgNumber;
 			try {
-				const messages = await getMessages(cmdCtx.msg.channelID, { limit: limit })
+				const messages = await getMessages(cmdCtx.channel, { limit: limit })
 				
 				if (!messages || messages.length == 0)
 					return
 
 				msgNumber -= limit
 				
-				await deleteMsgs(messages, cmdCtx.msg.channelID)
-			} catch (error) {
+				await deleteMsgs(messages, cmdCtx.channel)
+			} catch (_error) {
 				throw 'Could not delete message (no permission, or no message to delete)'
 			}
 		}	while (msgNumber > 0)

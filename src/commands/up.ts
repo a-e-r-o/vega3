@@ -1,4 +1,4 @@
-import { sendMessage, Embed, botID, cache, parse } from '../../deps.ts'
+import { sendMessage, Embed, botId, cache, parse } from '../../deps.ts'
 import { CmdContext, Command } from '../types/common.ts'
 
 export const cmd: Command = {
@@ -10,13 +10,13 @@ export const cmd: Command = {
 
 		const embed: Embed = {}
 		embed.thumbnail = {
-			url: cache.members.get(botID)?.avatarURL || '',
+			url: cache.members.get(botId)?.avatarURL || '',
 		}
 		embed.title = 'ᴠ.ᴇ.ɢ.ᴀ.'
 		embed.color = 16316664
 		embed.url= 'https://gitlab.com/AeroCloud/vega2'
 		embed.footer = { text: 'v' + version }
 		
-		sendMessage(cmdCtx.msg.channelID, {embed: embed})
+		sendMessage(cmdCtx.channel, {embed: embed})
 	}
 }

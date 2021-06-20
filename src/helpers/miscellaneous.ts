@@ -1,17 +1,24 @@
-import { Message } from '../../deps.ts'
+import { DiscordenoMessage } from '../../deps.ts'
 import { CmdContext } from "../types/common.ts"
 
-export function parseCommand(message: Message, prefix: string): CmdContext {
+export function parseCommand(message: DiscordenoMessage, prefix: string): CmdContext {
+	if (message.content === undefined)
+		message.content = ''
+
 	const args: string[] = message.content
 		.replace(RegExp(`^${prefix}`,'i'),'')
 		.trim()
 		.split(' ')
-		.filter(x => x !== ' ' && x !== '')
+		.filter(x => x !== ' ' && x !== '') 
+
+	if (!message.channelId)
+		message.channelId = BigInt(0)
 
 	return {
 		msg: message,
 		args: args,
-		cmd: strLowNoAccents(args.shift() ?? '')
+		cmd: strLowNoAccents(args.shift() ?? ''),
+		channel: BigInt(message.channelId)
 	}
 }
 

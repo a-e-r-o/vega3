@@ -1,15 +1,15 @@
-import { Member, cache, getMembersByQuery, Message, getMember, deleteMessages, deleteMessage } from "../../deps.ts"
+import { DiscordenoMember, cache, fetchMembers, DiscordenoMessage, getMember, deleteMessages, deleteMessage } from "../../deps.ts"
 import { strLowNoAccents } from './miscellaneous.ts'
 
 // === msg utility functions ===
 
-export async function deleteMsgs(messages: Message[], channelID: string): Promise<void> {
+export async function deleteMsgs(messages: DiscordenoMessage[], channelID: bigint): Promise<void> {
 	// if there is multiple messages, delete them all
 	if (messages.length > 1) {
-		await deleteMessages(channelID, messages.map((m) => m.id))
+		await deleteMessages(channelID, messages.map((m) => BigInt(m.id)))
 	// if there is a single message, delete it
 	} else if (messages.length == 1) {
-		await deleteMessage(messages[0])
+		await deleteMessage(channelID, BigInt(messages[0].id))
 	}
 }
 
@@ -27,11 +27,12 @@ export function isDiscordTag (testValue: string): boolean {
 	return /.+#[0-9]{4}$/.test(testValue)
 }
 
-export function splitDiscordTag (tag: string): {name: string, discriminator: string} {
+export function splitDiscordTag (tag: string): {name: string, discriminator: number} {
 	const matches = tag.split(/#(\d{4})$/).filter(x => x !== '')
 	if (matches.length !== 2)
 		throw new Error("Could not dissect tag properly")
-	return {name: matches[0], discriminator: matches[1]}
+	
+	return {name: matches[0], discriminator: parseInt(matches[1])}
 }
 
 export function mentionToId(mentionStr: string): string {
@@ -43,18 +44,18 @@ export function mentionToId(mentionStr: string): string {
 
 // === functions to get a multiple members by a multiple identifiers ===
 
-export async function getMembersByMentionIdNameTag (msg: Message, args: string[]): Promise<Array<Member>> {
-	let members: Member[] = []
+export async function getMembersByMentionIdNameTag (msg: DiscordenoMessage, args: string[]): Promise<Array<DiscordenoMember>> {
+	let members: DiscordenoMember[] = []
 
 	// iterate on argList
 	for (const arg of args) {
-		const member = await getMemberByMentionIdNameTag(arg, msg.guildID)
+		const member = await getMemberByMentionIdNameTag(arg, BigInt(msg.guildId ?? '0') ?? BigInt(0))
 		if (member)
 			members.push(member)
 	}
 
 	// remove duplicates with a filter based on a set of unique ids
-	const uniqueIds = new Set<string>()
+	const uniqueIds = new Set<bigint>()
 	members = members.filter(member => {
 		// if the set already has the id, it's a duplicate
 		const duplicate = !uniqueIds.has(member.id)
@@ -67,7 +68,7 @@ export async function getMembersByMentionIdNameTag (msg: Message, args: string[]
 
 // === function to get a single member by multiple identifiers ===
 
-export async function getMemberByMentionIdNameTag (arg: string, guildID: string): Promise<Member | undefined> {
+export async function getMemberByMentionIdNameTag (arg: string, guildID: bigint): Promise<DiscordenoMember | undefined> {
 	if (isDiscordMention(arg))
 		arg = mentionToId(arg)
 
@@ -82,18 +83,25 @@ export async function getMemberByMentionIdNameTag (arg: string, guildID: string)
 
 // === functions to get a single member by a single identifier ===
 
-export async function getMemberById(id: string, guildID: string): Promise<Member | undefined> {
+export async function getMemberById(id: string, guildID: bigint): Promise<DiscordenoMember | undefined> {
+	let bigIntId = BigInt(0)
+	try {
+		bigIntId = BigInt(id);
+	} catch {
+		return undefined
+	}
+
 	// search member in cache by id
-	const cacheMember: Member | undefined = cache.members.find(x => 
+	const cacheMember: DiscordenoMember | undefined = cache.members.find(x => 
 		x.guilds.has(guildID) &&
-		x.id == id
+		x.id == bigIntId
 	)
 	if (cacheMember)
 		return cacheMember
 
 	// search member with a request by id
 	const reqMember = 
-		await getMember(guildID, id)
+		await getMember(guildID, bigIntId)
 			.catch(()=>{
 				console.log('└ Could not fetch member by ID : unknown ID')
 			})
@@ -105,7 +113,7 @@ export async function getMemberById(id: string, guildID: string): Promise<Member
 	return undefined
 }
 
-export async function getMemberByTag(tag: string, guildID: string): Promise<Member | undefined> {
+export async function getMemberByTag(tag: string, guildID: bigint): Promise<DiscordenoMember | undefined> {
 	// run through a function that return an array such as [name, discriminator]
 	const splitTag = splitDiscordTag(tag)
 
@@ -119,15 +127,15 @@ export async function getMemberByTag(tag: string, guildID: string): Promise<Memb
 		return cacheMember
 
 	// search member with a request by name or nickname
-	const matches = await getMembersByQuery(guildID, splitTag.name, 10)
-	const reqMember = matches?.find(x => x.discriminator == splitTag.discriminator)
+	const matches = await fetchMembers(guildID, 0, {query: splitTag.name, limit: 10})
+	const reqMember = matches?.find((x: { discriminator: number; }) => x.discriminator == splitTag.discriminator)
 	if (reqMember)
 		return reqMember
 	
 	return undefined
 }
 
-export async function getMemberByName(name: string, guildID: string): Promise<Member | undefined> {
+export async function getMemberByName(name: string, guildID: bigint): Promise<DiscordenoMember | undefined> {
 	// search member in cache by name or nickname
 	const cacheMember = cache.members.find(x => 
 		x.guilds.has(guildID) &&
@@ -140,7 +148,7 @@ export async function getMemberByName(name: string, guildID: string): Promise<Me
 		return cacheMember
 
 	// search member with a request by name or nickname
-	const reqMembers = await getMembersByQuery(guildID, name)
+	const reqMembers = await fetchMembers(guildID, 0, {query: name, limit: 10})
 	if (reqMembers)
 		return reqMembers.first()
 

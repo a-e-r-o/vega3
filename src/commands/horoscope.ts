@@ -9,13 +9,18 @@ export const cmd: Command = {
 	clearance: 0,
 	main: async (cmdCtx: CmdContext) => {
 		let selectedSign: sign | undefined
+
+		if (!cmdCtx.args[0])
+			throw 'Missing zodiac sign'
 		
-		const parsedSign = signs.find(x => strLowNoAccents(x.fr) == strLowNoAccents(cmdCtx.args[0] ?? ''))
+		const pattern = new RegExp(strLowNoAccents(cmdCtx.args[0]), 'im')
+
+		const parsedSign = signs.find(x => strLowNoAccents(x.fr).match(pattern) || strLowNoAccents(x.eng).match(pattern))
 		if (parsedSign)
 			selectedSign = parsedSign
 
 		if (!selectedSign)
-			throw 'Unknown or missing zodiac sign'
+			throw 'Unknown zodiac sign'
 
 		const arg1: number = parseInt(cmdCtx.args[1]) || 0
 		if (arg1 < 0 || arg1 > 4)
@@ -48,6 +53,6 @@ export const cmd: Command = {
 		embed.fields[embed.fields.length-1].value += '\n\n*Si vous trouvez que votre horoscope correspond particulièrement bien à la réalité, cliquez [ici](https://fr.wikipedia.org/wiki/Effet_Barnum)*'
 		embed.title = `:${selectedSign.eng}:  ${selectedSign.fr} : Horoscope du ${data.day.toLowerCase()}`
 
-		sendMessage(cmdCtx.msg.channelID, {embed: embed})
+		sendMessage(cmdCtx.channel, {embed: embed})
 	}
 }

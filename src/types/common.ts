@@ -1,5 +1,5 @@
 import { EventHandlers } from '../../deps.ts'
-import { Message } from '../../deps.ts'
+import { DiscordenoMessage } from '../../deps.ts'
 
 export interface BotCache {
 	config: Config
@@ -11,9 +11,10 @@ export interface BotCache {
 }
 
 export type CmdContext = {
-	msg: Message
+	msg: DiscordenoMessage
 	cmd: string
 	args: string[]
+	channel: bigint
 }
 
 export type Command = {
