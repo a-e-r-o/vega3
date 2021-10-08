@@ -1,11 +1,11 @@
-import { sendMessage, DiscordenoMember, avatarURL, cache } from '../../deps.ts'
-import { CmdContext, Command } from '../types/common.ts'
-import { getMembersByMentionIdNameTag } from '../helpers/discord.ts'
+import { sendMessage, DiscordenoMember, cache } from '../../deps.ts'
+import { getMembersByMentionIdNameTag } from '../../helpers/discord/discord.ts'
+import { Ctx, Cmd, CmdCall } from "../../types/mod.ts";
 
-export const cmd: Command = {
+export const avatar: Cmd = {
 	aliases: ['avatar', 'pp'],
 	clearance: 0,
-	main: async (cmdCtx: CmdContext) => {
+	execute: async (ctx: Ctx, cmdCtx: CmdCall) => {
 		// limit to 5 users at once to avoid sending to many requests
 		if (cmdCtx.args.length > 5)
 			throw 'Command limited maximum 5 users at once'

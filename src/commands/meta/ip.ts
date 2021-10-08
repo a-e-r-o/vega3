@@ -1,10 +1,10 @@
 import { sendMessage } from '../../deps.ts'
-import { CmdContext, Command } from '../types/common.ts'
+import { CmdCall, Cmd, Ctx } from '../../types/mod.ts'
 
-export const cmd: Command = {
+export const ip: Cmd = {
 	aliases: ['ip'],
 	clearance: 1,
-	main: async(cmdCtx: CmdContext) => {
+	execute: async(ctx: Ctx, cmdCtx: CmdCall) => {
 		const rawData: Response = await fetch('https://api.ipify.org?format=json')
 		const data = await rawData.json()
 		if (!data.ip)

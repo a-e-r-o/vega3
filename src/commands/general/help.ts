@@ -1,10 +1,10 @@
 import { sendMessage } from '../../deps.ts'
-import { CmdContext, Command } from '../types/common.ts'
+import { Ctx, Cmd, CmdCall } from '../../types/mod.ts'
 
-export const cmd: Command = {
+export const help: Cmd = {
 	aliases: ['help', 'h'],
 	clearance: 0,
-	main: (cmdCtx: CmdContext) => {
+	execute: (ctx: Ctx, cmdCtx: CmdCall) => {
 		sendMessage(cmdCtx.channel, '`// todo` :smile:')
 	}
 }

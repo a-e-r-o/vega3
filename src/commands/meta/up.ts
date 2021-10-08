@@ -1,10 +1,11 @@
 import { sendMessage, Embed, botId, cache, parse } from '../../deps.ts'
-import { CmdContext, Command } from '../types/common.ts'
+import { CmdCall, Cmd, Ctx } from '../../types/mod.ts'
+import { msToTime } from '../../helpers/mod.ts'
 
-export const cmd: Command = {
+export const up: Cmd = {
 	aliases: ['up', 'uptime', 'stats', 'version'],
 	clearance: 0,
-	main: (cmdCtx: CmdContext) => {
+	execute: (ctx: Ctx, cmdCtx: CmdCall) => {
 		const vFile: Record<string, unknown> = parse(Deno.readTextFileSync(Deno.realPathSync('./version.yaml'))) as Record<string, unknown>
 		const version = vFile.version as string
 
@@ -15,6 +16,12 @@ export const cmd: Command = {
 		embed.title = 'ᴠ.ᴇ.ɢ.ᴀ.'
 		embed.color = 16316664
 		embed.url= 'https://gitlab.com/AeroCloud/vega2'
+		embed.fields = [
+			{
+				name: 'Uptime',
+				value:  msToTime((new Date().getTime() - ctx.upTime.getTime()))
+			}
+		]
 		embed.footer = { text: 'v' + version }
 		
 		sendMessage(cmdCtx.channel, {embed: embed})

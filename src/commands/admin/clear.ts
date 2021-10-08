@@ -1,12 +1,11 @@
-import { getMessages, hasGuildPermissions, Message } from '../../deps.ts'
-import { CmdContext, Command } from '../types/common.ts'
-import { deleteMsgs } from '../helpers/discord.ts'
-import { botCache } from '../../cache.ts'
+import { getMessages, hasGuildPermissions } from '../../deps.ts'
+import { CmdCall, Cmd, Ctx } from '../../types/mod.ts'
+import { deleteMsgs } from '../../helpers/mod.ts'
 
-export const cmd: Command = {
+export const clear: Cmd = {
 	aliases: ['clear', 'cls', 'clean'],
 	clearance: 0,
-	main: async (cmdCtx: CmdContext) => {
+	execute: async (ctx: Ctx, cmdCtx: CmdCall) => {
 		// if member has permission to manage messages
 		const canDelMsgPerm = await hasGuildPermissions(
 			BigInt(cmdCtx.msg.guildId || 0),
@@ -14,8 +13,7 @@ export const cmd: Command = {
 			["MANAGE_MESSAGES"]
 		)
 
-		// need permission to manage messages, but me, I own the bot I don't need no permission. gang gang
-		if (!canDelMsgPerm && !botCache.config.botAdmins.includes(cmdCtx.msg.authorId.toString()))
+		if (!canDelMsgPerm)
 			throw 'Messages deletion failed *(User missing permissions)*'
 
 		let msgNumber: number = parseInt(cmdCtx.args[0])
