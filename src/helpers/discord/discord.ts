@@ -1,5 +1,5 @@
 import { DiscordenoMember, cache, fetchMembers, DiscordenoMessage, getMember, deleteMessages, deleteMessage } from "../../deps.ts"
-import { strLowNoAccents } from './miscellaneous.ts'
+import { strNormalize } from '../mod.ts'
 
 // === msg utility functions ===
 
@@ -121,7 +121,7 @@ export async function getMemberByTag(tag: string, guildID: bigint): Promise<Disc
 	const cacheMember = cache.members.find ( x => 
 		x.guilds.has(guildID) &&
 		x.discriminator == splitTag.discriminator &&
-		strLowNoAccents(x.username) == strLowNoAccents(splitTag.name)
+		strNormalize(x.username) == strNormalize(splitTag.name)
 	)
 	if (cacheMember)
 		return cacheMember
@@ -140,7 +140,7 @@ export async function getMemberByName(name: string, guildID: bigint): Promise<Di
 	const cacheMember = cache.members.find(x => 
 		x.guilds.has(guildID) &&
 		(
-			strLowNoAccents(x.username) == strLowNoAccents(name) ||
+			strNormalize(x.username) == strNormalize(name) ||
 			x.name(guildID) == name
 		)
 	)

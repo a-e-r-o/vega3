@@ -1,10 +1,10 @@
 import { sendMessage } from '../../deps.ts'
-import { CmdContext, Command } from '../types/common.ts'
+import { Ctx, Cmd, CmdCall } from '../../types/mod.ts'
 
-export const cmd: Command = {
+export const random: Cmd = {
 	aliases: ['rand', 'random', 'choose'],
 	clearance: 0,
-	main: (cmdCtx: CmdContext) => {
+	execute: (ctx: Ctx ,cmdCtx: CmdCall) => {
 		let desc: string | undefined
 
 		// If first char of an arg is a dash, consider the first beginning of the description
@@ -41,6 +41,6 @@ export const cmd: Command = {
 
 		const resMsg = desc ? '- ' + desc + '\n' + selectedItem : selectedItem
 		
-		sendMessage(cmdCtx.channel, resMsg)
+		sendMessage(cmdCtx.channel, '`'+resMsg+'`')
 	}
 }

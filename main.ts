@@ -1,21 +1,31 @@
-// - deps -
-import { startBot, Intents } from './deps.ts'
-// - Types -
-import { loadCommands, loadConfig, loadHandlers } from './src/helpers/loader.ts'
-import { botCache } from './cache.ts'
+import { startBot, Intents, DiscordenoMessage } from './src/deps.ts'
+import { loadConfig } from './src/helpers/vega/config.ts'
+import { Ctx } from "./src/types/mod.ts";
+import { ready, msgCreate } from './src/handlers/mod.ts'
+import { cmdList } from './src/commands/mod.ts' 
 
-// -- Context --
+// Init context
+const ctx: Ctx = {
+	upTime: new Date(),
+	cfg: loadConfig(),
+	cmd: cmdList,
+	hdr: {
+		ready: ()=>{
+			ready(ctx)
+		},
+		messageCreate: (msg: DiscordenoMessage)=>{
+			msgCreate(ctx, msg)
+		}
+	}
+}
 
-botCache.config = loadConfig()
-botCache.commands = await loadCommands()
-botCache.handlers = await loadHandlers()
+console.log('Initialization...')
 
-console.log('starting...')
-
+// Connect to Discord
 startBot(
 	{
-		token: botCache.config.token,
+		token: ctx.cfg.token,
 		intents: [Intents.Guilds, Intents.GuildMessages, Intents.DirectMessages],
-		eventHandlers: botCache.handlers
+		eventHandlers: ctx.hdr
 	}
 )
