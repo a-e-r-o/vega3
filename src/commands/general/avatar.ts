@@ -8,7 +8,7 @@ export const avatar: Cmd = {
 	execute: async (ctx: Ctx, cmdCtx: CmdCall) => {
 		// limit to 5 users at once to avoid sending to many requests
 		if (cmdCtx.args.length > 5)
-			throw 'Command limited maximum 5 users at once'
+			throw 'Command limited to max 5 users at once'
 			
 		// search users
 		const users: DiscordenoMember[] = await getMembersByMentionIdNameTag(cmdCtx.msg, cmdCtx.args)

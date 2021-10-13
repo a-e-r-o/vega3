@@ -5,6 +5,7 @@ export type Ctx = {
 	cfg: Cfg
 	hdr: EventHandlers
 	upTime: Date
+	mng: Managers
 }
 
 export type Cfg = {
@@ -23,4 +24,13 @@ export type Cmd = {
 	aliases: string[]
 	clearance: number
 	execute: (ctx: Ctx, cmdCtx: CmdCall) => void
+}
+
+export interface IManager {
+	readonly key: string
+}
+
+export type Managers = {
+    horoscope?: IManager
+	dong?: IManager
 }

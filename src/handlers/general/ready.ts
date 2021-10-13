@@ -1,4 +1,5 @@
 import { DiscordActivityTypes, editBotStatus } from "../../deps.ts";
+import { HoroManager } from "../../managers/business/horoscope.ts";
 import { Ctx } from "../../types/mod.ts";
 
 export function ready(ctx: Ctx){

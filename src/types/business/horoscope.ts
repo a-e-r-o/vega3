@@ -35,3 +35,8 @@ export enum routes {
 	'horoscope-dans-3-jours',
 	'horoscope-dans-4-jours'
 }
+
+export type subscription = {
+	user: bigint[]
+	channel: bigint[]
+}
