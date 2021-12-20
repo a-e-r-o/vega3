@@ -18,9 +18,9 @@ export function parseHoroscope(rawHtml: string): horoscopeData | undefined {
 	if (!titleMatch) return
 	const title = titleMatch[0].replace(/"name": "|",/gi, '')
 
-	for (const section of sections) {
+	for (const  section of sections) {
 		// get number of stars (out of 5)
-		const ratingMatch = section.match(/data-rank="*."/gmi)
+		const ratingMatch = section.match(/data-rank=".*?"/gmi)
 		if (!ratingMatch) continue
 
 		let rating = parseInt(ratingMatch[0].replace('data-rank="', ''))
