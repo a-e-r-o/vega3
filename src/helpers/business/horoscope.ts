@@ -43,7 +43,7 @@ export function parseHoroscope(rawHtml: string): horoscopeData | undefined {
 		categories.push(objSection)
 	}
 
-	return { title: title, day: day, sections: categories };
+	return { title: title, day: day, sections: categories }
 }
 
 export function getEmoji(sectionName: string): string {

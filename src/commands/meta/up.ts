@@ -4,7 +4,6 @@ import { msToTime } from '../../helpers/mod.ts'
 
 export const up: Cmd = {
 	aliases: ['up', 'uptime', 'stats', 'version'],
-	clearance: 0,
 	execute: (ctx: Ctx, cmdCtx: CmdCall) => {
 		const vFile: Record<string, unknown> = parse(Deno.readTextFileSync(Deno.realPathSync('./version.yaml'))) as Record<string, unknown>
 		const version = vFile.version as string

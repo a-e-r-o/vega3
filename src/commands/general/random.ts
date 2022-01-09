@@ -3,7 +3,6 @@ import { Ctx, Cmd, CmdCall } from '../../types/mod.ts'
 
 export const random: Cmd = {
 	aliases: ['rand', 'random', 'choose'],
-	clearance: 0,
 	execute: (ctx: Ctx ,cmdCtx: CmdCall) => {
 		let desc: string | undefined
 

@@ -4,12 +4,11 @@ import { deleteMsgs } from '../../helpers/mod.ts'
 
 export const clear: Cmd = {
 	aliases: ['clear', 'cls', 'clean'],
-	clearance: 0,
 	execute: async (ctx: Ctx, cmdCtx: CmdCall) => {
 		// if member has permission to manage messages
 		const canDelMsgPerm = await hasGuildPermissions(
-			BigInt(cmdCtx.msg.guildId || 0),
-			BigInt(cmdCtx.msg.authorId),
+			cmdCtx.msg.guildId || 0n,
+			cmdCtx.msg.authorId,
 			["MANAGE_MESSAGES"]
 		)
 
@@ -28,7 +27,7 @@ export const clear: Cmd = {
 			throw 'This command is limited to 1000 messages at a time'
 
 		do {
-			const limit = msgNumber > 100 ? 100 : msgNumber;
+			const limit = msgNumber > 100 ? 100 : msgNumber
 			try {
 				const messages = await getMessages(cmdCtx.channel, { limit: limit })
 				
@@ -39,7 +38,7 @@ export const clear: Cmd = {
 				
 				await deleteMsgs(messages, cmdCtx.channel)
 			} catch (_error) {
-				throw 'Could not delete message (no permission, or no message to delete)'
+				throw 'Could not delete messages *(messages too old, vega missing permission, or no messages found)*'
 			}
 		}	while (msgNumber > 0)
 	}

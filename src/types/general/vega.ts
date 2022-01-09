@@ -1,16 +1,22 @@
-import { DiscordenoMessage, EventHandlers } from "../../deps.ts";
+import { DiscordenoMessage, EventHandlers } from "../../deps.ts"
 
 export type Ctx = {
-	cmd: Cmd[]
-	cfg: Cfg
-	hdr: EventHandlers
 	upTime: Date
-	mng: Managers
+	config: Cfg
+	commands: Cmd[]
+	handlers: EventHandlers
+	services: Record<string, IManager>
 }
 
 export type Cfg = {
 	token: string
 	prefix: string
+	clearances: Clearance[]
+}
+
+export type Clearance = {
+	userId: string
+	clearance: number
 }
 
 export type CmdCall = {
@@ -21,16 +27,12 @@ export type CmdCall = {
 }
 
 export type Cmd = {
+	disabled ?: boolean
+	clearance ?: number
 	aliases: string[]
-	clearance: number
 	execute: (ctx: Ctx, cmdCtx: CmdCall) => void
 }
 
 export interface IManager {
 	readonly key: string
-}
-
-export type Managers = {
-    horoscope?: IManager
-	dong?: IManager
 }

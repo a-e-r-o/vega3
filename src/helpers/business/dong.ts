@@ -25,3 +25,7 @@ export function parseDongRate(rawData: string): number | undefined {
 		console.log(err.message)
 	}
 }
+
+export function toEasyReadNumber(input: number): string{
+	return input.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")
+}

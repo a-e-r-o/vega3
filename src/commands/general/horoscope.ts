@@ -4,7 +4,6 @@ import { Ctx, Cmd, CmdCall, signs, sign, routes } from '../../types/mod.ts'
 
 export const horoscope: Cmd = {
 	aliases: ['horoscope', 'horo', 'bullshit'],
-	clearance: 0,
 	execute: async (ctx: Ctx, cmdCtx: CmdCall) => {
 		let selectedSign: sign | undefined
 		
@@ -35,7 +34,7 @@ export const horoscope: Cmd = {
 		const data = parseHoroscope(await res.text())
 
 		if (!data)
-			throw new Error("Could not retrieve horoscope for sign : " + selectedSign.fr);
+			throw new Error("Could not retrieve horoscope for sign : " + selectedSign.fr)
 		
 		for (const section of data.sections) {
 			embed.fields.push({

@@ -9,13 +9,13 @@ export function parseCommand(message: DiscordenoMessage, prefix: string): CmdCal
 		.filter(x => x !== ' ' && x !== '') 
 
 	if (!message.channelId)
-		message.channelId = BigInt(0)
+		message.channelId = 0n
 
 	return {
 		msg: message,
 		args: args,
 		cmd: strNormalize(args.shift() ?? ''),
-		channel: BigInt(message.channelId)
+		channel: message.channelId
 	}
 }
 
@@ -33,4 +33,20 @@ export function msToTime(ms: number) {
 	const s = Math.floor(ms/1000)
 	
 	return `${d<10?'0'+d:d}:${h<10?'0'+h:h}:${m<10?'0'+m:m}:${s<10?'0'+s:s}`
+}
+
+export async function exists(path: string) {
+	try {
+		await Deno.stat(path)
+		// successful, file or directory must exist
+		return true
+	} catch (error) {
+		if (error && (error.name === Deno.errors.NotFound.name)) {
+			// file or directory does not exist
+			return false
+		} else {
+			// unexpected error, maybe permissions, pass it along
+			throw error
+		}
+	}
 }

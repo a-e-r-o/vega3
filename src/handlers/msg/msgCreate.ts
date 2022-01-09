@@ -1,29 +1,31 @@
-import { DiscordenoMessage, sendMessage } from '../../deps.ts';
-import { Ctx, CmdCall, Cmd } from '../../types/mod.ts';
+import { DiscordenoMessage, sendMessage } from '../../deps.ts'
+import { Ctx, CmdCall, Cmd } from '../../types/mod.ts'
 import { parseCommand } from '../../helpers/mod.ts'
 
 export async function msgCreate(ctx: Ctx, msg: DiscordenoMessage){
 	// If message is from a bot, of if it's not a command, do nothing
-	if (msg.isBot || !msg.content?.match(RegExp('^'+ctx.cfg.prefix, 'gi')))
+	if (msg.isBot || !msg.content?.match(RegExp('^'+ctx.config.prefix, 'gi')))
 		return
 
-	const cmdCall: CmdCall = parseCommand(msg, ctx.cfg.prefix)
-	const foundCmd: Cmd | undefined = ctx.cmd.find(x => x.aliases.includes(cmdCall.cmd))
-	
+	const cmdCall: CmdCall = parseCommand(msg, ctx.config.prefix)
+	const foundCmd: Cmd | undefined = ctx.commands.find(x => x.aliases.includes(cmdCall.cmd))
+
 	// If command not cound, do nothing
 	if (!foundCmd)
 		return
+	
+	if (foundCmd.disabled)
+		return sendMessage(cmdCall.channel, '`I am sorry to inform you this command is not available at this time.`')
 
-	// TODO : implement a clearance system
-	//if (command.clearance > 0)
-	//	return sendMessage(cmdCall.channel, 'Insufficient user clearance level')
-
+	// todo : rework this part to create a actual permissions system
+	if (foundCmd.clearance && !ctx.config.clearances.find(x => x.userId == cmdCall.msg.authorId.toString()))
+		return sendMessage(cmdCall.channel, '`I am sorry to inform you do not have proper clearance to execute this command.`')
+	
 	try {
 		await foundCmd.execute(ctx, cmdCall)
 	} catch (e){
-		// TODO : rework this part
-		// TODO : decide whether perm should be handled in this file or in each command file
-
+		// TODO : rework this part to be cleaner
+		
 		let feedbackMsg = e.message ?? e
 
 		// If the object caught is an error and not a string, then it is critical

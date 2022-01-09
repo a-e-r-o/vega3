@@ -6,10 +6,10 @@ import { strNormalize } from '../mod.ts'
 export async function deleteMsgs(messages: DiscordenoMessage[], channelID: bigint): Promise<void> {
 	// if there is multiple messages, delete them all
 	if (messages.length > 1) {
-		await deleteMessages(channelID, messages.map((m) => BigInt(m.id)))
+		await deleteMessages(channelID, messages.map((m) => m.id))
 	// if there is a single message, delete it
 	} else if (messages.length == 1) {
-		await deleteMessage(channelID, BigInt(messages[0].id))
+		await deleteMessage(channelID, messages[0].id)
 	}
 }
 
@@ -49,7 +49,7 @@ export async function getMembersByMentionIdNameTag (msg: DiscordenoMessage, args
 
 	// iterate on argList
 	for (const arg of args) {
-		const member = await getMemberByMentionIdNameTag(arg, BigInt(msg.guildId ?? '0') ?? BigInt(0))
+		const member = await getMemberByMentionIdNameTag(arg, msg.guildId ?? 0n)
 		if (member)
 			members.push(member)
 	}
@@ -84,9 +84,9 @@ export async function getMemberByMentionIdNameTag (arg: string, guildID: bigint)
 // === functions to get a single member by a single identifier ===
 
 export async function getMemberById(id: string, guildID: bigint): Promise<DiscordenoMember | undefined> {
-	let bigIntId = BigInt(0)
+	let bigIntId = 0n
 	try {
-		bigIntId = BigInt(id);
+		bigIntId = BigInt(id)
 	} catch {
 		return undefined
 	}
@@ -128,7 +128,7 @@ export async function getMemberByTag(tag: string, guildID: bigint): Promise<Disc
 
 	// search member with a request by name or nickname
 	const matches = await fetchMembers(guildID, 0, {query: splitTag.name, limit: 10})
-	const reqMember = matches?.find((x: { discriminator: number; }) => x.discriminator == splitTag.discriminator)
+	const reqMember = matches?.find((x: { discriminator: number }) => x.discriminator == splitTag.discriminator)
 	if (reqMember)
 		return reqMember
 	
