@@ -1,12 +1,8 @@
-import { IManager, subscription } from "../../types/mod.ts"
+import { horoDB } from "../../providers/local.ts";
 
-export class HoroManager implements IManager {
-	readonly key = 'horo'
-	private subscriptions: subscription[]
+export class HoroService {
+	public store = horoDB
 
-    constructor(){
-        this.subscriptions = []
-    }
+	constructor(){
+	}
 }
-
-export const horoManager = new HoroManager()

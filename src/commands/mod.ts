@@ -12,18 +12,22 @@ import { shutdown } from './meta/shutdown.ts'
 import { up } from './meta/up.ts'
 import { dummy } from './meta/dummy.ts'
 // Dong
-import { dong } from './dong/dong.ts'
+import { dong } from './general/dong.ts'
+import { socialCredits } from './socialCredits/socialCredits.ts'
+import { transferCredits } from './socialCredits/transferCredits.ts'
 
 export const cmdList = [
-    clear,
-    avatar,
-    help,
-    random,
-    horoscope,
-    invite,
-    ip,
-    shutdown,
-    dummy,
-    up,
-    dong
+	clear,
+	avatar,
+	help,
+	random,
+	horoscope,
+	invite,
+	ip,
+	shutdown,
+	dummy,
+	up,
+	dong,
+	socialCredits,
+	transferCredits
 ]

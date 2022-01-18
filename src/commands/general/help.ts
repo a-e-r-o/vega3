@@ -5,6 +5,5 @@ export const help: Cmd = {
 	disabled: true,
 	aliases: ['help', 'h'],
 	execute: (ctx: Ctx, cmdCtx: CmdCall) => {
-		sendMessage(cmdCtx.channel, '``')
 	}
 }

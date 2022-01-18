@@ -5,6 +5,6 @@ export const dummy: Cmd = {
 	disabled: true,
 	aliases: ['test', 'tst', 'ping'],
 	execute: (ctx: Ctx, cmdCtx: CmdCall) => {
-		sendMessage(cmdCtx.channel, '`test successful`')
+		return {description: 'test successful'}
 	}
 }

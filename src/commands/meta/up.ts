@@ -22,7 +22,6 @@ export const up: Cmd = {
 			}
 		]
 		embed.footer = { text: 'v' + version }
-		
-		sendMessage(cmdCtx.channel, {embed: embed})
+		return embed
 	}
 }

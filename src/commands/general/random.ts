@@ -1,4 +1,4 @@
-import { sendMessage } from '../../deps.ts'
+import { Embed, sendMessage } from '../../deps.ts'
 import { Ctx, Cmd, CmdCall } from '../../types/mod.ts'
 
 export const random: Cmd = {
@@ -36,10 +36,17 @@ export const random: Cmd = {
 			throw 'Error : not enough options provided'
 
 		// select at random among the args
-		const selectedItem: string = '└> ' + options[Math.floor(Math.random() * options.length)]
-
-		const resMsg = desc ? '- ' + desc + '\n' + selectedItem : selectedItem
+		const selectedItem: string = options[Math.floor(Math.random() * options.length)]
 		
-		sendMessage(cmdCtx.channel, '`'+resMsg+'`')
+		// Create response embed
+		const res: Embed = {
+			title: ':game_die: Random',
+			description: `**${selectedItem}**`
+		}
+		// If there is a description, add it in the beginning of the embed
+		if (desc)
+			res.description = `> ${desc}\n\n${res.description}`
+
+		return res
 	}
 }

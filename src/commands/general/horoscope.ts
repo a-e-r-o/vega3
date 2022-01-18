@@ -1,11 +1,11 @@
 import { sendMessage, Embed } from '../../deps.ts'
 import { strNormalize, parseHoroscope, getEmoji } from '../../helpers/mod.ts'
-import { Ctx, Cmd, CmdCall, signs, sign, routes } from '../../types/mod.ts'
+import { Ctx, Cmd, CmdCall, signs, Sign, routes } from '../../types/mod.ts'
 
 export const horoscope: Cmd = {
 	aliases: ['horoscope', 'horo', 'bullshit'],
 	execute: async (ctx: Ctx, cmdCtx: CmdCall) => {
-		let selectedSign: sign | undefined
+		let selectedSign: Sign | undefined
 		
 		if (!cmdCtx.args[0])
 			throw 'Missing zodiac sign'
@@ -47,6 +47,6 @@ export const horoscope: Cmd = {
 		embed.title = `:${selectedSign.eng}:  ${selectedSign.fr} : Horoscope du ${data.day.toLowerCase()}`
 		embed.thumbnail = { url: selectedSign.img }
 
-		sendMessage(cmdCtx.channel, {embed: embed})
+		return embed
 	}
 }

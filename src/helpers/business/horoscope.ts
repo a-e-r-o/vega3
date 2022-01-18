@@ -1,7 +1,7 @@
-import { horoscopeSection, horoscopeData } from '../../types/mod.ts'
+import { HoroscopeSection, HoroscopeData } from '../../types/mod.ts'
 
-export function parseHoroscope(rawHtml: string): horoscopeData | undefined {
-	const categories: horoscopeSection[] = []
+export function parseHoroscope(rawHtml: string): HoroscopeData | undefined {
+	const categories: HoroscopeSection[] = []
 
 	// get info sections and split them
 	const infoMatches = rawHtml.match(/<p class="big-1 big-sm-3 mb-1">.*<\/p><\/div><hr class="my-4 opacity-8">/gmis)
@@ -34,7 +34,7 @@ export function parseHoroscope(rawHtml: string): horoscopeData | undefined {
 		split[1] = split[1].replace(/<[^>]*>/gmi, '').replace(/&#039;/gmi, "'").replace(/&quot;/gmi, '"')
 
 		// build object with data
-		const objSection: horoscopeSection = {
+		const objSection: HoroscopeSection = {
 			rating: rating,
 			title: split[0],
 			text: split[1].replace(/<[^>]*>/g, '')

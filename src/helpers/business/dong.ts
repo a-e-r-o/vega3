@@ -1,3 +1,5 @@
+import { rmEmoteMentions } from "../mod.ts";
+
 export async function fetchDongRate(): Promise<string |undefined> {
 	try {
 		const res = await fetch(`https://www.xe.com/fr/currencyconverter/convert/?Amount=1&From=EUR&To=VND`)
@@ -28,4 +30,8 @@ export function parseDongRate(rawData: string): number | undefined {
 
 export function toEasyReadNumber(input: number): string{
 	return input.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")
+}
+
+export function fromWrittenNumber(input: string): number{
+	return parseFloat(rmEmoteMentions(input).replace('K','000'))
 }

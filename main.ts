@@ -1,9 +1,11 @@
-import { startBot, Intents, DiscordenoMessage } from './src/deps.ts'
+import { startBot, Intents, DiscordenoMessage, ensureDir } from './src/deps.ts'
 import { loadConfig } from './src/helpers/vega/config.ts'
 import { Ctx } from "./src/types/mod.ts"
 import { ready, msgCreate } from './src/handlers/mod.ts'
 import { cmdList } from './src/commands/mod.ts' 
-import { dongManager, horoManager } from "./src/services/mod.ts"
+
+// Init local database folder
+await ensureDir('./database')
 
 // Init context
 const ctx: Ctx = {
@@ -17,10 +19,6 @@ const ctx: Ctx = {
 		messageCreate: (msg: DiscordenoMessage)=>{
 			msgCreate(ctx, msg)
 		}
-	},
-	services: {
-		dong: dongManager,
-		horoscope: horoManager
 	}
 }
 

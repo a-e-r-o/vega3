@@ -1,20 +1,20 @@
-export interface horoscopeData {
+export type HoroscopeData = {
 	day: string
 	title: string
-	sections: horoscopeSection[]
+	sections: HoroscopeSection[]
 }
-export interface horoscopeSection {
+export type HoroscopeSection = {
 	rating: number
 	title: string
 	text: string 
 }
-export interface sign {
+export type Sign = {
 	eng: string
 	fr: string
 	color: string
 	img: string
 }
-export const signs: sign[] = [
+export const signs: Sign[] = [
 	{ eng: 'aries', fr: 'Bélier', color: 'ff1e2b', img: 'https://pngimg.com/uploads/aries/aries_PNG46.png' },
 	{ eng: 'taurus', fr: 'Taureau', color: '8dff65', img: 'https://pngimg.com/uploads/taurus/taurus_PNG31.png' },
 	{ eng: 'gemini', fr: 'Gémeaux', color: 'afafaf', img: 'https://pngimg.com/uploads/gemini/gemini_PNG46.png' },
@@ -34,9 +34,4 @@ export enum routes {
 	'horoscope-apres-demain',
 	'horoscope-dans-3-jours',
 	'horoscope-dans-4-jours'
-}
-
-export type subscription = {
-	user: bigint[]
-	channel: bigint[]
 }

@@ -7,10 +7,11 @@ export const clear: Cmd = {
 	execute: async (ctx: Ctx, cmdCtx: CmdCall) => {
 		// if member has permission to manage messages
 		const canDelMsgPerm = await hasGuildPermissions(
-			cmdCtx.msg.guildId || 0n,
+			cmdCtx.msg.guildId,
 			cmdCtx.msg.authorId,
 			["MANAGE_MESSAGES"]
 		)
+		
 
 		if (!canDelMsgPerm)
 			throw 'Messages deletion failed *(User missing permissions)*'

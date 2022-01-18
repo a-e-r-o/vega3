@@ -1,5 +1,5 @@
 import { sendMessage } from '../../deps.ts'
-import { fetchDongRate, parseDongRate, toEasyReadNumber } from "../../helpers/mod.ts"
+import { fetchDongRate, fromWrittenNumber, parseDongRate, toEasyReadNumber } from "../../helpers/mod.ts"
 import { Cmd, CmdCall, Ctx } from "../../types/mod.ts"
 
 export const dong: Cmd = {
@@ -15,8 +15,10 @@ export const dong: Cmd = {
 			throw `\`\`\`fix\nAn error occured while parsing data to get EUR to VDG exchange rate. Please try again later\`\`\``
 
 		// If no amount specified, send a message with current exchange rate
-		if (!cmdCtx.args[0])
-			return sendMessage(cmdCtx.channel, `1€ = ${toEasyReadNumber(rate)}₫`)
+		if (!cmdCtx.args[0]){
+			sendMessage(cmdCtx.channel, `1€ = ${toEasyReadNumber(rate)}₫`)
+			return
+		}
 
 		// Parse base currency / 0=null, 1=VDG, 2=EUR
 		let currency = 0
@@ -33,17 +35,21 @@ export const dong: Cmd = {
 
 		// Parse base amount
 		// TODO : a cleaner handling of 'K' shorthand for thousands
-		const amount = parseFloat(cmdCtx.args[0].replace('K', '000'))
+		const amount = fromWrittenNumber(cmdCtx.args[0])
 		if (amount < 0.1 || isNaN(amount))
 			throw('Error : invalid amount')
 
 		// Response msg for Dong
 		if (currency == 1) {
 			const eurValue = Math.round((amount/rate + Number.EPSILON) * 100) / 100
-			return sendMessage(cmdCtx.channel, `${toEasyReadNumber(amount)}₫ = ${eurValue > 0 ? toEasyReadNumber(eurValue) : '< 0.01'}€`)
+			sendMessage(cmdCtx.channel, `${toEasyReadNumber(amount)}₫ = ${eurValue > 0 ? toEasyReadNumber(eurValue) : '< 0.01'}€`)
+			return
 		}
 		// Response msg for Euro
-		if (currency == 2)
-			return sendMessage(cmdCtx.channel, `${toEasyReadNumber(amount)}€ = ${toEasyReadNumber(amount*rate)}₫`)
+		if (currency == 2){
+			sendMessage(cmdCtx.channel, `${toEasyReadNumber(amount)}€ = ${toEasyReadNumber(amount*rate)}₫`)
+			return
+		}
+
 	}
 }

@@ -154,3 +154,7 @@ export async function getMemberByName(name: string, guildID: bigint): Promise<Di
 
 	return undefined
 }
+
+export function rmEmoteMentions(input: string): string{
+	return input.replaceAll(/<(?::\w+:|@!*&*|#)[0-9]+>/gi, '')
+}
