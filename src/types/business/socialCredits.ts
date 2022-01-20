@@ -22,7 +22,7 @@ export enum TriggerPatternType {
 export const triggerPatterns: TriggerPattern[] = [
 	{
 		description: 'On the 4th of June 1989 at Tiananmen square, __**nothing happened**__',
-		regex: 'tian(\')?anmen|1989|4(th)?.*june',
+		regex: 'tian(\')?anmen|june(.)?1989|4(th)?.*june',
 		regexArgs: 'gi',
 		scroreDifferential: 30,
 		type: TriggerPatternType.thoughtCrime,
