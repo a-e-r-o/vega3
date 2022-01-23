@@ -6,4 +6,5 @@ export const horoDB = {
 
 export const socialCreditsDB = {
 	users: new Datastore({ filename:"./database/socialCredits_citizens.db", autoload: true }),
+	triggerLogs: new Datastore({ filename:"./database/socialCredits_triggerLogs.db", autoload: true })
 }

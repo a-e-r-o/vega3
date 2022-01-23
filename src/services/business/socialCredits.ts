@@ -1,11 +1,14 @@
 import { socialCreditsDB } from "../../providers/local.ts";
-import { Citizen } from '../../types/mod.ts'
+import { Citizen, TriggerLog } from '../../types/mod.ts'
 
 export class SocialCreditsService {
 	public store = socialCreditsDB
 
 	constructor(){
 	}
+
+
+	// CRUD / Citizen
 
 	public async newCitizen(userId: bigint): Promise<Citizen> {
 		const newUsr: Citizen = {
@@ -24,6 +27,30 @@ export class SocialCreditsService {
 	public async updateCitizen(citizen: Citizen){
 		await this.store.users.update({citizenId: citizen.citizenId}, {$set: {score: citizen.score} })
 	}
+
+	// CRUD / TriggerLogs
+
+	public async newTriggerLog(userId: bigint, triggerId: string): Promise<TriggerLog> {
+		const newLog: TriggerLog = {
+			citizenId: userId.toString(),
+			triggerId: triggerId,
+			timestamp: (new Date).getTime(),
+			factor: 0,
+		}
+		await this.store.triggerLogs.insert(newLog)
+		return newLog
+	}
+
+	public async getTriggerLog(userId: bigint, triggerId: string): Promise<TriggerLog> {
+		const log = (await this.store.triggerLogs.find({citizenId: userId.toString(), triggerId: triggerId}) as TriggerLog[])[0]
+		return log ? log : this.newTriggerLog(userId, triggerId)
+	}
+
+	public async updateTriggerLog(triggerLog: TriggerLog){
+		await this.store.triggerLogs.update({citizenId: triggerLog.citizenId, triggerId: triggerLog.triggerId}, {$set: {factor: triggerLog.factor, timestamp: triggerLog.timestamp} })
+	}
+
+	// Operations
 
 	public async transferCredits(giver: Citizen, receiver: Citizen, amount: number){
 		const hasProvisions = giver.score > amount

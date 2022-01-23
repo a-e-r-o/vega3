@@ -7,6 +7,7 @@ export const up: Cmd = {
 	execute: (ctx: Ctx, cmdCtx: CmdCall) => {
 		const vFile: Record<string, unknown> = parse(Deno.readTextFileSync(Deno.realPathSync('./version.yaml'))) as Record<string, unknown>
 		const version = vFile.version as string
+		const changelog = vFile.changelog as string
 
 		const embed: Embed = {}
 		embed.thumbnail = {
@@ -19,6 +20,10 @@ export const up: Cmd = {
 			{
 				name: 'Uptime',
 				value:  msToTime((new Date().getTime() - ctx.upTime.getTime()))
+			},
+			{
+				name: 'Changelog',
+				value: changelog
 			}
 		]
 		embed.footer = { text: 'v' + version }

@@ -16,34 +16,38 @@ export function warning(input: string){
 	}
 	return {embeds: [embed]}
 }
-export function formatTriggerEmbed(triggerPattern: TriggerPattern){
-	const embed: Embed = {
+export function formatSocialCreditTriggerEmbed(triggerPattern: TriggerPattern, factoredScroreDifferential: number){
+	const embed: Embed = {}
+
+	if (triggerPattern.type == TriggerPatternType.thoughtCrime) {
+		embed.title = `:no_pedestrians:  Warning citizen! -${factoredScroreDifferential} social credits.`
+		embed.thumbnail = {url: 'https://i.imgur.com/r5rFQTN.png'}
+		embed.color = 16732194
 	}
+	else if (triggerPattern.type == TriggerPatternType.goodCitizenSpeech) {
+		embed.title = `:white_check_mark:  Good job citizen! +${factoredScroreDifferential} social credits.`
+		embed.thumbnail = {url: 'https://i.imgur.com/kY5sLW0.png'}
+		embed.color = 4063062
+	}
+	embed.description = triggerPattern.description
+
+	if (triggerPattern.mediaUrl)
+		embed.image = {url: triggerPattern.mediaUrl}
+
+	return {embeds: [embed]}
+}
+export function formatTriggerEmbed(triggerPattern: TriggerPattern){
+	const embed: Embed = {}
 
 	embed.title = triggerPattern.title
 	embed.description = triggerPattern.description
 	embed.color = triggerPattern.color
-	// embeded image
+	
 	if (triggerPattern.mediaUrl)
 		embed.image = {url: triggerPattern.mediaUrl}
-	// embeded 
+
 	if (triggerPattern.thumbnail)
 		embed.thumbnail = {url: triggerPattern.thumbnail}
-	
-	// Special behaviour for certain triggerPattern types
-	switch (triggerPattern.type) {
-		case TriggerPatternType.thoughtCrime:
-			embed.title = `:no_pedestrians:  Warning citizen! -${triggerPattern.scroreDifferential} social credits.`
-			embed.thumbnail = {url: 'https://i.imgur.com/r5rFQTN.png'}
-			embed.color = 16732194
-			break
-	
-		case TriggerPatternType.goodCitizenSpeech:
-			embed.title = `:white_check_mark:  Good job citizen! +${triggerPattern.scroreDifferential} social credits.`
-			embed.thumbnail = {url: 'https://i.imgur.com/kY5sLW0.png'}
-			embed.color = 4063062
-			break
-	}
 
 	return {embeds: [embed]}
 }

@@ -29,5 +29,5 @@ export const cmdList = [
 	up,
 	dong,
 	socialCredits,
-	transferCredits
+	transferCredits,
 ]
