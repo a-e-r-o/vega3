@@ -1,4 +1,4 @@
-import { sendMessage, Cmd, CmdCall, Ctx, fetchDongRate, fromWrittenNumber, parseDongRate, toEasyReadNumber } from "../../mod.ts"
+import { sendMessage, Cmd, CmdCall, Ctx, fetchDongRate, fromWrittenNumber, parseDongRate, toEasyReadNumber } from "../mod.ts"
 
 export const dong: Cmd = {
 	aliases: ['dong', 'dg', 'dng'],

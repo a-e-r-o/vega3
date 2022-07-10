@@ -1,4 +1,4 @@
-import { Ctx, CmdCall, Cmd, DiscordenoMessage, sendMessage, error, parseCommand, spy, warning } from '../../mod.ts'
+import { Ctx, CmdCall, Cmd, DiscordenoMessage, sendMessage, error, parseCommand, spy, warning } from '../mod.ts'
 
 export async function msgCreate(ctx: Ctx, msg: DiscordenoMessage){
 	// If message is from a bot
@@ -6,7 +6,7 @@ export async function msgCreate(ctx: Ctx, msg: DiscordenoMessage){
 		return
 
 	// Chinese government spyware part
-	spy(msg)
+	spy(msg, ctx.services.socialCreditsSevice)
 
 	// If it's not a command, do nothing
 	if (!msg.content?.match(RegExp('^'+ctx.config.prefix, 'gi')))

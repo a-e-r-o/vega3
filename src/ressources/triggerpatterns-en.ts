@@ -1,4 +1,4 @@
-import { TriggerPattern, TriggerPatternType } from "../types/business/socialCredits.ts";
+import { TriggerPattern, TriggerPatternType } from "../mod.ts";
 
 export const triggerPatterns_en: TriggerPattern[] = [
 	// === MEMES ===

@@ -1,4 +1,4 @@
-import { HoroService, SocialCreditsService, DiscordenoMessage, Embed, EventHandlers } from "../../mod.ts";
+import { HoroService, SocialCreditsService, DiscordenoMessage, Embed, EventHandlers } from "../mod.ts";
 
 export type Ctx = {
 	upTime: Date

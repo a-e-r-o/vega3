@@ -1,5 +1,4 @@
-import { socialCreditsDB } from "../../providers/local.ts";
-import { Citizen, TriggerLog } from '../../types/mod.ts'
+import { Citizen, TriggerLog, socialCreditsDB } from '../mod.ts'
 
 export class SocialCreditsService {
 	public store = socialCreditsDB

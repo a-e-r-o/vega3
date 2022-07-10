@@ -1,4 +1,4 @@
-import { sendMessage, Ctx, Cmd, CmdCall } from '../../mod.ts'
+import { sendMessage, Ctx, Cmd, CmdCall } from '../mod.ts'
 
 export const help: Cmd = {
 	disabled: true,

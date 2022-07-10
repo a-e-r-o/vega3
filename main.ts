@@ -1,4 +1,4 @@
-import { Ctx, ready, commandList, loadConfig, startBot, Intents, ensureDir, msgCreate, guildMemberAdd, SocialCreditsService, HoroService } from './src/mod.ts'
+import { Ctx, ready, commandList, loadConfig, startBot, Intents, ensureDir, msgCreate, guildMemberAdd, SocialCreditsService, HoroService, Cmd } from './src/mod.ts'
 
 // Init local database folder
 await ensureDir('./database')
@@ -7,7 +7,7 @@ await ensureDir('./database')
 const ctx: Ctx = {
 	upTime: new Date(),
 	config: await loadConfig(),
-	commands: commandList,
+	commands: Object.values(commandList) as Cmd[],
 	services: {
 		socialCreditsSevice: new SocialCreditsService(),
 		horoService: new HoroService()

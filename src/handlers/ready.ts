@@ -1,4 +1,4 @@
-import { Ctx, DiscordActivityTypes, editBotStatus } from "../../mod.ts"
+import { Ctx, DiscordActivityTypes, editBotStatus } from "../mod.ts"
 
 export function ready(ctx: Ctx){
 	// Clear terminal

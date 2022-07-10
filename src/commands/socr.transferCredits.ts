@@ -1,4 +1,4 @@
-import { Cmd, CmdCall, Ctx, fromWrittenNumber, toEasyReadNumber } from '../../mod.ts'
+import { Cmd, CmdCall, Ctx, fromWrittenNumber, toEasyReadNumber } from '../mod.ts'
 
 export const transferCredits: Cmd = {
 	aliases: ['give', 'giveCredits', 'transfer'],

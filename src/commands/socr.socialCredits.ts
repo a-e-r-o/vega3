@@ -1,4 +1,4 @@
-import { Embed, toEasyReadNumber, Cmd, CmdCall, Ctx } from '../../mod.ts'
+import { Embed, toEasyReadNumber, Cmd, CmdCall, Ctx } from '../mod.ts'
 
 export const socialCredits: Cmd = {
 	aliases: ['socialcredits', 'social', 'credits', 'score', 'socr', 'china'],

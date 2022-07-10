@@ -1,5 +1,4 @@
-import { DiscordenoMember, cache, fetchMembers, DiscordenoMessage, getMember, deleteMessages, deleteMessage } from "../../../deps.ts"
-import { strNormalize } from '../mod.ts'
+import { strNormalize, DiscordenoMember, cache, fetchMembers, DiscordenoMessage, getMember, deleteMessages, deleteMessage } from '../mod.ts'
 
 // === msg utility functions ===
 

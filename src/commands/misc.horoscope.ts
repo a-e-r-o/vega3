@@ -1,4 +1,4 @@
-import { sendMessage, Embed, Ctx, Cmd, CmdCall, signs, Sign, routes, strNormalize, parseHoroscope, toSectionEmoji } from '../../mod.ts'
+import { sendMessage, Embed, Ctx, Cmd, CmdCall, signs, Sign, routes, strNormalize, parseHoroscope, toSectionEmoji } from '../mod.ts'
 
 export const horoscope: Cmd = {
 	aliases: ['horoscope', 'horo', 'bullshit'],

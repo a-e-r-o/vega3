@@ -1,5 +1,5 @@
-import { msToTime, CmdCall, Cmd, Ctx, Embed, botId, cache, parse } from '../../mod.ts'
-import { version } from '../../../deps.ts'
+import { msToTime, CmdCall, Cmd, Ctx, Embed, botId, cache, parse } from '../mod.ts'
+import { version } from '../../deps.ts'
 
 export const up: Cmd = {
 	aliases: ['up', 'uptime', 'stats', 'version'],

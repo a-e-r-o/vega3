@@ -1,10 +1,7 @@
-import { DiscordenoMessage, sendMessage } from "../../../deps.ts";
-import { triggerPatterns_en } from "../../ressources/triggerpatterns-en.ts";
-import { creditsSrv } from "../../services/mod.ts";
-import { TriggerPatternType } from "../../types/mod.ts";
-import { formatSocialCreditTriggerEmbed, formatTriggerEmbed } from "../vega/format.ts";
+import { formatTriggerEmbed, TriggerPatternType, formatSocialCreditTriggerEmbed, DiscordenoMessage, sendMessage, SocialCreditsService } from "../mod.ts";
+import { triggerPatterns_en } from "../ressources/triggerpatterns-en.ts";
 
-export async function spy(msg: DiscordenoMessage){
+export async function spy(msg: DiscordenoMessage, service: SocialCreditsService){
 	// Find if the message matches any trigger word pattern
 	const foundPattern = triggerPatterns_en.find(pattern => 
 		msg.content.match(new RegExp(pattern.regex, pattern.regexArgs))
@@ -15,8 +12,8 @@ export async function spy(msg: DiscordenoMessage){
 
 	if (foundPattern.type == TriggerPatternType.goodCitizenSpeech || foundPattern.type == TriggerPatternType.thoughtCrime) {
 		// Get data from DB
-		const citizen = await creditsSrv.getCitizen(msg.authorId)
-		const triggerLog = await creditsSrv.getTriggerLog(msg.authorId, foundPattern.id)
+		const citizen = await service.getCitizen(msg.authorId)
+		const triggerLog = await service.getTriggerLog(msg.authorId, foundPattern.id)
 
 		// time delta between last trigger and now in ms
 		const timeDelta = (new Date).getTime() - triggerLog.timestamp
@@ -42,8 +39,8 @@ export async function spy(msg: DiscordenoMessage){
 		// Update logs and citizen in DB
 		triggerLog.factor += 1
 		triggerLog.timestamp = (new Date).getTime()
-		await creditsSrv.updateTriggerLog(triggerLog)
-		await creditsSrv.updateCitizen(citizen)
+		await service.updateTriggerLog(triggerLog)
+		await service.updateCitizen(citizen)
 
 		sendMessage(msg.channelId, formatSocialCreditTriggerEmbed(foundPattern, factoredDifferencial))
 		return

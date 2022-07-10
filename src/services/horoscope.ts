@@ -1,4 +1,4 @@
-import { horoDB } from "../../providers/local.ts";
+import { horoDB } from "../mod.ts";
 
 export class HoroService {
 	public store = horoDB
