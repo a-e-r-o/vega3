@@ -1,5 +1,5 @@
-import { sendMessage } from '../../deps.ts'
-import { Cmd, CmdCall, Ctx } from "../../types/mod.ts"
+import { sendMessage } from '../../../deps.ts'
+import { Cmd, CmdCall, Ctx } from "../../mod.ts"
 
 export const shutdown: Cmd = {
 	aliases: ['shutdown', 'exit(0)'],

@@ -1,5 +1,4 @@
-import { DiscordActivityTypes, editBotStatus } from "../../deps.ts"
-import { Ctx } from "../../types/mod.ts"
+import { Ctx, DiscordActivityTypes, editBotStatus } from "../../mod.ts"
 
 export function ready(ctx: Ctx){
 	// Clear terminal

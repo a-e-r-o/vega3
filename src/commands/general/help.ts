@@ -1,5 +1,4 @@
-import { sendMessage } from '../../deps.ts'
-import { Ctx, Cmd, CmdCall } from '../../types/mod.ts'
+import { sendMessage, Ctx, Cmd, CmdCall } from '../../mod.ts'
 
 export const help: Cmd = {
 	disabled: true,

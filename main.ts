@@ -1,8 +1,4 @@
-import { startBot, Intents, DiscordenoMessage, ensureDir } from './src/deps.ts'
-import { loadConfig } from './src/helpers/vega/config.ts'
-import { Ctx } from "./src/types/mod.ts"
-import { ready, msgCreate } from './src/handlers/mod.ts'
-import { cmdList } from './src/commands/mod.ts' 
+import { Ctx, ready, commandList, loadConfig, startBot, Intents, ensureDir, msgCreate, guildMemberAdd, SocialCreditsService, HoroService } from './src/mod.ts'
 
 // Init local database folder
 await ensureDir('./database')
@@ -11,14 +7,24 @@ await ensureDir('./database')
 const ctx: Ctx = {
 	upTime: new Date(),
 	config: await loadConfig(),
-	commands: cmdList,
+	commands: commandList,
+	services: {
+		socialCreditsSevice: new SocialCreditsService(),
+		horoService: new HoroService()
+	},
 	handlers: {
 		ready: ()=>{
 			ready(ctx)
 		},
-		messageCreate: (msg: DiscordenoMessage)=>{
+		messageCreate: (msg)=>{
 			msgCreate(ctx, msg)
-		}
+		},
+		guildMemberAdd: (guild, member)=> {
+			guildMemberAdd(ctx, guild, member);
+		},
+		//guildMemberRemove: (guild, user, member)=> {
+		//	guildMemberRemove(ctx, guild, user, member);
+		//}
 	}
 }
 
@@ -28,7 +34,7 @@ console.log('Initialization...')
 startBot(
 	{
 		token: ctx.config.token,
-		intents: [Intents.Guilds, Intents.GuildMessages, Intents.DirectMessages],
+		intents: [Intents.Guilds, Intents.GuildMessages, Intents.DirectMessages, Intents.GuildMembers],
 		eventHandlers: ctx.handlers
 	}
 )

@@ -1,6 +1,4 @@
-import { sendMessage, Embed } from '../../deps.ts'
-import { strNormalize, parseHoroscope, getEmoji } from '../../helpers/mod.ts'
-import { Ctx, Cmd, CmdCall, signs, Sign, routes } from '../../types/mod.ts'
+import { sendMessage, Embed, Ctx, Cmd, CmdCall, signs, Sign, routes, strNormalize, parseHoroscope, toSectionEmoji } from '../../mod.ts'
 
 export const horoscope: Cmd = {
 	aliases: ['horoscope', 'horo', 'bullshit'],
@@ -38,7 +36,7 @@ export const horoscope: Cmd = {
 		
 		for (const section of data.sections) {
 			embed.fields.push({
-				name: `${getEmoji(section.title)}   ${'▰'.repeat(section.rating)+'▱'.repeat(5-section.rating)}   ${section.title}`,
+				name: `${toSectionEmoji(section.title)}   ${'▰'.repeat(section.rating)+'▱'.repeat(5-section.rating)}   ${section.title}`,
 				value: section.text
 			})
 		}

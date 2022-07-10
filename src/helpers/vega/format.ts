@@ -1,4 +1,4 @@
-import { Embed } from "../../deps.ts";
+import { Embed } from "../../../deps.ts";
 import { TriggerPattern, TriggerPatternType } from "../../types/mod.ts";
 
 export function error(input: string){

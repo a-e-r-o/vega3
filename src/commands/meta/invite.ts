@@ -1,5 +1,4 @@
-import { sendMessage, botId } from '../../deps.ts'
-import { CmdCall, Cmd, Ctx } from '../../types/mod.ts'
+import { CmdCall, Cmd, Ctx, botId } from '../../mod.ts'
 
 export const invite: Cmd = {
 	aliases: ['invite','inv'],

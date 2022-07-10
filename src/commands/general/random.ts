@@ -1,5 +1,4 @@
-import { Embed, sendMessage } from '../../deps.ts'
-import { Ctx, Cmd, CmdCall } from '../../types/mod.ts'
+import { Embed, sendMessage, Ctx, Cmd, CmdCall } from '../../mod.ts'
 
 export const random: Cmd = {
 	aliases: ['rand', 'random', 'choose'],

@@ -1,5 +1,4 @@
-import { sendMessage } from '../../deps.ts'
-import { CmdCall, Cmd, Ctx } from '../../types/mod.ts'
+import { CmdCall, Cmd, Ctx, sendMessage } from '../../mod.ts'
 
 export const ip: Cmd = {
 	aliases: ['ip'],

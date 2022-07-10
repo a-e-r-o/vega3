@@ -1,8 +1,9 @@
-import { DiscordenoMessage, Embed, EventHandlers } from '../../deps.ts'
+import { HoroService, SocialCreditsService, DiscordenoMessage, Embed, EventHandlers } from "../../mod.ts";
 
 export type Ctx = {
 	upTime: Date
 	config: Cfg
+	services: Services
 	commands: Cmd[]
 	handlers: EventHandlers
 }
@@ -30,4 +31,9 @@ export type Cmd = {
 	clearance ?: number
 	aliases: string[]
 	execute: (ctx: Ctx, cmdCtx: CmdCall) => Promise<Embed|void>|Embed|void
+}
+
+export type Services = {
+	socialCreditsSevice: SocialCreditsService,
+	horoService: HoroService,
 }

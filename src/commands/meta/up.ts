@@ -1,13 +1,10 @@
-import { sendMessage, Embed, botId, cache, parse } from '../../deps.ts'
-import { CmdCall, Cmd, Ctx } from '../../types/mod.ts'
-import { msToTime } from '../../helpers/mod.ts'
+import { msToTime, CmdCall, Cmd, Ctx, Embed, botId, cache, parse } from '../../mod.ts'
+import { version } from '../../../deps.ts'
 
 export const up: Cmd = {
 	aliases: ['up', 'uptime', 'stats', 'version'],
 	execute: (ctx: Ctx, cmdCtx: CmdCall) => {
-		const vFile: Record<string, unknown> = parse(Deno.readTextFileSync(Deno.realPathSync('./version.yaml'))) as Record<string, unknown>
-		const version = vFile.version as string
-		const changelog = vFile.changelog as string
+		const changelog = 'https://gitlab.com/AeroCloud/vega2/-/tags/' + version;
 
 		const embed: Embed = {}
 		embed.thumbnail = {

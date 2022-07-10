@@ -46,7 +46,7 @@ export function parseHoroscope(rawHtml: string): HoroscopeData | undefined {
 	return { title: title, day: day, sections: categories }
 }
 
-export function getEmoji(sectionName: string): string {
+export function toSectionEmoji(sectionName: string): string {
 	if (sectionName.match('amoureuse'))
 		return '💕'
 

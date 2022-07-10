@@ -1,6 +1,4 @@
-import { sendMessage, DiscordenoMember, cache } from '../../deps.ts'
-import { getMembersByMentionIdNameTag } from '../../helpers/discord/discord.ts'
-import { Ctx, Cmd, CmdCall } from "../../types/mod.ts"
+import { Ctx, Cmd, CmdCall, getMembersByMentionIdNameTag, sendMessage, DiscordenoMember, cache } from '../../mod.ts'
 
 export const avatar: Cmd = {
 	disabled: true,

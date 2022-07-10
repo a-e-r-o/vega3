@@ -1,6 +1,4 @@
-import { fromWrittenNumber, toEasyReadNumber } from '../../helpers/mod.ts'
-import { Cmd, CmdCall, Ctx} from '../../types/mod.ts'
-import { creditsSrv } from '../../services/mod.ts'
+import { Cmd, CmdCall, Ctx, fromWrittenNumber, toEasyReadNumber } from '../../mod.ts'
 
 export const transferCredits: Cmd = {
 	aliases: ['give', 'giveCredits', 'transfer'],
@@ -16,12 +14,12 @@ export const transferCredits: Cmd = {
 			throw 'Please specify a valid amount.'
 		
 		// Get citizens objects from DB
-		const giver = await creditsSrv.getCitizen(cmdCtx.msg.authorId);
-		const receiver = await creditsSrv.getCitizen(cmdCtx.msg.mentionedUserIds[0])
+		const giver = await ctx.services.socialCreditsSevice.getCitizen(cmdCtx.msg.authorId);
+		const receiver = await ctx.services.socialCreditsSevice.getCitizen(cmdCtx.msg.mentionedUserIds[0])
 
 		// Call the service to update DB
 		try {
-			await creditsSrv.transferCredits(giver, receiver, amount)
+			await ctx.services.socialCreditsSevice.transferCredits(giver, receiver, amount)
 		} catch (e){
 			throw e
 		}

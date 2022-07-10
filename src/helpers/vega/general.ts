@@ -1,4 +1,4 @@
-import { DiscordenoMessage } from '../../deps.ts'
+import { DiscordenoMessage } from '../../../deps.ts'
 import { CmdCall } from "../../types/mod.ts"
 
 export function parseCommand(message: DiscordenoMessage, prefix: string): CmdCall {

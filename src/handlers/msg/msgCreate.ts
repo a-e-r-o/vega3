@@ -1,6 +1,4 @@
-import { DiscordenoMessage, sendMessage } from '../../deps.ts'
-import { Ctx, CmdCall, Cmd } from '../../types/mod.ts'
-import { error, parseCommand, spy, warning } from '../../helpers/mod.ts'
+import { Ctx, CmdCall, Cmd, DiscordenoMessage, sendMessage, error, parseCommand, spy, warning } from '../../mod.ts'
 
 export async function msgCreate(ctx: Ctx, msg: DiscordenoMessage){
 	// If message is from a bot

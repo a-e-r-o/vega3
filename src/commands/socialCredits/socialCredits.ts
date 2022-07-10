@@ -1,13 +1,10 @@
-import { Embed } from '../../deps.ts'
-import { toEasyReadNumber } from '../../helpers/mod.ts'
-import { Cmd, CmdCall, Ctx } from '../../types/mod.ts'
-import { creditsSrv } from '../../services/mod.ts'
+import { Embed, toEasyReadNumber, Cmd, CmdCall, Ctx } from '../../mod.ts'
 
 export const socialCredits: Cmd = {
 	aliases: ['socialcredits', 'social', 'credits', 'score', 'socr', 'china'],
 	execute: async (ctx: Ctx, cmdCtx: CmdCall) => {
 
-		const user = await creditsSrv.getCitizen(cmdCtx.msg.authorId);
+		const user = await ctx.services.socialCreditsSevice.getCitizen(cmdCtx.msg.authorId);
 
 		const res: Embed = {
 			title: 'Social credit score',

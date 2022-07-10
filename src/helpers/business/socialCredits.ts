@@ -1,4 +1,4 @@
-import { DiscordenoMessage, sendMessage } from "../../deps.ts";
+import { DiscordenoMessage, sendMessage } from "../../../deps.ts";
 import { triggerPatterns_en } from "../../ressources/triggerpatterns-en.ts";
 import { creditsSrv } from "../../services/mod.ts";
 import { TriggerPatternType } from "../../types/mod.ts";

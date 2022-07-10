@@ -1,6 +1,4 @@
-import { getMessages, hasGuildPermissions } from '../../deps.ts'
-import { CmdCall, Cmd, Ctx } from '../../types/mod.ts'
-import { deleteMsgs } from '../../helpers/mod.ts'
+import { getMessages, hasGuildPermissions, CmdCall, Cmd, Ctx, deleteMsgs } from '../../mod.ts'
 
 export const clear: Cmd = {
 	aliases: ['clear', 'cls', 'clean'],

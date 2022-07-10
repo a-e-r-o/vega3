@@ -1,6 +1,4 @@
-import { sendMessage } from '../../deps.ts'
-import { fetchDongRate, fromWrittenNumber, parseDongRate, toEasyReadNumber } from "../../helpers/mod.ts"
-import { Cmd, CmdCall, Ctx } from "../../types/mod.ts"
+import { sendMessage, Cmd, CmdCall, Ctx, fetchDongRate, fromWrittenNumber, parseDongRate, toEasyReadNumber } from "../../mod.ts"
 
 export const dong: Cmd = {
 	aliases: ['dong', 'dg', 'dng'],

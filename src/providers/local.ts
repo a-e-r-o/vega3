@@ -1,4 +1,4 @@
-import Datastore from '../deps.ts'
+import Datastore from '../../deps.ts'
 
 export const horoDB = {
 	users: new Datastore({ filename:"./database/horo_users.db", autoload: true })
