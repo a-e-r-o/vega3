@@ -1,16 +1,15 @@
-import { Ctx, CmdCall, Cmd, DiscordenoMessage, sendMessage, error, parseCommand, spy, warning } from '../mod.ts'
+import { Ctx, CmdCall, Cmd, DiscordenoMessage, sendMessage, error, parseCommand, warning } from '../mod.ts'
 
 export async function msgCreate(ctx: Ctx, msg: DiscordenoMessage){
 	// If message is from a bot
 	if (msg.isBot)
 		return
-
-	// Chinese government spyware part
-	spy(msg, ctx.services.socialCreditsSevice)
-
-	// If it's not a command, do nothing
-	if (!msg.content?.match(RegExp('^'+ctx.config.prefix, 'gi')))
-		return
+	
+	// If msg doesn't start with prefix, ignore
+	for(let j = 0; j < ctx.config.prefix.length; j++){
+		if (msg.content?.[j] != ctx.config.prefix[j])
+			return
+	}
 
 	const cmdCall: CmdCall = parseCommand(msg, ctx.config.prefix)
 	const foundCmd: Cmd | undefined = ctx.commands.find(x => x.aliases.includes(cmdCall.cmd))

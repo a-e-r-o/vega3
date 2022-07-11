@@ -11,6 +11,3 @@ export * from './meta.invite.ts'
 export * from './meta.ip.ts'
 export * from './meta.shutdown.ts'
 export * from './meta.up.ts'
-
-export * from './socr.socialCredits.ts'
-export * from './socr.transferCredits.ts'

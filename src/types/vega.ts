@@ -1,4 +1,4 @@
-import { HoroService, SocialCreditsService, DiscordenoMessage, Embed, EventHandlers } from "../mod.ts";
+import { HoroService, DiscordenoMessage, Embed, EventHandlers } from "../mod.ts";
 
 export type Ctx = {
 	upTime: Date
@@ -34,6 +34,5 @@ export type Cmd = {
 }
 
 export type Services = {
-	socialCreditsSevice: SocialCreditsService,
 	horoService: HoroService,
 }

@@ -3,13 +3,11 @@ export * from '../deps.ts'
 
 // Types
 export * from  './types/horoscope.ts'
-export * from  './types/socialCredits.ts'
 export * from  './types/vega.ts'
 
 // Helpers
 export * from './helpers/horoscope.ts'
 export * from './helpers/dong.ts'
-export * from './helpers/socialCredits.ts'
 export * from './helpers/config.ts'
 export * from './helpers/general.ts'
 export * from './helpers/format.ts'
@@ -20,7 +18,6 @@ export * from './providers/local.ts'
 
 // Services
 export * from './services/horoscope.ts'
-export * from './services/socialCredits.ts'
 
 // handlers 
 export * from './handlers/ready.ts'
