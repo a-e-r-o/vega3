@@ -13,9 +13,6 @@ export * from './helpers/general.ts'
 export * from './helpers/format.ts'
 export * from './helpers/discord.ts'
 
-// Providers (database)
-export * from './providers/local.ts'
-
 // Services
 export * from './services/horoscope.ts'
 

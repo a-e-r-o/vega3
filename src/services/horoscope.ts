@@ -1,4 +1,3 @@
-import { horoDB } from "../mod.ts";
 import DataStore from "../../deps.ts"
 
 export class HoroService {
