@@ -2,7 +2,7 @@ import { getMessages, hasGuildPermissions, CmdCall, Cmd, Ctx, deleteMsgs } from 
 
 export const clear: Cmd = {
 	aliases: ['clear', 'cls', 'clean'],
-	execute: async (ctx: Ctx, cmdCtx: CmdCall) => {
+	execute: async (cmdCtx: CmdCall) => {
 		// if member has permission to manage messages
 		const canDelMsgPerm = await hasGuildPermissions(
 			cmdCtx.msg.guildId,

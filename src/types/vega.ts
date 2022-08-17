@@ -30,9 +30,9 @@ export type Cmd = {
 	disabled ?: boolean
 	clearance ?: number
 	aliases: string[]
-	execute: (ctx: Ctx, cmdCtx: CmdCall) => Promise<Embed|void>|Embed|void
+	execute: (cmdCtx: CmdCall) => Promise<Embed|void>|Embed|void
 }
 
 export type Services = {
-	horoService: HoroService,
+	horoService: HoroService
 }

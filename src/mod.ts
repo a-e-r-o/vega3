@@ -12,9 +12,10 @@ export * from './helpers/config.ts'
 export * from './helpers/general.ts'
 export * from './helpers/format.ts'
 export * from './helpers/discord.ts'
+export * from './helpers/dateTime.ts'
 
 // Services
-export * from './services/horoscope.ts'
+export * from './services/horoService.ts'
 
 // handlers 
 export * from './handlers/ready.ts'

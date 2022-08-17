@@ -1,6 +1,6 @@
-import { Ctx, DiscordActivityTypes, editBotStatus } from "../mod.ts"
+import { DiscordActivityTypes, editBotStatus } from "../mod.ts"
 
-export function ready(ctx: Ctx){
+export function ready(){
 	// Clear terminal
 	Deno.stdout.writeSync(new TextEncoder().encode("\x1b[H\x1b[J"))
 

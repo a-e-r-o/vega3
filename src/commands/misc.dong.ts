@@ -1,8 +1,8 @@
-import { sendMessage, Cmd, CmdCall, Ctx, fetchDongRate, fromWrittenNumber, parseDongRate, toEasyReadNumber } from "../mod.ts"
+import { sendMessage, Cmd, CmdCall, fetchDongRate, fromWrittenNumber, parseDongRate, toEasyReadNumber } from "../mod.ts"
 
 export const dong: Cmd = {
 	aliases: ['dong', 'dg', 'dng'],
-	execute: async (ctx: Ctx, cmdCtx: CmdCall) => {
+	execute: async (cmdCtx: CmdCall) => {
 		// Fetch and parse data
 		const rawPriceData = await fetchDongRate()
 		if (!rawPriceData)

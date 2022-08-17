@@ -1,8 +1,8 @@
-import { Embed, sendMessage, Ctx, Cmd, CmdCall } from '../mod.ts'
+import { Embed, Cmd, CmdCall } from '../mod.ts'
 
 export const random: Cmd = {
 	aliases: ['rand', 'random', 'choose'],
-	execute: (ctx: Ctx ,cmdCtx: CmdCall) => {
+	execute: (cmdCtx: CmdCall) => {
 		let desc: string | undefined
 
 		// If first char of an arg is a dash, consider the first beginning of the description
