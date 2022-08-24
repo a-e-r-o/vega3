@@ -8,7 +8,7 @@ export async function msgCreate(msg: DiscordenoMessage){
 	
 	// If msg doesn't start with prefix, ignore
 	for(let j = 0; j < ctx.config.prefix.length; j++){
-		if (msg.content?.[j] != ctx.config.prefix[j])
+		if (msg.content?.[j].toLowerCase() != ctx.config.prefix[j].toLowerCase())
 			return
 	}
 
