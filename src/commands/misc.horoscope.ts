@@ -9,9 +9,10 @@ export const horoscope: Cmd = {
 		if (!cmdCtx.args[0])
 			throw 'Missing argument'
 
-		// Check if unsubscription
-		if (strNormalize(cmdCtx.args[0]).match(/unsub|unsubscribe/i))
-			return await ctx.services.horoService.unsub(cmdCtx)
+		// Disabled for version 0.5.2
+		// // Check if unsubscription
+		// if (strNormalize(cmdCtx.args[0]).match(/unsub|unsubscribe/i))
+		// 	return await ctx.services.horoService.unsub(cmdCtx)
 
 		// Parse horo sign
 		const parsedSign = signs.find(x => cmdCtx.args[0].match(strNormalize(x.fr)) || cmdCtx.args[0].match(strNormalize(x.eng)))
@@ -26,9 +27,10 @@ export const horoscope: Cmd = {
 
 		// If second argument is specified
 		if (cmdCtx.args[1]) {
-			// Check if subscription
-			if (strNormalize(cmdCtx.args[1]).match(/sub|subscribe/i))
-				return await ctx.services.horoService.newSub(cmdCtx, selectedSign)
+			// Disabled for version 0.5.2
+			// // Check if subscription
+			// if (strNormalize(cmdCtx.args[1]).match(/sub|subscribe/i))
+			// 	return await ctx.services.horoService.newSub(cmdCtx, selectedSign)
 			
 			// define route based on second argument
 			const routeArg: number = parseInt(cmdCtx.args[1])
