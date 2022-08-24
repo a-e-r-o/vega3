@@ -1,10 +1,59 @@
+import { CmdCall, Embed, getHoroscopeContent, msToReadableDuration, msUntilTimeSlot, parseStrTimeSlot, readableTime, routes, Sign, signs } from '../mod.ts'
 import DataStore from "../../deps.ts"
+
+type hosoSubscription = {
+	cmdCall: CmdCall
+}
 
 export class HoroService {
 	public HoroUsers: DataStore
+	public timeOuts:[] = []
+	public subsCache: hosoSubscription[] = []
 
 	constructor(){
 		this.HoroUsers = new DataStore({ filename:"./database/horo_users.db", autoload: true })
+	}
+
+	async newSub(cmdCall: CmdCall, horosign: Sign | null = null): Promise<Embed> {
+		// parse time slot here
+		// if no time slot specified, use current hours and minute
+		const route = routes[1]
+		const sign = horosign || signs[1]
+		const content = await getHoroscopeContent(sign, route)
+
+		
+		let timeSlot: number[]
+		let timeTo: number
+
+		// If there is a timeslot argument
+		if (cmdCall.args[2]){
+			const argTimeSlot = parseStrTimeSlot(cmdCall.args[2])
+			// Case of correct timeslot
+			if (argTimeSlot.length == 2) {
+				timeSlot = argTimeSlot
+				timeTo = msUntilTimeSlot(argTimeSlot[0], argTimeSlot[1])
+			} 
+			// Case of incorrect timeslot specified
+			else {
+				throw 'Incorrect time slot specified. Please use the following format: `hh:mm`'
+			}
+		} 
+		// If there is not timeslot specified
+		else {
+			// Use default timeslot
+			timeSlot = parseStrTimeSlot(`${new Date().getHours()}:${new Date().getMinutes()}`)
+			timeTo = msUntilTimeSlot(timeSlot[0], timeSlot[1])
+		}
+
+		//commandList.horoscope.execute(cmdCall)
+		return {
+			color: parseInt(sign.color, 16),
+			description: `Subscribed to daily horoscope for sign *${sign.fr}* at ${readableTime(timeSlot[0], timeSlot[1])} (in ${msToReadableDuration(timeTo)})`
+		}
+	}
+
+	async unsub(cmdCall: CmdCall): Promise<Embed> {
+		return {description: 'unsubscribed'}
 	}
 }
 

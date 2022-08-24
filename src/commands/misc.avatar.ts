@@ -1,9 +1,9 @@
-import { Ctx, Cmd, CmdCall, getMembersByMentionIdNameTag, sendMessage, DiscordenoMember, cache } from '../mod.ts'
+import { Cmd, CmdCall, getMembersByMentionIdNameTag, sendMessage, DiscordenoMember, cache } from '../mod.ts'
 
 export const avatar: Cmd = {
 	disabled: true,
 	aliases: ['avatar', 'pp'],
-	execute: async (ctx: Ctx, cmdCtx: CmdCall) => {
+	execute: async (cmdCtx: CmdCall) => {
 		// limit to 5 users at once to avoid sending to many requests
 		if (cmdCtx.args.length > 5)
 			throw 'Command limited to max 5 users at once'

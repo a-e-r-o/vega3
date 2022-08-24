@@ -1,6 +1,7 @@
-import { Ctx, CmdCall, Cmd, DiscordenoMessage, sendMessage, error, parseCommand, warning } from '../mod.ts'
+import { CmdCall, Cmd, DiscordenoMessage, sendMessage, error, parseCommand, warning } from '../mod.ts'
+import { ctx } from '../../main.ts'
 
-export async function msgCreate(ctx: Ctx, msg: DiscordenoMessage){
+export async function msgCreate(msg: DiscordenoMessage){
 	// If message is from a bot
 	if (msg.isBot)
 		return
@@ -29,7 +30,7 @@ export async function msgCreate(ctx: Ctx, msg: DiscordenoMessage){
 
 	try {
 		// Execute Command
-		const feedback = await foundCmd.execute(ctx, cmdCall)
+		const feedback = await foundCmd.execute(cmdCall)
 		if (feedback != undefined)
 			return sendMessage(cmdCall.channel, {embed: feedback})
 	} catch (e){

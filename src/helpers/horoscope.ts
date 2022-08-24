@@ -1,4 +1,4 @@
-import { HoroscopeSection, HoroscopeData } from '../mod.ts'
+import { HoroscopeSection, HoroscopeData, Embed, Sign, strNormalize } from '../mod.ts'
 
 export function parseHoroscope(rawHtml: string): HoroscopeData | undefined {
 	const categories: HoroscopeSection[] = []
@@ -60,4 +60,31 @@ export function toSectionEmoji(sectionName: string): string {
 		return '🌼'
 
 	return ''
+}
+
+export async function getHoroscopeContent(selectedSign: Sign, route: string): Promise<Embed> {
+	// init embed
+	const embed: Embed = {}
+	embed.fields = []
+	embed.color = parseInt(selectedSign.color, 16)
+
+	// fetch data based on sign
+	const res = await fetch(`https://www.evozen.fr/horoscope/${route}/${strNormalize(selectedSign.fr)}`)
+	const data = parseHoroscope(await res.text())
+
+	if (!data)
+		throw "Could not retrieve horoscope for sign : " + selectedSign.fr
+
+	for (const section of data.sections) {
+		embed.fields.push({
+			name: `${toSectionEmoji(section.title)}   ${'▰'.repeat(section.rating)+'▱'.repeat(5-section.rating)}   ${section.title}`,
+			value: section.text
+		})
+	}
+	// ajout du disclaimer à la fin 
+	embed.fields[embed.fields.length-1].value += '\n\n*Si vous trouvez que votre horoscope correspond particulièrement bien à la réalité, cliquez [ici](https://fr.wikipedia.org/wiki/Effet_Barnum)*'
+	embed.title = `:${selectedSign.eng}:  ${selectedSign.fr} : Horoscope du ${data.day.toLowerCase()}`
+	embed.thumbnail = { url: selectedSign.img }
+
+	return embed
 }

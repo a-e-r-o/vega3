@@ -1,9 +1,9 @@
-import { msToTime, CmdCall, Cmd, Ctx, Embed, botId, cache, parse } from '../mod.ts'
-import { version } from '../../deps.ts'
+import { version, msToTime, CmdCall, Cmd, Embed, botId, cache} from '../mod.ts'
+import { ctx } from '../../main.ts'
 
 export const up: Cmd = {
 	aliases: ['up', 'uptime', 'stats', 'version'],
-	execute: (ctx: Ctx, cmdCtx: CmdCall) => {
+	execute: (cmdCtx: CmdCall) => {
 		const changelog = 'https://gitlab.com/AeroCloud/vega2/-/tags/' + version;
 
 		const embed: Embed = {}
@@ -16,7 +16,7 @@ export const up: Cmd = {
 		embed.fields = [
 			{
 				name: 'Uptime',
-				value:  msToTime((new Date().getTime() - ctx.upTime.getTime()))
+				value:  msToTime((new Date().getTime() - ctx?.upTime.getTime()))
 			},
 			{
 				name: 'Changelog',

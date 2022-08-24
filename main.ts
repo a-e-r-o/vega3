@@ -4,7 +4,7 @@ import { Ctx, ready, commandList, loadConfig, startBot, Intents, ensureDir, msgC
 await ensureDir('./database')
 
 // Init context
-const ctx: Ctx = {
+export const ctx: Ctx = {
 	upTime: new Date(),
 	config: await loadConfig(),
 	commands: Object.values(commandList) as Cmd[],
@@ -13,13 +13,13 @@ const ctx: Ctx = {
 	},
 	handlers: {
 		ready: ()=>{
-			ready(ctx)
+			ready()
 		},
 		messageCreate: (msg)=>{
-			msgCreate(ctx, msg)
+			msgCreate(msg)
 		},
 		guildMemberAdd: (guild, member)=> {
-			guildMemberAdd(ctx, guild, member);
+			guildMemberAdd(guild, member);
 		},
 		//guildMemberRemove: (guild, user, member)=> {
 		//	guildMemberRemove(ctx, guild, user, member);

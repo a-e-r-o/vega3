@@ -1,8 +1,8 @@
-import { Embed, sendMessage, Ctx, Cmd, CmdCall } from '../mod.ts'
+import { Embed, Cmd, CmdCall } from '../mod.ts'
 
 export const random: Cmd = {
 	aliases: ['rand', 'random', 'choose'],
-	execute: (ctx: Ctx ,cmdCtx: CmdCall) => {
+	execute: (cmdCtx: CmdCall) => {
 		let desc: string | undefined
 
 		// If first char of an arg is a dash, consider the first beginning of the description
@@ -27,8 +27,8 @@ export const random: Cmd = {
 					.join(' ')
 		}
 
-		// the remaining args after desc parsing are the options
-		const options: string[] = cmdCtx.args
+		// Join remaining options to reconstruct the original message, and split options with the semicolon
+		const options = cmdCtx.args.join(' ').split(';').filter(x => x !== '')
 		
 		// if there are no options, abort
 		if (options.length < 1)
@@ -37,14 +37,12 @@ export const random: Cmd = {
 		// select at random among the args
 		const selectedItem: string = options[Math.floor(Math.random() * options.length)]
 		
-		// Create response embed
-		const res: Embed = {
-			title: ':game_die: Random',
-			description: `**${selectedItem}**`
-		}
-		// If there is a description, add it in the beginning of the embed
-		if (desc)
-			res.description = `> ${desc}\n\n${res.description}`
+		// Create embed
+		const res: Embed = {};
+
+		// If description set, it's used as title
+		res.title = desc ? desc : undefined
+		res.description = ':game_die: ' + selectedItem
 
 		return res
 	}

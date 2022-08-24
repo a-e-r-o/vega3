@@ -26,7 +26,7 @@ export const signs: Sign[] = [
 	{ eng: 'sagittarius', fr: 'Sagittaire', color: '9660af', img: 'https://pngimg.com/uploads/sagittarius/sagittarius_PNG74.png' },
 	{ eng: 'capricorn', fr: 'Capricorne', color: 'a8755e', img: 'https://pngimg.com/uploads/capricorn/capricorn_PNG48.png' },
 	{ eng: 'aquarius', fr: 'Verseau', color: '050b5b', img: 'https://pngimg.com/uploads/aquarius/aquarius_PNG20.png' },
-	{ eng: 'pisces', fr: 'Poisson', color: '37c2e2', img: 'https://pngimg.com/uploads/pisces/pisces_PNG15.png' }
+	{ eng: 'pisces', fr: 'Poissons', color: '37c2e2', img: 'https://pngimg.com/uploads/pisces/pisces_PNG15.png' }
 ]
 export enum routes {
 	'horoscope-du-jour',
