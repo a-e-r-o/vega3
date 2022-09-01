@@ -1,0 +1,8 @@
+import { Embed, Cmd, CmdCall } from '../mod.ts'
+
+export const cointoss: Cmd = {
+	aliases: ['pf', 'cointoss', 'coinflip', 'pileface'],
+	execute: (cmdCtx: CmdCall) => {
+		cmdCtx.msg.channel?.send(Math.random() < 0.5 ? '<:tail:1014681476517855283>' : '<:head:1014681478778597376>');
+	}
+}
