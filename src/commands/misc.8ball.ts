@@ -1,7 +1,7 @@
 import { Embed, Cmd, CmdCall, eightBallSentencesFr } from '../mod.ts'
 
 export const heightball: Cmd = {
-	aliases: ['8ball', '8-ball', 'magicball', 'boulemagique'],
+	aliases: ['8ball', 'mball', 'magicball', 'boulemagique'],
 	execute: (call: CmdCall) => {
 		
 		const options = eightBallSentencesFr;
@@ -15,7 +15,7 @@ export const heightball: Cmd = {
 
 		// If description set, it's used as title
 		res.title = desc ? desc : undefined
-		res.description = ':8ball: ' + selectedItem
+		res.description = ':8ball:  ' + selectedItem
 
 		return res
 	}
