@@ -1,6 +1,6 @@
 import { CmdCall, DiscordenoMessage } from '../mod.ts'
 
-export function parseCommand(message: DiscordenoMessage, prefix: string): CmdCall {
+export function parseCall(message: DiscordenoMessage, prefix: string): CmdCall {
 	const args: string[] = message.content
 		.replace(RegExp(`^${prefix}`,'i'),'')
 		.trim()

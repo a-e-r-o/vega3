@@ -1,13 +1,9 @@
-import { Cfg, exists, parse } from "../mod.ts"
+import { Config, exists, parse } from "../mod.ts"
 
 const path = './config'
 const defaultPrefix = 'vega'
-const parameters = [
-	'token',
 
-]
-
-export async function loadConfig(): Promise<Cfg> {
+export async function loadConfig(): Promise<Config> {
 	let ext = ''
 	if (await exists(path+'.yaml')){
 		ext = '.yaml'
@@ -21,11 +17,11 @@ export async function loadConfig(): Promise<Cfg> {
 		Deno.exit(0)
 	}
 
-	const config = parse(Deno.readTextFileSync(Deno.realPathSync(path+ext))) as Cfg
+	const config = parse(Deno.readTextFileSync(Deno.realPathSync(path+ext))) as Config
 	if (!config.token)
 		throw `\n!!! Missing or malformed token in config file`
 	if (!config?.clearances[0]?.userId)
 		throw `\n!!! Missing userId for clearances in config file`
 
-	return config as Cfg
+	return config as Config
 }

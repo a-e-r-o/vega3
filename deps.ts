@@ -1,5 +1,5 @@
 // Version
-export const version = '0.5.3'
+export const version = '0.6.0'
 
 // Deps
 export * from 'https://deno.land/x/discordeno@11.2.0/mod.ts'

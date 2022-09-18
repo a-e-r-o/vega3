@@ -1,30 +1,14 @@
-import { Ctx, ready, commandList, loadConfig, startBot, Intents, ensureDir, msgCreate, guildMemberAdd, HoroService, Cmd } from './src/mod.ts'
+import { ready, commandList, loadConfig, startBot, Intents, ensureDir, msgCreate, guildMemberAdd, HoroService, Cmd } from './src/mod.ts'
 
 // Init local database folder
-await ensureDir('./database')
+await ensureDir('./.database')
 
-// Init context
-export const ctx: Ctx = {
+// Init globals
+export const ctx = {
 	upTime: new Date(),
 	config: await loadConfig(),
 	commands: Object.values(commandList) as Cmd[],
-	services: {
-		horoService: new HoroService()
-	},
-	handlers: {
-		ready: ()=>{
-			ready()
-		},
-		messageCreate: (msg)=>{
-			msgCreate(msg)
-		},
-		guildMemberAdd: (guild, member)=> {
-			guildMemberAdd(guild, member);
-		},
-		//guildMemberRemove: (guild, user, member)=> {
-		//	guildMemberRemove(ctx, guild, user, member);
-		//}
-	}
+	horoService: new HoroService(),
 }
 
 console.log('Initialization...')
@@ -34,6 +18,10 @@ startBot(
 	{
 		token: ctx.config.token,
 		intents: [Intents.Guilds, Intents.GuildMessages, Intents.DirectMessages, Intents.GuildMembers],
-		eventHandlers: ctx.handlers
+		eventHandlers: {
+			ready: () => { ready() },
+			messageCreate: (msg ) => { msgCreate(msg) },
+			guildMemberAdd: (guild, member) => { guildMemberAdd(guild, member) }
+		}
 	}
 )

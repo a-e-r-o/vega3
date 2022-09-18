@@ -6,6 +6,8 @@ export * from './misc.help.ts'
 export * from './misc.horoscope.ts'
 export * from './misc.random.ts'
 export * from './misc.cointoss.ts'
+export * from './misc.8ball.ts'
+export * from './misc.randint.ts'
 
 export * from './meta.dummy.ts'
 export * from './meta.invite.ts'

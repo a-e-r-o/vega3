@@ -4,6 +4,7 @@ export * from '../deps.ts'
 // Types
 export * from  './types/horoscope.ts'
 export * from  './types/vega.ts'
+export * from  './types/8ball.ts'
 
 // Helpers
 export * from './helpers/horoscope.ts'

@@ -1,14 +1,7 @@
-import { HoroService, DiscordenoMessage, Embed, EventHandlers } from "../mod.ts";
+import Datastore from "https://deno.land/x/dndb@0.3.3/mod.ts";
+import { DiscordenoMessage, Embed } from "../mod.ts";
 
-export type Ctx = {
-	upTime: Date
-	config: Cfg
-	services: Services
-	commands: Cmd[]
-	handlers: EventHandlers
-}
-
-export type Cfg = {
+export type Config = {
 	token: string
 	prefix: string
 	clearances: Clearance[]
@@ -20,19 +13,21 @@ export type Clearance = {
 }
 
 export type CmdCall = {
+	channel: bigint
 	msg: DiscordenoMessage
 	cmd: string
 	args: string[]
-	channel: bigint
 }
 
 export type Cmd = {
 	disabled ?: boolean
 	clearance ?: number
 	aliases: string[]
-	execute: (cmdCtx: CmdCall) => Promise<Embed|void>|Embed|void
+	execute: (call: CmdCall) => Promise<Embed|void>|Embed|void
 }
 
-export type Services = {
-	horoService: HoroService
+export type VegaDb = {
+	horoDb: {
+		subs: Datastore
+	}
 }

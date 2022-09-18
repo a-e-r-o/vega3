@@ -1,7 +1,7 @@
 import { Embed, Cmd, CmdCall } from '../mod.ts'
 
-export const random: Cmd = {
-	aliases: ['rand', 'random', 'choose'],
+export const randint: Cmd = {
+	aliases: ['randint', 'dice', 'dé', 'randominteger', 'randomint'],
 	execute: (call: CmdCall) => {
 		let desc: string | undefined
 
@@ -29,13 +29,39 @@ export const random: Cmd = {
 
 		// Join remaining options to reconstruct the original message, and split options with the semicolon
 		const options = call.args.join(' ').split(';').filter(x => x !== '')
-		
-		// if there are no options, abort
-		if (options.length < 1)
-			throw 'Error : not enough options provided'
+		const intOptions: number[] = []
+		options.forEach(x => {
+			const parsedOption = parseInt(x)
+			if (isNaN(parsedOption))
+				throw 'Error : inccorect argument, please provide only integer numbers'
+			intOptions.push(parsedOption)
+		})
 
-		// select at random among the args
-		const selectedItem: string = options[Math.floor(Math.random() * options.length)]
+		let min = 1
+		let max = 6
+		
+		// If there is only 1 arg, return random between 0-arg
+		if (intOptions.length == 1 && intOptions[0] > 0) {
+			min = 0
+			max = intOptions[0]
+		}
+		// if there are two args / normal behaviour
+		else if (intOptions.length == 2) {
+			min = intOptions[0]
+			max = intOptions[1]
+		}
+		// if there are too many args, abort
+		else if (intOptions.length > 2) {
+			throw 'Error : please provide a max of two number'
+		}
+		
+		// if min is superior or equal to max invert them
+		if (min >= max) {
+			[min, max] = [max, min]
+		}
+
+		// random int within the range
+		const selectedItem = Math.floor(Math.random() * (max - min + 1) + min)
 		
 		// Create embed
 		const res: Embed = {};

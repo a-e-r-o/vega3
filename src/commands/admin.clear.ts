@@ -1,12 +1,12 @@
-import { getMessages, hasGuildPermissions, CmdCall, Cmd, Ctx, deleteMsgs } from '../mod.ts'
+import { getMessages, hasGuildPermissions, CmdCall, Cmd, deleteMsgs } from '../mod.ts'
 
 export const clear: Cmd = {
 	aliases: ['clear', 'cls', 'clean'],
-	execute: async (cmdCtx: CmdCall) => {
+	execute: async (call: CmdCall) => {
 		// if member has permission to manage messages
 		const canDelMsgPerm = await hasGuildPermissions(
-			cmdCtx.msg.guildId,
-			cmdCtx.msg.authorId,
+			call.msg.guildId,
+			call.msg.authorId,
 			["MANAGE_MESSAGES"]
 		)
 		
@@ -14,7 +14,7 @@ export const clear: Cmd = {
 		if (!canDelMsgPerm)
 			throw 'Messages deletion failed *(User missing permissions)*'
 
-		let msgNumber: number = parseInt(cmdCtx.args[0])
+		let msgNumber: number = parseInt(call.args[0])
 		// Check if not NaN and more than 0
 		if (!(msgNumber > 0))
 			// Default value is 5
@@ -28,14 +28,14 @@ export const clear: Cmd = {
 		do {
 			const limit = msgNumber > 100 ? 100 : msgNumber
 			try {
-				const messages = await getMessages(cmdCtx.channel, { limit: limit })
+				const messages = await getMessages(call.channel, { limit: limit })
 				
 				if (!messages || messages.length == 0)
 					return
 
 				msgNumber -= limit
 				
-				await deleteMsgs(messages, cmdCtx.channel)
+				await deleteMsgs(messages, call.channel)
 			} catch (_error) {
 				throw 'Could not delete messages *(messages too old, vega missing permission, or no messages found)*'
 			}

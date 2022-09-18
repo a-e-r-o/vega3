@@ -3,7 +3,7 @@ import { ctx } from '../../main.ts'
 
 export const up: Cmd = {
 	aliases: ['up', 'uptime', 'stats', 'version'],
-	execute: (cmdCtx: CmdCall) => {
+	execute: (call: CmdCall) => {
 		const changelog = 'https://gitlab.com/AeroCloud/vega2/-/tags/' + version;
 
 		const embed: Embed = {}

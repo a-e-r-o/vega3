@@ -35,3 +35,10 @@ export enum routes {
 	'horoscope-dans-3-jours',
 	'horoscope-dans-4-jours'
 }
+
+export type HosoSubscriptionDto = {
+	channel: string
+	user: string
+	sign: Sign
+	timeslot: number[]
+}
