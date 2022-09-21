@@ -1,4 +1,4 @@
-import { Embed, Cmd, CmdCall, eightBallSentencesFr } from '../mod.ts'
+import { Embed, Cmd, CmdCall, eightBallSentencesFr, randInt } from '../mod.ts'
 
 export const heightball: Cmd = {
 	aliases: ['8ball', 'mball', 'magicball', 'boulemagique'],
@@ -8,7 +8,7 @@ export const heightball: Cmd = {
 		const desc = call.args.join(' ')
 
 		// select at random among the args
-		const selectedItem: string = options[Math.floor(Math.random() * options.length)]
+		const selectedItem: string = options[randInt(options.length-1)]
 		
 		// Create embed
 		const res: Embed = {};

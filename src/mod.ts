@@ -9,9 +9,8 @@ export * from  './types/8ball.ts'
 // Helpers
 export * from './helpers/horoscope.ts'
 export * from './helpers/dong.ts'
-export * from './helpers/config.ts'
-export * from './helpers/general.ts'
-export * from './helpers/format.ts'
+export * from './helpers/misc.ts'
+export * from './helpers/vega.ts'
 export * from './helpers/discord.ts'
 export * from './helpers/dateTime.ts'
 

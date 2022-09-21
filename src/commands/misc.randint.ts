@@ -1,31 +1,9 @@
-import { Embed, Cmd, CmdCall } from '../mod.ts'
+import { Embed, Cmd, CmdCall, parseDesc, randInt } from '../mod.ts'
 
 export const randint: Cmd = {
 	aliases: ['randint', 'dice', 'dé', 'randominteger', 'randomint'],
 	execute: (call: CmdCall) => {
-		let desc: string | undefined
-
-		// If first char of an arg is a dash, consider the first beginning of the description
-		const descIndex: number = call.args.findIndex(x => x.match(/^--/))
-
-		// If there is a desc, it is the one beginning with a dash and all the ones after it
-		if (descIndex >= 0) {
-			// remove the separator from the arg to have a clean desc
-			if (call.args[descIndex] === '--') {
-				// if it's only the separator by itself remove the arg altogether
-				call.args.splice(descIndex, 1)
-			} else {
-				// else, remove the separator from the arg
-				call.args[descIndex] = call.args[descIndex].replace(/^--/, '')
-			}
-
-			// join all args following the one with the separator
-			desc = 
-				call
-					.args
-					.splice(descIndex, call.args.length - descIndex)
-					.join(' ')
-		}
+		const desc = parseDesc(call.args);
 
 		// Join remaining options to reconstruct the original message, and split options with the semicolon
 		const options = call.args.join(' ').split(';').filter(x => x !== '')
@@ -61,7 +39,7 @@ export const randint: Cmd = {
 		}
 
 		// random int within the range
-		const selectedItem = Math.floor(Math.random() * (max - min + 1) + min)
+		const selectedItem = options[randInt(options.length-1)]
 		
 		// Create embed
 		const res: Embed = {};

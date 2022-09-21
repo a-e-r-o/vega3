@@ -72,3 +72,15 @@ export function msToReadableDuration(ms: number) {
 
 	return res.trim()
 }
+
+export function msToTime(ms: number) {
+	const d = Math.floor(ms/86400000)
+	ms -= d*86400000
+	const h = Math.floor(ms/3600000)
+	ms -= h*3600000
+	const m = Math.floor(ms/60000)
+	ms -= m * 60000
+	const s = Math.floor(ms/1000)
+	
+	return `${d<10?'0'+d:d}:${h<10?'0'+h:h}:${m<10?'0'+m:m}:${s<10?'0'+s:s}`
+}
