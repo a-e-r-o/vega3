@@ -45,29 +45,34 @@ export const eightBallSentencesFr = [
 	'Très probable',
 	'Oui.',
 	'Il me semble bien',
-	'Y\'a un monde où c\'est possible',
-	'Oui, si tu y crois très fort',
 	'J\'y crois dur comme fer',
 	'C\'est sûr à 99%',
+	'190km/h vers le oui',
+	
+	// Plutôt positif
 	'Ça me semble plausible',
-	// Indécis
-	'Mieux vaut pas que tu saches pour le moment',
-	'Peut-être...',
-	'Même moi je ne saurais pas répondre à ça',
+	'Y\'a un monde où c\'est possible',
+	'Oui, si tu y crois très fort',
+
+	// Esquive
 	'Je préfère vraiment ne rien dire. Si je parle je vais avoir de gros problèmes. Et je ne veux pas avoir de gros problèmes',
 	'Il y a 50% de chances',
+	'Si je te dis la vérité tu voudras foncer dans un platane...',
+
+	// Plutot négatif
+	'Pas impossible mais t\'aurais plus de chance de gagner au loto',
+	'J\'y crois pas trop',
+	'Je parierais pas là-dessus',
+
 	// Négatif
+	'C\'est invenvisageable',
 	'Non, pas moyen',
 	'Oui... Euh en fait non, vraiment pas',
-	'Même pas en rêve',
-	'J\'y crois pas trop',
 	'Va te faire foutre',
 	'C\'est non.',
 	'Peu probable',
-	'N\'y compte pas',
 	'Impossible',
-	'Pas impossible mais t\aurais plus de chance de gagner au loto',
+	'N\'y compte pas',
 	'Ça peut sembler étrange mais la réponse est non',
-	'Je parierais pas là-dessus',
-	'Non c\'est mort',
+	'Hahaha... **non** c\'est mort.',
 ]
