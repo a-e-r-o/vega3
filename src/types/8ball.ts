@@ -43,7 +43,7 @@ export const res8bFr: eightBallRes = {
 		'Pas la peine d\'y penser',
 		'C\'est une blague ?',
 		'Quand les poules auront des dents',
-		'C\'est invenvisageable',
+		'C\'est inenvisageable',
 		'Non, pas moyen',
 		'Oui... Euh en fait non, vraiment pas',
 		'Va te faire foutre',
