@@ -1,12 +1,16 @@
-import { Embed, Cmd, CmdCall, eightBallSentencesFr, randInt } from '../mod.ts'
+import { Embed, Cmd, CmdCall, res8bFr, randInt } from '../mod.ts'
 
 export const heightball: Cmd = {
 	aliases: ['8ball', 'mball', 'magicball', 'boulemagique'],
 	execute: (call: CmdCall) => {
 		
-		const options = eightBallSentencesFr;
+		const imperative = call.msg.content.match(/\?\?/gim) !== null
 		const desc = call.args.join(' ')
+		let options = [...res8bFr.yes,  ...res8bFr.no];
 
+		if (!imperative)
+			options = [...options, ...res8bFr.maybe, ...res8bFr.likely, ...res8bFr.unlikely,]
+		
 		// select at random among the args
 		const selectedItem: string = options[randInt(options.length-1)]
 		
