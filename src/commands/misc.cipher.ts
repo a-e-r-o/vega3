@@ -20,7 +20,7 @@ function cypher(str = '', uncipher = false){
 	let res = ''
 	const [A, B] = uncipher ?  [letters, blocs] : [blocs, letters]
 	for (let i = 0; i < str.length; i++) {
-		const Bi = B.findIndex(x => x==str[i].toLowerCase())
+		const Bi = B.findIndex(x => x==str[i])
 		if (Bi >= 0){
 			res += A[Bi]
 		} 
