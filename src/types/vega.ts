@@ -15,6 +15,7 @@ export type Clearance = {
 export type CmdCall = {
 	channel: bigint
 	msg: DiscordenoMessage
+	msgStriped: string
 	cmd: string
 	args: string[]
 }

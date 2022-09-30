@@ -25,8 +25,6 @@ export function msUntilTimeSlot(hours: number, minutes: number) {
 export function parseStrTimeSlot(strTimeSlot: string): number[] {
 	const arrTimeSlot = strTimeSlot.split(':').length == 2 ? strTimeSlot.split(':') : strTimeSlot.split('h')
 
-	console.log(strTimeSlot, arrTimeSlot, strTimeSlot.split(':'), strTimeSlot.split('h'))
-
 	// Check if minutes and hours were correctly split
 	if (arrTimeSlot.length < 2)
 		return []
