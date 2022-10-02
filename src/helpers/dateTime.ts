@@ -7,6 +7,7 @@ export function msUntilTimeSlot(hours: number, minutes: number) {
 	nxtOccur.setHours(hours)
 	nxtOccur.setMinutes(minutes)
 	nxtOccur.setSeconds(0)
+	nxtOccur.setMilliseconds(0)
 	
 	const nowTime = new Date().getTime()
 	let nxtOccurTime = nxtOccur.getTime()

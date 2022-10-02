@@ -52,26 +52,43 @@ export function parseCall(message: DiscordenoMessage, prefix: string): CmdCall {
 }
 
 /**
- * Takes a sting, returns it in an an embed formatted as error
+ * Takes a sting, returns it in an an embed formatted as a basic embed response
  */
-export function formatErr(input: string){
-	const embed: Embed = {
-		color: 15087872,
-		description: `\`\`\`diff\n-${input}\`\`\``
+ export function formatBasic(input: string){
+	return {
+		description: input
 	}
-	return {embeds: [embed]}
 }
 
 /**
- * Takes a sting, returns it in an an embed formatted as error
+ * Takes a sting, returns it in an an embed formatted as a success
+ */
+export function formatSuccess(input: string){
+	return {
+		color: 3380353,
+		description: input
+	}
+}
+
+/**
+ * Takes a sting, returns it in an an embed formatted as an error
+ */
+export function formatErr(input: string){
+	return {
+		color: 15087872,
+		description: `\`\`\`diff\n-${input}\`\`\``
+	}
+}
+
+/**
+ * Takes a sting, returns it in an an embed formatted as a warning
  */
 export function formatWarn(input: string){
-	const embed: Embed = {
+	return {
 		title: 'Command failed',
 		color: 14971947,
 		description: input
 	}
-	return {embeds: [embed]}
 }
 
 /**

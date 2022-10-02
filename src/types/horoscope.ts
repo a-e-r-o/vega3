@@ -43,3 +43,7 @@ export type HosoSubscriptionDto = {
 	signId: number
 	timeslot: number[]
 }
+
+export interface HoroSubscription extends HosoSubscriptionDto {
+	timeOutId?: number
+}

@@ -24,7 +24,7 @@ export type Cmd = {
 	disabled ?: boolean
 	clearance ?: number
 	aliases: string[]
-	execute: (call: CmdCall) => Promise<Embed|void>|Embed|void
+	execute: (call: CmdCall) => Promise<Embed|string|void>|Embed|void|string
 }
 
 export type VegaDb = {
