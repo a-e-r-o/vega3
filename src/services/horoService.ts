@@ -1,6 +1,5 @@
-import { CmdCall, Embed, formatSuccess, formatWarn, getHoroscopeContent, HoroSubscription, HosoSubscriptionDto, msToReadableDuration, msUntilTimeSlot, parseStrTimeSlot, readableTime, routes, Sign, signs } from '../mod.ts'
+import { CmdCall, getHoroscopeContent, HoroSubscription, HosoSubscriptionDto, msToReadableDuration, msUntilTimeSlot, parseStrTimeSlot, readableTime, routes, Sign, signs } from '../mod.ts'
 import DataStore, { sendMessage } from "../../deps.ts"
-import { findIndex } from 'https://deno.land/std/bytes/mod.ts'
 
 export class HoroService {
 	public subs: Record<string, HoroSubscription> = {}
