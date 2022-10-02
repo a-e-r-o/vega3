@@ -105,7 +105,7 @@ export class HoroService {
 				BigInt(sub.channelId),
 				{ 
 					content: `<@!${sub.userId}> Here is your daily horoscope`,	
-					embeds: [await getHoroscopeContent(signs[sub.signId], routes[0])]
+					embeds: [await getHoroscopeContent(signs[sub.signId], routes[1])]
 				}
 			)
 			this.initTimeOut(sub)
