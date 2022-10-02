@@ -1,16 +1,4 @@
-import { strNormalize, DiscordenoMember, cache, fetchMembers, DiscordenoMessage, getMember, deleteMessages, deleteMessage } from '../mod.ts'
-
-// === msg utility functions ===
-
-export async function deleteMsgs(messages: DiscordenoMessage[], channelID: bigint): Promise<void> {
-	// if there is multiple messages, delete them all
-	if (messages.length > 1) {
-		await deleteMessages(channelID, messages.map((m) => m.id))
-	// if there is a single message, delete it
-	} else if (messages.length == 1) {
-		await deleteMessage(channelID, messages[0].id)
-	}
-}
+import { strNormalize, DiscordenoMember, cache, fetchMembers, DiscordenoMessage, getMember } from '../mod.ts'
 
 // === args parsing functions ===
 
@@ -152,8 +140,4 @@ export async function getMemberByName(name: string, guildID: bigint): Promise<Di
 		return reqMembers.first()
 
 	return undefined
-}
-
-export function rmEmoteMentions(input: string): string{
-	return input.replaceAll(/<(?::\w+:|@!*&*|#)[0-9]+>/gi, '')
 }

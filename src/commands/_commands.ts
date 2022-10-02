@@ -9,6 +9,7 @@ export * from './misc.cointoss.ts'
 export * from './misc.8ball.ts'
 export * from './misc.randint.ts'
 export * from './misc.cipher.ts'
+export * from './misc.emotes.ts'
 
 export * from './meta.dummy.ts'
 export * from './meta.invite.ts'

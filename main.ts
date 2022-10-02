@@ -2,6 +2,7 @@ import { ready, commandList, loadConfig, startBot, Intents, ensureDir, msgCreate
 
 // Init local database folder
 await ensureDir('./.database')
+await ensureDir('./.temp')
 
 // Init globals
 export const ctx = {
