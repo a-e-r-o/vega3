@@ -8,13 +8,14 @@ export * from  './types/8ball.ts'
 export * from  './types/discord.ts'
 
 // Helpers
-export * from './helpers/horoscope.ts'
-export * from './helpers/dong.ts'
-export * from './helpers/misc.ts'
-export * from './helpers/vega.ts'
+export * from './helpers/cmd.horoscope.ts'
+export * from './helpers/cmd.dong.ts'
 export * from './helpers/discord.misc.ts'
 export * from './helpers/discord.members.ts'
-export * from './helpers/dateTime.ts'
+export * from './helpers/misc.ts'
+export * from './helpers/misc.dateTime.ts'
+export * from './helpers/vega.core.ts'
+export * from './helpers/vega.format.ts'
 
 // Services
 export * from './services/horoService.ts'

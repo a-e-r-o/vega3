@@ -1,4 +1,4 @@
-import { rmEmoteMentions } from "../mod.ts";
+import { rmEmoteMentions, vegaLog } from "../mod.ts";
 
 export async function fetchDongRate(): Promise<string |undefined> {
 	try {
@@ -7,8 +7,7 @@ export async function fetchDongRate(): Promise<string |undefined> {
 
 		return rawData
 	} catch(err) {
-		console.log('~ Error caught', new Date())
-		console.log(err.message)
+		vegaLog(err.message)
 	}
 }
 
@@ -23,8 +22,7 @@ export function parseDongRate(rawData: string): number | undefined {
 
 		return price
 	} catch(err) {
-		console.log('~ Error caught', new Date())
-		console.log(err.message)
+		vegaLog(err.message)
 	}
 }
 

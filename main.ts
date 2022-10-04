@@ -2,6 +2,8 @@ import { ready, commandList, loadConfig, startBot, Intents, ensureDir, msgCreate
 
 // Init local database folder
 await ensureDir('./.database')
+// Clear and re-crate temp folder
+Deno.removeSync('./.temp', { recursive: true });
 await ensureDir('./.temp')
 
 // Init globals

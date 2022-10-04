@@ -1,7 +1,7 @@
 import { CmdCall, Config, DiscordenoMessage, exists, parse, strNormalize } from "../mod.ts"
 import { Embed } from "../mod.ts";
 
-const path = './config'
+const cfgPath = './config'
 const defaultPrefix = 'vega'
 
 /**
@@ -9,10 +9,10 @@ const defaultPrefix = 'vega'
  */
 export async function loadConfig(): Promise<Config> {
 	let ext = ''
-	if (await exists(path+'.yaml')){
+	if (await exists(cfgPath+'.yaml')){
 		ext = '.yaml'
 	} 
-	else if(await exists(path+'.yml')){
+	else if(await exists(cfgPath+'.yml')){
 		ext = '.yml'
 	}
 	else {
@@ -21,7 +21,7 @@ export async function loadConfig(): Promise<Config> {
 		Deno.exit(0)
 	}
 
-	const config = parse(Deno.readTextFileSync(Deno.realPathSync(path+ext))) as Config
+	const config = parse(Deno.readTextFileSync(Deno.realPathSync(cfgPath+ext))) as Config
 	if (!config.token)
 		throw `\n!!! Missing or malformed token in config file`
 	if (!config?.clearances[0]?.userId)
@@ -52,46 +52,6 @@ export function parseCall(message: DiscordenoMessage, prefix: string): CmdCall {
 }
 
 /**
- * Takes a sting, returns it in an an embed formatted as a basic embed response
- */
- export function formatBasic(input: string){
-	return {
-		description: input
-	}
-}
-
-/**
- * Takes a sting, returns it in an an embed formatted as a success
- */
-export function formatSuccess(input: string){
-	return {
-		color: 3380353,
-		description: input
-	}
-}
-
-/**
- * Takes a sting, returns it in an an embed formatted as an error
- */
-export function formatErr(input: string){
-	return {
-		color: 15087872,
-		description: `\`\`\`diff\n-${input}\`\`\``
-	}
-}
-
-/**
- * Takes a sting, returns it in an an embed formatted as a warning
- */
-export function formatWarn(input: string){
-	return {
-		title: 'Command failed',
-		color: 14971947,
-		description: input
-	}
-}
-
-/**
  * Parse the index and content of a description if found
  */
 export function parseDesc(args: string[]): string {
@@ -117,4 +77,11 @@ export function parseDesc(args: string[]): string {
 				.join(' ')
 	}
 	return desc
+}
+
+/**
+ * Standard method to log an error in the command line
+ */
+export function vegaLog(...args: string[]){
+	console.log(`~ Error caught, ${new Date().toString()}\n${args.join('\n')}`);
 }
