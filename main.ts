@@ -1,10 +1,10 @@
-import { ready, commandList, loadConfig, startBot, Intents, ensureDir, msgCreate, guildMemberAdd, HoroService, Cmd } from './src/mod.ts'
+import { ready, commandList, loadConfig, startBot, Intents, ensureDir, msgCreate, guildMemberAdd, HoroService, Cmd, clearDir } from './src/mod.ts'
 
 // Init local database folder
 await ensureDir('./.database')
-// Clear and re-crate temp folder
-Deno.removeSync('./.temp', { recursive: true });
+// Ensure and clears temp folder
 await ensureDir('./.temp')
+await clearDir('./.temp')
 
 // Init globals
 export const ctx = {

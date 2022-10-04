@@ -18,6 +18,16 @@ export async function exists(path: string) {
 	}
 }
 
+/**
+ * Method to remove all files in a folder, because Deno deosn't provide this for whatever reason
+ */
+export async function clearDir(dirPath: string) {
+	for await(const dirEntry of Deno.readDir(dirPath)) {
+    await Deno.remove(`${dirPath}/${dirEntry.name}`, { recursive: true })
+	}
+	
+}
+
 export function randInt(max: number, min = 0): number {
 	return Math.floor(Math.random() * (max - min + 1) + min)
 }
