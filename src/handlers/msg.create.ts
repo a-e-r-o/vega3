@@ -30,10 +30,10 @@ export async function msgCreate(msg: DiscordenoMessage){
 		const feedback = await foundCmd.execute(call)
 		// If return is just a string
 		if (typeof feedback === 'string')
-			return sendMessage(call.channel, {embed: formatBasic(feedback)})
+			return sendMessage(call.channel, {embeds: [formatBasic(feedback)]})
 		// If return is not a string and not undefined, it's an embed
 		if (typeof feedback !== 'undefined')
-			return sendMessage(call.channel, {embed: feedback})
+			return sendMessage(call.channel, {embeds: [feedback]})
 	} catch (e){
 		// If the object caught is an error and not a string, then it is critical
 		if (e instanceof Error){
