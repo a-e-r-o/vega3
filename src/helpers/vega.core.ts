@@ -1,5 +1,4 @@
 import { CmdCall, Config, DiscordenoMessage, exists, parse, strNormalize } from "../mod.ts"
-import { Embed } from "../mod.ts";
 
 const cfgPath = './config'
 const defaultPrefix = 'vega'

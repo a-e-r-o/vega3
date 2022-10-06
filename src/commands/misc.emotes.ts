@@ -1,4 +1,4 @@
-import { Cmd, CmdCall, formatBasic, parseEmotes, sendMessage, readerFromStreamReader, copy, compress, ensureDir, formatWarn, vegaLog } from "../mod.ts"
+import { Cmd, CmdCall, formatBasic, parseEmotes, sendMessage, copy, ensureDir, formatWarn, vegaLog, compress, getStreamReader } from "../mod.ts"
 
 export const emotes: Cmd = {
 	aliases: ['emojis', 'emoji', 'emotes'],
@@ -21,16 +21,17 @@ export const emotes: Cmd = {
 
 		try {
 			// files paths
-			const filePaths = []
+			const filePaths: string[] = []
 			// Iterate on emotes and try to fetch each one
 			for (let i = 0; i < emotes.length; i++) {
 				const emote = emotes[i];
 				const rsp = await fetch(emote.url);
-				const rdr = rsp.body?.getReader();
+				const rdr = rsp?.body
 
 				// If the request's response is readable
 				if(rdr) {
-					const reader = readerFromStreamReader(rdr);
+					//const reader = readerFromStreamReader(rdr.getReader())
+					const reader = getStreamReader(rdr.getReader());
 					const file = await Deno.open(`${tmpDir}/${emote.filename}`, {create: true, write: true});
 					await copy(reader, file);
 					file.close();
@@ -39,10 +40,9 @@ export const emotes: Cmd = {
 				else
 					throw 'One of the emotes provided could not be downloaded'
 			}
-
 			// Compress files
 			const zipFilePath = `${tmpDir}/emotes.zip`
-			const zipSucceeded = await compress(filePaths, zipFilePath, {overwrite: true})
+			const zipSucceeded = await compress(filePaths, zipFilePath)
 			// If compression succeeded
 			if (zipSucceeded){
 				const zipBuffer = Deno.readFileSync(zipFilePath);
