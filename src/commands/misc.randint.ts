@@ -2,8 +2,9 @@ import { Embed, Cmd, CmdCall, parseDesc, randInt } from '../mod.ts'
 
 export const randint: Cmd = {
 	aliases: ['randint', 'dice', 'dé', 'randominteger', 'randomint'],
+	disabled: true,
 	execute: (call: CmdCall) => {
-		const desc = parseDesc(call.args);
+		const desc = parseDesc(call.args)
 
 		// Join remaining options to reconstruct the original message, and split options with the semicolon
 		const options = call.args.join(' ').split(';').filter(x => x !== '')
@@ -11,7 +12,7 @@ export const randint: Cmd = {
 		options.forEach(x => {
 			const parsedOption = parseInt(x)
 			if (isNaN(parsedOption))
-				throw 'Error : inccorect argument, please provide only integer numbers'
+				throw 'Error : incorect argument, please provide only integer numbers'
 			intOptions.push(parsedOption)
 		})
 
@@ -42,7 +43,7 @@ export const randint: Cmd = {
 		const selectedItem = options[randInt(options.length-1)]
 		
 		// Create embed
-		const res: Embed = {};
+		const res: Embed = {}
 
 		// If description set, it's used as title
 		res.title = desc ? desc : undefined

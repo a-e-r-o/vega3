@@ -1,13 +1,13 @@
-import { CmdCall, getHoroscopeContent, HoroSubscription, HosoSubscriptionDto, msToReadableDuration, msUntilTimeSlot, parseStrTimeSlot, readableTime, routes, Sign, signs } from '../mod.ts'
-import DataStore, { sendMessage } from "../../deps.ts"
+import { CmdCall, sendMessage, getHoroscopeContent, HoroSubscription, HosoSubscriptionDto, msToReadableDuration, msUntilTimeSlot, parseStrTimeSlot, readableTime, routes, Sign, signs, consts } from '../mod.ts'
+import DataStore from '../../deps.ts'
 
 export class HoroService {
 	public subs: Record<string, HoroSubscription> = {}
 	public subsStore: DataStore
 
 	constructor(){
-		this.subsStore = new DataStore({ filename:"./.database/subs.db", autoload: true })
-		this.subsStore.loadDatabase();
+		this.subsStore = new DataStore({ filename:consts.dbDir+'/subs.db', autoload: true })
+		this.subsStore.loadDatabase()
 		this.recoverTimers()
 	}
 
@@ -20,7 +20,7 @@ export class HoroService {
 		recoveredSubs?.forEach(sub => {
 			this.subs[sub.userId] = sub
 			this.initTimeOut(sub)
-		});
+		})
 	}
 
 	/**
@@ -68,6 +68,8 @@ export class HoroService {
 		// Insert new subscription
 		// The await is imporant : without it the object can be modified and inserted with a timeoutId
 		await this.subsStore.insert(newSub) 
+		
+		JSON.stringify(this.subs)
 		// Insert new sub in memory
 		this.subs[subId] = newSub
 		// Init timeout in memory
@@ -110,6 +112,6 @@ export class HoroService {
 			)
 			this.initTimeOut(sub)
 			// When this timeout executes, call this same function again to continue the cycle
-		}, msUntilTimeSlot(sub.timeslot[0], sub.timeslot[1]));
+		}, msUntilTimeSlot(sub.timeslot[0], sub.timeslot[1]))
 	}
 }

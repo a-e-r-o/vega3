@@ -1,5 +1,5 @@
-import Datastore from "https://deno.land/x/dndb@0.3.3/mod.ts";
-import { DiscordenoMessage, Embed } from "../mod.ts";
+import Datastore from 'https://deno.land/x/dndb@0.3.3/mod.ts'
+import { DiscordenoMessage, Embed } from '../mod.ts'
 
 export type Config = {
 	token: string

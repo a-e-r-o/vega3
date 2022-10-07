@@ -1,4 +1,4 @@
-import { rmEmoteMentions, vegaLog } from "../mod.ts";
+import { rmEmoteMentions, vegaLog } from '../mod.ts'
 
 export async function fetchDongRate(): Promise<string |undefined> {
 	try {

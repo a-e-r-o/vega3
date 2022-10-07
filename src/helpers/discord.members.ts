@@ -17,7 +17,7 @@ export function isDiscordTag (testValue: string): boolean {
 export function splitDiscordTag (tag: string): {name: string, discriminator: number} {
 	const matches = tag.split(/#(\d{4})$/).filter(x => x !== '')
 	if (matches.length !== 2)
-		throw new Error("Could not dissect tag properly")
+		throw new Error('Could not dissect tag properly')
 	
 	return {name: matches[0], discriminator: parseInt(matches[1])}
 }
@@ -25,7 +25,7 @@ export function splitDiscordTag (tag: string): {name: string, discriminator: num
 export function mentionToId(mentionStr: string): string {
 	const matches = mentionStr.match(/[0-9]{18}/)
 	if (!matches)
-		throw new Error("Could not convert mention to id : incorrect argument")
+		throw new Error('Could not convert mention to id : incorrect argument')
 	return matches[0]
 }
 

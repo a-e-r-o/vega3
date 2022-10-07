@@ -7,7 +7,7 @@ export const clear: Cmd = {
 		const canDelMsgPerm = await hasGuildPermissions(
 			call.msg.guildId,
 			call.msg.authorId,
-			["MANAGE_MESSAGES"]
+			['MANAGE_MESSAGES']
 		)
 		
 

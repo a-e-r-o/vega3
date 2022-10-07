@@ -1,4 +1,4 @@
-import { Cmd, CmdCall } from "../mod.ts"
+import { Cmd, CmdCall } from '../mod.ts'
 
 export const dummy: Cmd = {
 	disabled: true,

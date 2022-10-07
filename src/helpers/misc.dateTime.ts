@@ -47,6 +47,14 @@ export function readableTime(hours: number, minutes: number): string {
 	return `${hours > 9 ? hours : '0'+hours}:${minutes > 9 ? minutes : '0'+minutes}`
 }
 
+export function logFormatTime(date: Date): string{
+	const h = date.getHours()
+	const m = date.getMinutes()
+	const s = date.getSeconds()
+	const ms = date.getMilliseconds()
+	return `${h<10?'0'+h:h}-${m<10?'0'+m:m}-${s<10?'0'+s:s}-${ms}`
+}
+
 export function msToReadableDuration(ms: number) {
 	let msRemain = ms
 	let res = ''

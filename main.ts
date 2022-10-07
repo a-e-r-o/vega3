@@ -1,10 +1,10 @@
-import { ready, commandList, loadConfig, startBot, Intents, ensureDir, msgCreate, guildMemberAdd, HoroService, Cmd, clearDir } from './src/mod.ts'
+import { ready, commandList, loadConfig, startBot, Intents, ensureDir, msgCreate, guildMemberAdd, HoroService, Cmd, clearDir, consts } from './src/mod.ts'
 
 // Init local database folder
-await ensureDir('./.database')
+await ensureDir(consts.dbDir)
 // Ensure and clears temp folder
-await ensureDir('./.temp')
-await clearDir('./.temp')
+await ensureDir(consts.tmpDir)
+await clearDir(consts.tmpDir)
 
 // Init globals
 export const ctx = {

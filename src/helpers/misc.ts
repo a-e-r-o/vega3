@@ -1,5 +1,5 @@
 export function strNormalize(str: string) {
-	return str.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace('é', 'e')
+	return str.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace('é', 'e')
 }
 
 export async function exists(path: string) {

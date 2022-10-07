@@ -1,4 +1,4 @@
-import { CmdCall, Config, DiscordenoMessage, exists, parse, strNormalize } from "../mod.ts"
+import { CmdCall, Config, DiscordenoMessage, exists, parse, strNormalize } from '../mod.ts'
 
 const cfgPath = './config'
 const defaultPrefix = 'vega'
@@ -16,7 +16,7 @@ export async function loadConfig(): Promise<Config> {
 	}
 	else {
 		console.log('config.yml created. Edit it to add token and userId ')
-		Deno.writeTextFileSync('config.yml', `token: \nprefix: ${defaultPrefix}\nclearances:\n  - clearance: 1\n    userId: ''#Important : put your discord user ID in between these quotes`);
+		Deno.writeTextFileSync('config.yml', `token: \nprefix: ${defaultPrefix}\nclearances:\n  - clearance: 1\n    userId: ''#Important : put your discord user ID in between these quotes`)
 		Deno.exit(0)
 	}
 
@@ -82,5 +82,5 @@ export function parseDesc(args: string[]): string {
  * Standard method to log an error in the command line
  */
 export function vegaLog(...args: string[]){
-	console.log(`~ Error caught, ${new Date().toString()}\n${args.join('\n')}`);
+	console.log(`~ Error caught, ${new Date().toString()}\n${args.join('\n')}`)
 }

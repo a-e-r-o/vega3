@@ -11,10 +11,16 @@ prefix: {command prefix} # optionnal, default is 'vega'
 
 
 - [X] Subscribing for horoscope command hadling
-- [ ] Subscribing for reminder command handling
+- [x] Subscribing for reminder command handling
 - [ ] Handle commands in direct messages
-- [ ] Distributing horoscope subscriptions
-- [ ] Distributing subscriptions reminder
-- [ ] local storage for subscriptions
-- [ ] recovering subscriptions after reboot
+- [x] Distributing horoscope subscriptions
+- [x] Distributing subscriptions reminder
+- [x] local storage for subscriptions
+- [x] recovering subscriptions after reboot
 - [ ] Delay reminder
+- [ ] Date reminder
+- [ ] Fix and reactivate randint command
+- [ ] Remove dong command
+- [ ] Auto-updating quotes as status message
+- [ ] Help menu
+- [ ] Language preference
