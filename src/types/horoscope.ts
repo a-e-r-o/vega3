@@ -37,13 +37,13 @@ export enum routes {
 	'horoscope-dans-4-jours'
 }
 
-export type HosoSubscriptionDto = {
+export type HoroSubscriptionDto = {
 	channelId: string
 	userId: string
 	signId: number
 	timeslot: number[]
 }
 
-export interface HoroSubscription extends HosoSubscriptionDto {
+export interface HoroSubscription extends HoroSubscriptionDto {
 	timeOutId?: number
 }

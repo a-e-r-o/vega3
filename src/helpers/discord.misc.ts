@@ -12,9 +12,7 @@ export async function deleteMsgs(messages: DiscordenoMessage[], channelID: bigin
 	}
 }
 
-export function rmEmoteMentions(input: string): string {
-	return input.replaceAll(/<(?::\w+:|@!*&*|#)[0-9]+>/gi, '')
-}
+
 
 export function parseEmotes(msg: string): Emote[] {
 	const matches = msg.match(/<(a)?:(.*?):(.*?)>/g) || []

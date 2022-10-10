@@ -1,5 +1,6 @@
-import Datastore from 'https://deno.land/x/dndb@0.3.3/mod.ts'
 import { DiscordenoMessage, Embed } from '../mod.ts'
+
+export type dbCollections = 'horoSubs' | 'prefs'
 
 export type Config = {
 	token: string
@@ -21,14 +22,15 @@ export type CmdCall = {
 }
 
 export type Cmd = {
-	disabled ?: boolean
+	disabled ?: true
 	clearance ?: number
 	aliases: string[]
 	execute: (call: CmdCall) => Promise<Embed|string|void>|Embed|void|string
 }
 
-export type VegaDb = {
-	horoDb: {
-		subs: Datastore
-	}
+export type Language = 'fr' | 'en'
+
+export type Preferences = {
+	guildId: string
+	lang: Language
 }

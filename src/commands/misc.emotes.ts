@@ -1,4 +1,4 @@
-import { Cmd, CmdCall, formatBasic, parseEmotes, sendMessage, copy, ensureDir, formatWarn, vegaLog, compress, getStreamReader, logFormatTime, consts } from '../mod.ts'
+import { Cmd, CmdCall, formatBasic, parseEmotes, sendMessage, copy, ensureDirSync, formatWarn, vegaLog, compress, getStreamReader, logFormatTime, consts } from '../mod.ts'
 
 export const emotes: Cmd = {
 	aliases: ['emojis', 'emoji', 'emotes'],
@@ -18,7 +18,7 @@ export const emotes: Cmd = {
 		// Create temporary directory that will be used to downlaod and zip emotes
 		const now = new Date()
 		const tmpDir = consts.tmpDir+`/emotes_${now.getTime()}_${call.msg.authorId}`
-		ensureDir(tmpDir)
+		ensureDirSync(tmpDir)
 
 		try {
 			// files paths

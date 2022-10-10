@@ -1,35 +1,46 @@
-import { CmdCall, sendMessage, getHoroscopeContent, HoroSubscription, HosoSubscriptionDto, msToReadableDuration, msUntilTimeSlot, parseStrTimeSlot, readableTime, routes, Sign, signs, consts } from '../mod.ts'
+import { CmdCall, sendMessage, getHoroscopeContent, HoroSubscription, HoroSubscriptionDto, msToReadableDuration, msUntilTimeSlot, parseStrTimeSlot, readableTime, routes, Sign, signs, consts, readSet, saveSet } from '../mod.ts'
 import DataStore from '../../deps.ts'
 
 export class HoroService {
-	public subs: Record<string, HoroSubscription> = {}
-	public subsStore: DataStore
+	//subs: Record<string, HoroSubscription> = {}
+	//subsStore: DataStore
+
+	suubs: Record<string, HoroSubscription> = {}
 
 	constructor(){
-		this.subsStore = new DataStore({ filename:consts.dbDir+'/subs.db', autoload: true })
-		this.subsStore.loadDatabase()
-		this.recoverTimers()
+		//this.subsStore = new DataStore({ filename:consts.dbDir+'/subs.db', autoload: true })
+		//this.subsStore.loadDatabase()
+		//this.recoverTimers()
+
+
+		this.suubs = readSet('horoSubs') as Record<string, HoroSubscription>
+		for (const sub in this.suubs) {
+			if (Object.prototype.hasOwnProperty.call(this.suubs, sub)) {
+				this.initTimeOut(this.suubs[sub])
+			}
+		}
 	}
 
 	/**
 	 * Command used on initialization (after a reboot). 
 	 * Iterates over the entries in the database to create corresponding timeouts
 	 */
-	async recoverTimers(){
-		const recoveredSubs: HosoSubscriptionDto[] = (await this.subsStore.find({})) as HosoSubscriptionDto[]
-		recoveredSubs?.forEach(sub => {
-			this.subs[sub.userId] = sub
-			this.initTimeOut(sub)
-		})
-	}
+	//async recoverTimers(){
+	//	const recoveredSubs: HoroSubscriptionDto[] = (await this.subsStore.find({})) as HoroSubscriptionDto[]
+	//
+	//	recoveredSubs?.forEach(sub => {
+	//		this.subs[sub.userId] = sub
+	//		this.initTimeOut(sub)
+	//	})
+	//}
 
 	/**
 	 * Creates a new subscription : parses call and if correct, creates timeout, creates sub entry in database
 	 */
-	async newSub(call: CmdCall, horosign: Sign | null = null): Promise<string> {
+	newSub(call: CmdCall, horosign: Sign | null = null): string {
 		const subId = call.msg.authorId.toString()
 
-		if (this.subs[subId])
+		if (this.suubs[subId])
 			throw 'You already have an active horo subscription. Please unsubscribe before creating another one'
 
 		// if no time slot specified, use current hours and minute
@@ -58,20 +69,16 @@ export class HoroService {
 		}
 
 		// Build horo sub object
-		const newSub: HosoSubscriptionDto = {
+		const newSub: HoroSubscriptionDto = {
 			channelId: call.channel.toString(),
 			userId: call.msg.authorId.toString(),
 			signId: sign.id,
 			timeslot: timeSlot
 		}
 
-		// Insert new subscription
-		// The await is imporant : without it the object can be modified and inserted with a timeoutId
-		await this.subsStore.insert(newSub) 
-		
-		JSON.stringify(this.subs)
 		// Insert new sub in memory
-		this.subs[subId] = newSub
+		this.suubs[subId] = newSub
+		saveSet('horoSubs', this.suubs)
 		// Init timeout in memory
 		this.initTimeOut(newSub)
 
@@ -81,17 +88,17 @@ export class HoroService {
 	/**
 	 * Stops timeout loop, delete it from memory and database
 	 */
-	async unsub(call: CmdCall): Promise<string>{
+	unsub(call: CmdCall): string {
 		const subId = call.msg.authorId.toString()
 		// Check if subscription exists
-		if (!this.subs[subId])
+		if (!this.suubs[subId])
 			throw 'You don\'t have any active horo subscription'
 		// Cancel timeout
-		clearTimeout(this.subs[subId].timeOutId)
+		clearTimeout(this.suubs[subId].timeOutId)
 		// Delete in memory
-		delete this.subs[subId]
+		delete this.suubs[subId]
 		// Delete in database
-		await this.subsStore.remove({userId: subId})
+		saveSet('horoSubs', this.suubs)
 
 		return 'Successfuly unsubscribed'
 	}
@@ -99,9 +106,9 @@ export class HoroService {
 	/**
 	 * Creates timeout in memory
 	 */
-	private initTimeOut(sub: HosoSubscriptionDto) {
+	private initTimeOut(sub: HoroSubscriptionDto) {
 		// Add Timeout in memory
-		this.subs[sub.userId].timeOutId = setTimeout(async() => {
+		this.suubs[sub.userId].timeOutId = setTimeout(async() => {
 			// Send content
 			sendMessage(
 				BigInt(sub.channelId),

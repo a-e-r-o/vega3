@@ -3,9 +3,7 @@ import { CmdCall, Config, DiscordenoMessage, exists, parse, strNormalize } from 
 const cfgPath = './config'
 const defaultPrefix = 'vega'
 
-/**
- * Check if config is present and not malformed. If so, returns a Config
- */
+/** Check if config is present and not malformed. If so, returns a Config */
 export async function loadConfig(): Promise<Config> {
 	let ext = ''
 	if (await exists(cfgPath+'.yaml')){
@@ -29,9 +27,7 @@ export async function loadConfig(): Promise<Config> {
 	return config as Config
 }
 
-/**
- * Takes a message, parse it and returns a CmdCall
- */
+/** Takes a message, parse it and returns a CmdCall */
 export function parseCall(message: DiscordenoMessage, prefix: string): CmdCall {
 	const msgNoPre = message.content.replace(RegExp(`^${prefix}`,'i'),'').trim()
 	const args = msgNoPre.split(' ').filter(x => x !== ' ' && x !== '')
@@ -50,9 +46,7 @@ export function parseCall(message: DiscordenoMessage, prefix: string): CmdCall {
 	}
 }
 
-/**
- * Parse the index and content of a description if found
- */
+/** Parse the index and content of a description if found */
 export function parseDesc(args: string[]): string {
 	// If first char of an arg is a dash, consider the first beginning of the description
 	let desc = ''
@@ -78,9 +72,7 @@ export function parseDesc(args: string[]): string {
 	return desc
 }
 
-/**
- * Standard method to log an error in the command line
- */
+/** Standard method to log an error in the command line */
 export function vegaLog(...args: string[]){
 	console.log(`~ Error caught, ${new Date().toString()}\n${args.join('\n')}`)
 }

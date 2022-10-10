@@ -4,7 +4,7 @@ export const version = '0.7.3'
 // Deps
 export * from 'https://deno.land/x/discordeno@12.0.1/mod.ts'
 export * from 'https://deno.land/std@0.85.0/encoding/yaml.ts'
-export {ensureDir} from 'https://deno.land/std@0.120.0/fs/mod.ts'
+export { ensureDirSync } from 'https://deno.land/std@0.120.0/fs/mod.ts'
 
 // Files manipulations
 export { readerFromStreamReader } from 'https://deno.land/std@0.120.0/io/mod.ts'
