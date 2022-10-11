@@ -24,3 +24,4 @@ prefix: {command prefix} # optionnal, default is 'vega'
 - [ ] Auto-updating quotes as status message
 - [ ] Help menu
 - [ ] Language preference
+- [ ] Horo subscription : handle case of channel deleted or unreachabled

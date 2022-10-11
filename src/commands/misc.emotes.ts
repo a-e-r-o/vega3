@@ -2,7 +2,6 @@ import { Cmd, CmdCall, formatBasic, parseEmotes, sendMessage, copy, ensureDirSyn
 
 export const emotes: Cmd = {
 	aliases: ['emojis', 'emoji', 'emotes'],
-	disabled: false,
 	execute: async (call: CmdCall) => {
 		const emotes = parseEmotes(call.msg.content)
 		// If no emotes found

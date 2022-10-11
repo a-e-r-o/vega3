@@ -1,38 +1,28 @@
-import { CmdCall, sendMessage, getHoroscopeContent, HoroSubscription, HoroSubscriptionDto, msToReadableDuration, msUntilTimeSlot, parseStrTimeSlot, readableTime, routes, Sign, signs, consts, readSet, saveSet } from '../mod.ts'
-import DataStore from '../../deps.ts'
+import { CmdCall, sendMessage, getHoroscopeContent, HoroSubscription, HoroSubscriptionDto, msToReadableDuration, msUntilTimeSlot, parseStrTimeSlot, readableTime, routes, Sign, signs, readSet, saveSet } from '../mod.ts'
 
 export class HoroService {
-	//subs: Record<string, HoroSubscription> = {}
-	//subsStore: DataStore
-
 	suubs: Record<string, HoroSubscription> = {}
 
 	constructor(){
-		//this.subsStore = new DataStore({ filename:consts.dbDir+'/subs.db', autoload: true })
-		//this.subsStore.loadDatabase()
-		//this.recoverTimers()
-
-
-		this.suubs = readSet('horoSubs') as Record<string, HoroSubscription>
-		for (const sub in this.suubs) {
-			if (Object.prototype.hasOwnProperty.call(this.suubs, sub)) {
-				this.initTimeOut(this.suubs[sub])
-			}
-		}
+		const dbSubs = readSet('horoSubs') as HoroSubscriptionDto[]
+		dbSubs.forEach(sub => {
+			this.suubs[sub.userId] = sub
+			this.initTimeOut(sub)
+		})
 	}
 
 	/**
-	 * Command used on initialization (after a reboot). 
-	 * Iterates over the entries in the database to create corresponding timeouts
+	 * Convert subs into a collection and save it in a local file
 	 */
-	//async recoverTimers(){
-	//	const recoveredSubs: HoroSubscriptionDto[] = (await this.subsStore.find({})) as HoroSubscriptionDto[]
-	//
-	//	recoveredSubs?.forEach(sub => {
-	//		this.subs[sub.userId] = sub
-	//		this.initTimeOut(sub)
-	//	})
-	//}
+	saveInDb(){
+		const subsArr = []
+		for (const sub in this.suubs) {
+			if (Object.prototype.hasOwnProperty.call(this.suubs, sub)) {
+				subsArr.push(this.suubs[sub]);
+			}
+		}
+		saveSet('horoSubs', subsArr)
+	}
 
 	/**
 	 * Creates a new subscription : parses call and if correct, creates timeout, creates sub entry in database
@@ -78,7 +68,8 @@ export class HoroService {
 
 		// Insert new sub in memory
 		this.suubs[subId] = newSub
-		saveSet('horoSubs', this.suubs)
+		// Save in DB
+		this.saveInDb()
 		// Init timeout in memory
 		this.initTimeOut(newSub)
 
@@ -98,7 +89,7 @@ export class HoroService {
 		// Delete in memory
 		delete this.suubs[subId]
 		// Delete in database
-		saveSet('horoSubs', this.suubs)
+		this.saveInDb()
 
 		return 'Successfuly unsubscribed'
 	}
