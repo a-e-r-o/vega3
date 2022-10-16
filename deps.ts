@@ -1,5 +1,5 @@
 // Version
-export const version = '0.7.3'
+export const version = '0.8.0'
 
 // Discordeno
 export * from 'https://deno.land/x/discordeno@17.0.0/mod.ts'
