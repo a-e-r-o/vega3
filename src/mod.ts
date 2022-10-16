@@ -5,7 +5,8 @@ export * from '../main.ts'
 export * from '../deps.ts'
 
 // Consts
-export * from './consts/sys.consts.ts'
+export * from './consts/consts.ts'
+export * from './consts/strings.ts'
 
 // Types
 export * from  './types/horoscope.ts'
@@ -21,9 +22,9 @@ export * from './helpers/misc.ts'
 export * from './helpers/misc.fs.ts'
 export * from './helpers/misc.dateTime.ts'
 export * from './helpers/vega.core.ts'
-export * from './helpers/vega.db.ts'
 export * from './helpers/misc.format.ts'
 export * from './helpers/vega.db.ts'
+export * from './helpers/vega.i18n.ts'
 
 // Services
 export * from './services/horoService.ts'

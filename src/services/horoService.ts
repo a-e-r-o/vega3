@@ -1,36 +1,23 @@
-import { v, CmdCall, sendMessage, getHoroscopeContent, HoroSubscription, HoroSubscriptionDto, msToReadableDuration, msUntilTimeSlot, parseStrTimeSlot, readableTime, Sign, signs, readSet, saveSet, BotWithCache, horoRoutes } from '../mod.ts'
+import { v, CmdCall, sendMessage, getHoroscopeContent, HoroSubscription, HoroSubscriptionDto, msToReadableDuration, msUntilTimeSlot, parseStrTimeSlot, readableTime, Sign, signs, readSet, saveSet, BotWithCache, horoRoutes, recordToArray } from '../mod.ts'
 
 export class HoroService {
-	suubs: Record<string, HoroSubscription> = {}
+	subs: Record<string, HoroSubscription> = {}
 
 	constructor(){
 		const dbSubs = readSet('horoSubs') as HoroSubscriptionDto[]
-		dbSubs.forEach(sub => {
-			this.suubs[sub.userId] = sub
+		for (const sub of dbSubs) {
+			this.subs[sub.userId] = sub
 			this.initTimeOut(sub)
-		})
-	}
-
-	/**
-	 * Convert subs into a collection and save it in a local file
-	 */
-	saveInDb(){
-		const subsArr = []
-		for (const sub in this.suubs) {
-			if (Object.prototype.hasOwnProperty.call(this.suubs, sub)) {
-				subsArr.push(this.suubs[sub]);
-			}
 		}
-		saveSet('horoSubs', subsArr)
 	}
-
+	
 	/**
 	 * Creates a new subscription : parses call and if correct, creates timeout, creates sub entry in database
 	 */
 	newSub(call: CmdCall, horosign: Sign | null = null): string {
 		const subId = call.msg.authorId.toString()
 
-		if (this.suubs[subId])
+		if (this.subs[subId])
 			throw 'You already have an active horo subscription. Please unsubscribe before creating another one'
 
 		// if no time slot specified, use current hours and minute
@@ -67,9 +54,9 @@ export class HoroService {
 		}
 
 		// Insert new sub in memory
-		this.suubs[subId] = newSub
+		this.subs[subId] = newSub
 		// Save in DB
-		this.saveInDb()
+		saveSet('horoSubs', recordToArray(this.subs))
 		// Init timeout in memory
 		this.initTimeOut(newSub)
 
@@ -82,14 +69,14 @@ export class HoroService {
 	unsub(call: CmdCall): string {
 		const subId = call.msg.authorId.toString()
 		// Check if subscription exists
-		if (!this.suubs[subId])
+		if (!this.subs[subId])
 			throw 'You don\'t have any active horo subscription'
 		// Cancel timeout
-		clearTimeout(this.suubs[subId].timeOutId)
+		clearTimeout(this.subs[subId].timeOutId)
 		// Delete in memory
-		delete this.suubs[subId]
+		delete this.subs[subId]
 		// Delete in database
-		this.saveInDb()
+		saveSet('horoSubs', recordToArray(this.subs))
 
 		return 'Successfuly unsubscribed'
 	}
@@ -99,7 +86,7 @@ export class HoroService {
 	 */
 	private initTimeOut(sub: HoroSubscriptionDto) {
 		// Add Timeout in memory
-		this.suubs[sub.userId].timeOutId = setTimeout(async() => {
+		this.subs[sub.userId].timeOutId = setTimeout(async() => {
 			// Send content
 			sendMessage(
 				v,

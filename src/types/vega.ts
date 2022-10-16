@@ -15,6 +15,7 @@ export type Clearance = {
 
 export type CmdCall = {
 	channel: bigint
+	lang: Language
 	msg: Message
 	msgStriped: string
 	cmd: string
@@ -27,10 +28,13 @@ export type Cmd = {
 	aliases: string[]
 	execute: (call: CmdCall) => Promise<Embed|string|void>|Embed|void|string
 }
-
-export type Language = 'fr' | 'en'
-
+	
 export type Preferences = {
 	guildId: string
 	lang: Language
 }
+
+/**
+ * English 0 ; French 1
+ */
+export type Language = 0 | 1

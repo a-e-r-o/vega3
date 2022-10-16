@@ -1,9 +1,11 @@
-import { Bot, BotWithCache, CmdCall, Config, exists, Message, parse, strNormalize } from '../mod.ts'
+import { CmdCall, Config, ctx, exists, Message, parse, strNormalize } from '../mod.ts'
 
 const cfgPath = './config'
 const defaultPrefix = 'vega'
 
-/** Check if config is present and not malformed. If so, returns a Config */
+/** 
+ * Check if config is present and not malformed. If so, returns a Config 
+ */
 export async function loadConfig(): Promise<Config> {
 	let ext = ''
 	if (await exists(cfgPath+'.yaml')){
@@ -27,18 +29,22 @@ export async function loadConfig(): Promise<Config> {
 	return config as Config
 }
 
-/** Takes a message, parse it and returns a CmdCall */
+/** 
+ * Takes a message, parse it and returns a CmdCall 
+ */
 export function parseCall(message: Message, prefix: string): CmdCall {
 	const msgNoPre = message.content.replace(RegExp(`^${prefix}`,'i'),'').trim()
 	const args = msgNoPre.split(' ').filter(x => x !== ' ' && x !== '')
 	const cmd = strNormalize(args.shift() ?? '')
 	const msgStriped = msgNoPre.replace(cmd, '').trim()
+	const lang = ctx.prefsService.getLang(message.guildId)
 
 	if (!message.channelId)
 		message.channelId = 0n
 
 	return {
 		msg: message,
+		lang: lang,
 		msgStriped: msgStriped,
 		args: args,
 		cmd: cmd,
@@ -46,7 +52,9 @@ export function parseCall(message: Message, prefix: string): CmdCall {
 	}
 }
 
-/** Parse the index and content of a description if found */
+/** 
+ * Parse the index and content of a description if found 
+ */
 export function parseDesc(args: string[]): string {
 	// If first char of an arg is a dash, consider the first beginning of the description
 	let desc = ''
@@ -72,7 +80,9 @@ export function parseDesc(args: string[]): string {
 	return desc
 }
 
-/** Standard method to log an error in the command line */
+/** 
+ * Standard method to log an error in the command line 
+ */
 export function vegaLog(...args: string[]){
 	console.log(`~ Error caught, ${new Date().toString()}\n${args.join('\n')}`)
 }

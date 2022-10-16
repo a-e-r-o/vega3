@@ -1,9 +1,9 @@
-import { Cmd, CmdCall } from '../mod.ts'
+import { getStr, Cmd, CmdCall, randInt } from '../mod.ts'
 
 export const dummy: Cmd = {
 	disabled: true,
 	aliases: ['test', 'tst', 'ping'],
 	execute: (call: CmdCall) => {
-		return 'test successful'
+		return 'pong'
 	}
 }
