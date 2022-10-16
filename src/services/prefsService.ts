@@ -10,26 +10,39 @@ export class PrefsService {
 		}
 	}
 
-	/**
-	 * Set preferences for a guild
-	 */
-	updatePrefs(call: CmdCall){
-		const guild = call.msg.guildId?.toString()
+	// === Private functions ===
 
-		if (!guild)
-			throw 'Command unusable outside of a Discord server'
-			
-		this.prefs[guild] = {guildId: guild, lang: 0}
-		saveSet('prefs', recordToArray(this.prefs))
+	/**
+	 * Adds (ONLY IN MEMORY) a preference object for the provided guild id, and return it
+	 */
+	private init(id: bigint){
+		const strId = id.toString()
+		this.prefs[strId] = {guildId: strId}
+		return this.prefs[strId]
 	}
 
 	/**
 	 * Get preferences for a guild
 	 */
-	getPrefs(guildId: bigint | undefined): Preferences | null {
+	private getPrefs(guildId: bigint | undefined): Preferences | null {
 		if (!guildId)
 			return null
 		return this.prefs[guildId.toString()] ?? null
+	}
+
+	// === Public functions ===
+
+	/**
+	 * Update language preference for a guild
+	 */
+	setLang(guildId: bigint, lang: Language){
+		let guildPref = this.getPrefs(guildId)
+
+		if (!guildPref)
+			guildPref = this.init(guildId)
+
+		guildPref.lang = lang
+		saveSet('prefs', recordToArray(this.prefs))
 	}
 
 	/**
