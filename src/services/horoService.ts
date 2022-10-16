@@ -1,4 +1,4 @@
-import { CmdCall, sendMessage, getHoroscopeContent, HoroSubscription, HoroSubscriptionDto, msToReadableDuration, msUntilTimeSlot, parseStrTimeSlot, readableTime, routes, Sign, signs, readSet, saveSet } from '../mod.ts'
+import { v, CmdCall, sendMessage, getHoroscopeContent, HoroSubscription, HoroSubscriptionDto, msToReadableDuration, msUntilTimeSlot, parseStrTimeSlot, readableTime, Sign, signs, readSet, saveSet, BotWithCache, horoRoutes } from '../mod.ts'
 
 export class HoroService {
 	suubs: Record<string, HoroSubscription> = {}
@@ -102,10 +102,11 @@ export class HoroService {
 		this.suubs[sub.userId].timeOutId = setTimeout(async() => {
 			// Send content
 			sendMessage(
+				v,
 				BigInt(sub.channelId),
 				{ 
 					content: `<@!${sub.userId}> Here is your daily horoscope`,	
-					embeds: [await getHoroscopeContent(signs[sub.signId], routes[1])]
+					embeds: [await getHoroscopeContent(signs[sub.signId], horoRoutes[1])]
 				}
 			)
 			this.initTimeOut(sub)

@@ -29,7 +29,7 @@ export const signs: Sign[] = [
 	{ id: 10, eng: 'taurus', fr: 'Taureau', color: '8dff65', img: 'https://pngimg.com/uploads/taurus/taurus_PNG31.png' },
 	{ id: 11, eng: 'virgo', fr: 'Vierge', color: '338cff', img: 'https://pngimg.com/uploads/virgo/virgo_PNG14.png' }
 ]
-export enum routes {
+export enum horoRoutes {
 	'horoscope-du-jour',
 	'horoscope-de-demain',
 	'horoscope-apres-demain',

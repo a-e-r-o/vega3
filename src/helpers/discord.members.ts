@@ -1,143 +1,41 @@
-import { strNormalize, DiscordenoMember, cache, fetchMembers, DiscordenoMessage, getMember } from '../mod.ts'
-
-// === args parsing functions ===
-
-export function isDiscordId (testValue: string): boolean {
-	return /^[0-9]{18}$/.test(testValue)
+/**
+ * Checks if strinf provided is a discord id
+ */
+export function isDiscordId (str: string): boolean {
+	return /^[0-9]{18}$/.test(str)
 }
 
-export function isDiscordMention(testValue: string): boolean {
-	return /<(?:@)?(?:!)?[0-9]{18}>/.test(testValue)
+/**
+ * Checks if string provided is a discord member mention
+ */
+export function isDiscordMention(str: string): boolean {
+	return /<(?:@)?(?:!)?[0-9]{18}>/.test(str)
 }
 
-export function isDiscordTag (testValue: string): boolean {
-	return /.+#[0-9]{4}$/.test(testValue)
-}
-
-export function splitDiscordTag (tag: string): {name: string, discriminator: number} {
-	const matches = tag.split(/#(\d{4})$/).filter(x => x !== '')
-	if (matches.length !== 2)
-		throw new Error('Could not dissect tag properly')
-	
-	return {name: matches[0], discriminator: parseInt(matches[1])}
-}
-
+/**
+ * Extracts user id from a discord member mention
+ */
 export function mentionToId(mentionStr: string): string {
 	const matches = mentionStr.match(/[0-9]{18}/)
 	if (!matches)
-		throw new Error('Could not convert mention to id : incorrect argument')
+		throw 'An error occured while parsing id from mention'
 	return matches[0]
 }
 
-// === functions to get a multiple members by a multiple identifiers ===
+/**
+ * Extract user ids from a list of strings
+ */
+export function parseUserIds(args: string[]): bigint[] {
+	const ids = new Set<bigint>()
 
-export async function getMembersByMentionIdNameTag (msg: DiscordenoMessage, args: string[]): Promise<Array<DiscordenoMember>> {
-	let members: DiscordenoMember[] = []
-
-	// iterate on argList
 	for (const arg of args) {
-		const member = await getMemberByMentionIdNameTag(arg, msg.guildId ?? 0n)
-		if (member)
-			members.push(member)
+		// If discord id, convert to bigint and add
+		if (isDiscordId(arg))
+			ids.add(BigInt(arg))
+		// If mention, extract id, convert to bigint and add
+		else if (isDiscordMention(arg))
+			ids.add(BigInt(mentionToId(arg)))
 	}
 
-	// remove duplicates with a filter based on a set of unique ids
-	const uniqueIds = new Set<bigint>()
-	members = members.filter(member => {
-		// if the set already has the id, it's a duplicate
-		const duplicate = !uniqueIds.has(member.id)
-		uniqueIds.add(member.id)
-		return duplicate
-	})
-
-	return members
-}
-
-// === function to get a single member by multiple identifiers ===
-
-export async function getMemberByMentionIdNameTag (arg: string, guildID: bigint): Promise<DiscordenoMember | undefined> {
-	if (isDiscordMention(arg))
-		arg = mentionToId(arg)
-
-	if (isDiscordId(arg))
-		return await getMemberById(arg, guildID)
-
-	if (isDiscordTag(arg))
-		return await getMemberByTag(arg, guildID)
-
-	return await getMemberByName(arg, guildID)
-}
-
-// === functions to get a single member by a single identifier ===
-
-export async function getMemberById(id: string, guildID: bigint): Promise<DiscordenoMember | undefined> {
-	let bigIntId = 0n
-	try {
-		bigIntId = BigInt(id)
-	} catch {
-		return undefined
-	}
-
-	// search member in cache by id
-	const cacheMember: DiscordenoMember | undefined = cache.members.find(x => 
-		x.guilds.has(guildID) &&
-		x.id == bigIntId
-	)
-	if (cacheMember)
-		return cacheMember
-
-	// search member with a request by id
-	const reqMember = 
-		await getMember(guildID, bigIntId)
-			.catch(()=>{
-				console.log('└ Could not fetch member by ID : unknown ID')
-			})
-
-	if (reqMember)
-		return reqMember
-
-	// return undefined if no member found
-	return undefined
-}
-
-export async function getMemberByTag(tag: string, guildID: bigint): Promise<DiscordenoMember | undefined> {
-	// run through a function that return an array such as [name, discriminator]
-	const splitTag = splitDiscordTag(tag)
-
-	// search member in cache by name or nickname (not case sesitive and doesn't check diacritics)
-	const cacheMember = cache.members.find ( x => 
-		x.guilds.has(guildID) &&
-		x.discriminator == splitTag.discriminator &&
-		strNormalize(x.username) == strNormalize(splitTag.name)
-	)
-	if (cacheMember)
-		return cacheMember
-
-	// search member with a request by name or nickname
-	const matches = await fetchMembers(guildID, 0, {query: splitTag.name, limit: 10})
-	const reqMember = matches?.find((x: { discriminator: number }) => x.discriminator == splitTag.discriminator)
-	if (reqMember)
-		return reqMember
-	
-	return undefined
-}
-
-export async function getMemberByName(name: string, guildID: bigint): Promise<DiscordenoMember | undefined> {
-	// search member in cache by name or nickname
-	const cacheMember = cache.members.find(x => 
-		x.guilds.has(guildID) &&
-		(
-			strNormalize(x.username) == strNormalize(name) ||
-			x.name(guildID) == name
-		)
-	)
-	if (cacheMember)
-		return cacheMember
-
-	// search member with a request by name or nickname
-	const reqMembers = await fetchMembers(guildID, 0, {query: name, limit: 10})
-	if (reqMembers)
-		return reqMembers.first()
-
-	return undefined
+	return Array.from(ids)
 }

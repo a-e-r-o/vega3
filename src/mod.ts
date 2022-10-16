@@ -1,3 +1,6 @@
+// Main
+export * from '../main.ts'
+
 // Dependencies
 export * from '../deps.ts'
 

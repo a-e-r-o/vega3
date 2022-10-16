@@ -2,7 +2,6 @@ import { Embed, Cmd, CmdCall, parseDesc, randInt } from '../mod.ts'
 
 export const randint: Cmd = {
 	aliases: ['randint', 'dice', 'dé', 'randominteger', 'randomint'],
-	disabled: true,
 	execute: (call: CmdCall) => {
 		const desc = parseDesc(call.args)
 
@@ -40,14 +39,14 @@ export const randint: Cmd = {
 		}
 
 		// random int within the range
-		const selectedItem = options[randInt(options.length-1)]
+		const result = randInt(max, min)
 		
 		// Create embed
 		const res: Embed = {}
 
 		// If description set, it's used as title
 		res.title = desc ? desc : undefined
-		res.description = ':game_die: ' + selectedItem
+		res.description = ':game_die: ' + result
 
 		return res
 	}

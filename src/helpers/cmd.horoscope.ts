@@ -62,14 +62,14 @@ export function toSectionEmoji(sectionName: string): string {
 	return ''
 }
 
-export async function getHoroscopeContent(selectedSign: Sign, route: string): Promise<Embed> {
+export async function getHoroscopeContent(selectedSign: Sign, horoRoutes: string): Promise<Embed> {
 	// init embed
 	const embed: Embed = {}
 	embed.fields = []
 	embed.color = parseInt(selectedSign.color, 16)
 
 	// fetch data based on sign
-	const res = await fetch(`https://www.evozen.fr/horoscope/${route}/${strNormalize(selectedSign.fr)}`)
+	const res = await fetch(`https://www.evozen.fr/horoscope/${horoRoutes}/${strNormalize(selectedSign.fr)}`)
 	const data = parseHoroscope(await res.text())
 
 	if (!data)

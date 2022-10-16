@@ -1,5 +1,4 @@
-import { Cmd, CmdCall, signs, Sign, routes, strNormalize, getHoroscopeContent } from '../mod.ts'
-import { ctx } from '../../main.ts'
+import { ctx, Cmd, CmdCall, signs, Sign, horoRoutes, strNormalize, getHoroscopeContent } from '../mod.ts'
 
 export const horoscope: Cmd = {
 	aliases: ['horoscope', 'horo', 'bullshit'],
@@ -22,7 +21,7 @@ export const horoscope: Cmd = {
 			throw 'Unknown zodiac sign'
 
 		// Set route to default
-		let route = routes[0]
+		let route = horoRoutes[0]
 
 		// If second argument is specified
 		if (call.args[1]) {
@@ -35,7 +34,7 @@ export const horoscope: Cmd = {
 			if (routeArg < 0 || routeArg > 4)
 				throw `Invalid argument : "${call.args[1]}". Must be a number between 1 and 4`
 
-			route = routes[routeArg]
+			route = horoRoutes[routeArg]
 		}
 
 	 	return await getHoroscopeContent(selectedSign, route)

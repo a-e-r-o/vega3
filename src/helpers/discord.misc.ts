@@ -1,18 +1,16 @@
-import { DiscordenoMessage, deleteMessages, deleteMessage, CmdCall, Emote } from '../mod.ts'
+import { deleteMessages, deleteMessage, Emote, BotWithCache } from '../mod.ts'
 
 // === msg utility functions ===
 
-export async function deleteMsgs(messages: DiscordenoMessage[], channelID: bigint): Promise<void> {
+export async function deleteMsgs(bot: BotWithCache, msgIds: bigint[], channelID: bigint): Promise<void> {
 	// if there is multiple messages, delete them all
-	if (messages.length > 1) {
-		await deleteMessages(channelID, messages.map((m) => m.id))
+	if (msgIds.length > 1) {
+		await deleteMessages(bot, channelID, msgIds)
 	// if there is a single message, delete it
-	} else if (messages.length == 1) {
-		await deleteMessage(channelID, messages[0].id)
+	} else if (msgIds.length == 1) {
+		await deleteMessage(bot, channelID, msgIds[0])
 	}
 }
-
-
 
 export function parseEmotes(msg: string): Emote[] {
 	const matches = msg.match(/<(a)?:(.*?):(.*?)>/g) || []

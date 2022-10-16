@@ -1,4 +1,4 @@
-import { DiscordenoMessage, Embed } from '../mod.ts'
+import { Message, Embed } from '../mod.ts'
 
 export type dbCollections = 'horoSubs' | 'prefs'
 
@@ -15,7 +15,7 @@ export type Clearance = {
 
 export type CmdCall = {
 	channel: bigint
-	msg: DiscordenoMessage
+	msg: Message
 	msgStriped: string
 	cmd: string
 	args: string[]

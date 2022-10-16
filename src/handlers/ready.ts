@@ -1,4 +1,4 @@
-import { DiscordActivityTypes, editBotStatus } from '../mod.ts'
+import { v, ActivityTypes, editBotStatus } from '../mod.ts'
 
 export function ready(){
 	// Clear terminal
@@ -7,13 +7,14 @@ export function ready(){
 	console.log('/// [ Service Online ] ///')
 	
 	editBotStatus(
+		v,
 		{
 			status: 'online', 
 			activities: [
 				{
 					createdAt: (new Date()).getTime(),
-					type: DiscordActivityTypes.Listening,
-					name: `Human music`
+					type: ActivityTypes.Custom,
+					name: `Si le savoir est une arme et bah nique ta mère`
 				}
 			]
 		}

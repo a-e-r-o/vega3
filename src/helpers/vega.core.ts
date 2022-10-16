@@ -1,4 +1,4 @@
-import { CmdCall, Config, DiscordenoMessage, exists, parse, strNormalize } from '../mod.ts'
+import { Bot, BotWithCache, CmdCall, Config, exists, Message, parse, strNormalize } from '../mod.ts'
 
 const cfgPath = './config'
 const defaultPrefix = 'vega'
@@ -28,7 +28,7 @@ export async function loadConfig(): Promise<Config> {
 }
 
 /** Takes a message, parse it and returns a CmdCall */
-export function parseCall(message: DiscordenoMessage, prefix: string): CmdCall {
+export function parseCall(message: Message, prefix: string): CmdCall {
 	const msgNoPre = message.content.replace(RegExp(`^${prefix}`,'i'),'').trim()
 	const args = msgNoPre.split(' ').filter(x => x !== ' ' && x !== '')
 	const cmd = strNormalize(args.shift() ?? '')

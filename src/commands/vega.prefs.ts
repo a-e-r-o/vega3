@@ -1,5 +1,4 @@
-import { ctx } from "../../main.ts";
-import { Cmd, CmdCall } from '../mod.ts'
+import { ctx, Cmd, CmdCall } from '../mod.ts'
 
 export const prefs: Cmd = {
 	aliases: ['pref', 'prefs', 'param', 'params'],
