@@ -7,8 +7,8 @@ export const ip: Cmd = {
 		const rawData: Response = await fetch('https://api.ipify.org?format=json')
 		const data = await rawData.json()
 		if (!data.ip)
-			throw new Error('Cannot resolve IP adress')
+			throw 'Cannot resolve IP adress'
 
-		sendMessage(call.channel, `\`${data.ip}\``)
+		return `\`${data.ip}\``
 	}
 }

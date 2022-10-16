@@ -1,3 +1,6 @@
+// Main
+export * from '../main.ts'
+
 // Dependencies
 export * from '../deps.ts'
 
@@ -12,18 +15,19 @@ export * from  './types/discord.ts'
 
 // Helpers
 export * from './helpers/cmd.horoscope.ts'
-export * from './helpers/cmd.dong.ts'
 export * from './helpers/discord.misc.ts'
 export * from './helpers/discord.members.ts'
 export * from './helpers/misc.ts'
-export * from './helpers/misc.files.ts'
+export * from './helpers/misc.fs.ts'
 export * from './helpers/misc.dateTime.ts'
 export * from './helpers/vega.core.ts'
 export * from './helpers/vega.db.ts'
-export * from './helpers/vega.format.ts'
+export * from './helpers/misc.format.ts'
+export * from './helpers/vega.db.ts'
 
 // Services
 export * from './services/horoService.ts'
+export * from './services/prefsService.ts'
 
 // handlers 
 export * from './handlers/ready.ts'

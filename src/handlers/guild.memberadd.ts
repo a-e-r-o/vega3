@@ -1,5 +1,5 @@
-import { DiscordenoMember, DiscordenoGuild } from '../mod.ts'
+import { Member, User } from '../mod.ts'
 
-export async function guildMemberAdd(guild: DiscordenoGuild, member: DiscordenoMember) {
+export async function guildMemberAdd(member: Member, user: User) {
 	
 }

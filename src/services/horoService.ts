@@ -1,35 +1,36 @@
-import { CmdCall, sendMessage, getHoroscopeContent, HoroSubscription, HosoSubscriptionDto, msToReadableDuration, msUntilTimeSlot, parseStrTimeSlot, readableTime, routes, Sign, signs, consts } from '../mod.ts'
-import DataStore from '../../deps.ts'
+import { v, CmdCall, sendMessage, getHoroscopeContent, HoroSubscription, HoroSubscriptionDto, msToReadableDuration, msUntilTimeSlot, parseStrTimeSlot, readableTime, Sign, signs, readSet, saveSet, BotWithCache, horoRoutes } from '../mod.ts'
 
 export class HoroService {
-	public subs: Record<string, HoroSubscription> = {}
-	public subsStore: DataStore
+	suubs: Record<string, HoroSubscription> = {}
 
 	constructor(){
-		this.subsStore = new DataStore({ filename:consts.dbDir+'/subs.db', autoload: true })
-		this.subsStore.loadDatabase()
-		this.recoverTimers()
-	}
-
-	/**
-	 * Command used on initialization (after a reboot). 
-	 * Iterates over the entries in the database to create corresponding timeouts
-	 */
-	async recoverTimers(){
-		const recoveredSubs: HosoSubscriptionDto[] = (await this.subsStore.find({})) as HosoSubscriptionDto[]
-		recoveredSubs?.forEach(sub => {
-			this.subs[sub.userId] = sub
+		const dbSubs = readSet('horoSubs') as HoroSubscriptionDto[]
+		dbSubs.forEach(sub => {
+			this.suubs[sub.userId] = sub
 			this.initTimeOut(sub)
 		})
 	}
 
 	/**
+	 * Convert subs into a collection and save it in a local file
+	 */
+	saveInDb(){
+		const subsArr = []
+		for (const sub in this.suubs) {
+			if (Object.prototype.hasOwnProperty.call(this.suubs, sub)) {
+				subsArr.push(this.suubs[sub]);
+			}
+		}
+		saveSet('horoSubs', subsArr)
+	}
+
+	/**
 	 * Creates a new subscription : parses call and if correct, creates timeout, creates sub entry in database
 	 */
-	async newSub(call: CmdCall, horosign: Sign | null = null): Promise<string> {
+	newSub(call: CmdCall, horosign: Sign | null = null): string {
 		const subId = call.msg.authorId.toString()
 
-		if (this.subs[subId])
+		if (this.suubs[subId])
 			throw 'You already have an active horo subscription. Please unsubscribe before creating another one'
 
 		// if no time slot specified, use current hours and minute
@@ -58,20 +59,17 @@ export class HoroService {
 		}
 
 		// Build horo sub object
-		const newSub: HosoSubscriptionDto = {
+		const newSub: HoroSubscriptionDto = {
 			channelId: call.channel.toString(),
 			userId: call.msg.authorId.toString(),
 			signId: sign.id,
 			timeslot: timeSlot
 		}
 
-		// Insert new subscription
-		// The await is imporant : without it the object can be modified and inserted with a timeoutId
-		await this.subsStore.insert(newSub) 
-		
-		JSON.stringify(this.subs)
 		// Insert new sub in memory
-		this.subs[subId] = newSub
+		this.suubs[subId] = newSub
+		// Save in DB
+		this.saveInDb()
 		// Init timeout in memory
 		this.initTimeOut(newSub)
 
@@ -81,17 +79,17 @@ export class HoroService {
 	/**
 	 * Stops timeout loop, delete it from memory and database
 	 */
-	async unsub(call: CmdCall): Promise<string>{
+	unsub(call: CmdCall): string {
 		const subId = call.msg.authorId.toString()
 		// Check if subscription exists
-		if (!this.subs[subId])
+		if (!this.suubs[subId])
 			throw 'You don\'t have any active horo subscription'
 		// Cancel timeout
-		clearTimeout(this.subs[subId].timeOutId)
+		clearTimeout(this.suubs[subId].timeOutId)
 		// Delete in memory
-		delete this.subs[subId]
+		delete this.suubs[subId]
 		// Delete in database
-		await this.subsStore.remove({userId: subId})
+		this.saveInDb()
 
 		return 'Successfuly unsubscribed'
 	}
@@ -99,15 +97,16 @@ export class HoroService {
 	/**
 	 * Creates timeout in memory
 	 */
-	private initTimeOut(sub: HosoSubscriptionDto) {
+	private initTimeOut(sub: HoroSubscriptionDto) {
 		// Add Timeout in memory
-		this.subs[sub.userId].timeOutId = setTimeout(async() => {
+		this.suubs[sub.userId].timeOutId = setTimeout(async() => {
 			// Send content
 			sendMessage(
+				v,
 				BigInt(sub.channelId),
 				{ 
 					content: `<@!${sub.userId}> Here is your daily horoscope`,	
-					embeds: [await getHoroscopeContent(signs[sub.signId], routes[1])]
+					embeds: [await getHoroscopeContent(signs[sub.signId], horoRoutes[1])]
 				}
 			)
 			this.initTimeOut(sub)

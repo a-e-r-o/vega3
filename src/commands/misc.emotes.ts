@@ -1,8 +1,7 @@
-import { Cmd, CmdCall, formatBasic, parseEmotes, sendMessage, copy, ensureDir, formatWarn, vegaLog, compress, getStreamReader, logFormatTime, consts } from '../mod.ts'
+import { v, Cmd, CmdCall, formatBasic, parseEmotes, sendMessage, copy, ensureDirSync, vegaLog, compress, getStreamReader, logFormatTime, consts } from '../mod.ts'
 
 export const emotes: Cmd = {
 	aliases: ['emojis', 'emoji', 'emotes'],
-	disabled: false,
 	execute: async (call: CmdCall) => {
 		const emotes = parseEmotes(call.msg.content)
 		// If no emotes found
@@ -13,12 +12,12 @@ export const emotes: Cmd = {
 			throw `Maximum 50 emotes at once. Your message contains ${emotes.length} unique emotes`
 
 		// Inform user the command has been handled and the process can take a while to produce a result
-		sendMessage(call.msg.channelId, {embeds: [formatBasic('Working on it. This process might take several seconds...')]})
+		sendMessage(v, call.msg.channelId, {embeds: [formatBasic('Working on it. This process might take several seconds...')]})
 
 		// Create temporary directory that will be used to downlaod and zip emotes
 		const now = new Date()
 		const tmpDir = consts.tmpDir+`/emotes_${now.getTime()}_${call.msg.authorId}`
-		ensureDir(tmpDir)
+		ensureDirSync(tmpDir)
 
 		try {
 			// files paths
@@ -31,7 +30,6 @@ export const emotes: Cmd = {
 
 				// If the request's response is readable
 				if(rdr) {
-					//const reader = readerFromStreamReader(rdr.getReader())
 					const reader = getStreamReader(rdr.getReader())
 					const file = await Deno.open(`${tmpDir}/${emote.filename}`, {create: true, write: true})
 					await copy(reader, file)
@@ -42,7 +40,7 @@ export const emotes: Cmd = {
 					throw 'One of the emotes provided could not be downloaded'
 			}
 			// Compress files
-			const zipName = `VEGA_emotes_${logFormatTime(now)}.zip`
+			const zipName = `Emotes-${logFormatTime(now, '')}.zip`
 			const zipPath = `${tmpDir}/${zipName}`
 			const zipSucceeded = await compress(filePaths, zipPath)
 			// If compression succeeded
@@ -51,30 +49,26 @@ export const emotes: Cmd = {
 				const zipBuffer = Deno.readFileSync(zipPath)
 				const zipBlob = new Blob([zipBuffer])
 				// SEND ZIP
-				sendMessage(call.msg.channelId, {file: {name: zipName, blob: zipBlob}})
+				sendMessage(v, call.msg.channelId, {file: {name: zipName, blob: zipBlob}})
 			}
 			// If there was an error during the compression
 			else
 				throw 'Emotes compression failed'
 		}
-		// Catch error and log it
 		catch (err) {
 			let resMsg = 'An error occured in the process'
 			// If err contains a message, it's a runtime error, not a vega-throw error
 			if (err.message){
-				resMsg += '. Please retry later. If the error percists, contact this bot\'s administrator'
 				vegaLog(err.message)
+				throw resMsg
 			}
-			else {
+			else
 				resMsg += ` : ${err}`
-			}
-			// Warn user of the situation
-			sendMessage(call.msg.channelId, {embeds: [
-				formatWarn(resMsg)
-			]})
+			
+			throw resMsg
 		}
-		// Remove folder no matter what happens
 		finally {
+			// Remove folder no matter what happens
 			Deno.removeSync(tmpDir, { recursive: true })
 		}
 	}

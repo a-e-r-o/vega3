@@ -7,6 +7,6 @@ export const shutdown: Cmd = {
 		setTimeout(() => {
 			Deno.exit(0)
 		}, 5000)
-		throw ':warning: `Emergency shutdown engaged. VEGA will self-terminate in 5 seconds.`'
+		return '```fix\nEmergency shutdown engaged. VEGA will self-terminate in 5 seconds.```'
 	}
 }

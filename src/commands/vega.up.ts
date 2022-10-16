@@ -1,14 +1,18 @@
-import { version, msToTime, CmdCall, Cmd, Embed, botId, cache} from '../mod.ts'
-import { ctx } from '../../main.ts'
+import { v, ctx, version, msToTime, CmdCall, Cmd, Embed, getAvatarURL} from '../mod.ts'
 
 export const up: Cmd = {
 	aliases: ['up', 'uptime', 'stats', 'version'],
 	execute: (call: CmdCall) => {
 		const changelog = 'https://gitlab.com/AeroCloud/vega2/-/tags/' + version
 
+		const self = v.users.get(v.id);
+
+		if (!self)
+			return
+
 		const embed: Embed = {}
 		embed.thumbnail = {
-			url: cache.members.get(botId)?.avatarURL || '',
+			url: getAvatarURL(v, self.id, self?.discriminator, {avatar: self.avatar, size: 2048})
 		}
 		embed.title = 'ᴠ.ᴇ.ɢ.ᴀ.'
 		embed.color = 16316664

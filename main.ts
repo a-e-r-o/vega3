@@ -1,9 +1,10 @@
-import { ready, commandList, loadConfig, startBot, Intents, ensureDir, msgCreate, guildMemberAdd, HoroService, Cmd, clearDir, consts } from './src/mod.ts'
+import { ready, commandList, loadConfig, startBot, Intents, ensureDirSync, msgCreate, guildMemberAdd, HoroService, Cmd, clearDir, consts, PrefsService, createEventHandlers, createBot, enableHelpersPlugin, enableCachePlugin, enableCacheSweepers, enablePermissionsPlugin, BotWithCache } from './src/mod.ts'
 
-// Init local database folder
-await ensureDir(consts.dbDir)
+// Init local database
+ensureDirSync(consts.dbDir)
+
 // Ensure and clears temp folder
-await ensureDir(consts.tmpDir)
+ensureDirSync(consts.tmpDir)
 await clearDir(consts.tmpDir)
 
 // Init globals
@@ -12,19 +13,27 @@ export const ctx = {
 	config: await loadConfig(),
 	commands: Object.values(commandList) as Cmd[],
 	horoService: new HoroService(),
+	prefsService: new PrefsService(),
 }
 
 console.log('Initialization...')
 
-// Connect to Discord
-startBot(
-	{
-		token: ctx.config.token,
-		intents: [Intents.Guilds, Intents.GuildMessages, Intents.DirectMessages, Intents.GuildMembers],
-		eventHandlers: {
-			ready: () => { ready() },
-			messageCreate: (msg ) => { msgCreate(msg) },
-			guildMemberAdd: (guild, member) => { guildMemberAdd(guild, member) }
-		}
-	}
-)
+// Create bot object
+export const v = createBot({
+  token: ctx.config.token,
+  intents: Intents.Guilds + Intents.GuildMessages + Intents.DirectMessages + Intents.GuildMembers + Intents.MessageContent,
+  events: createEventHandlers({
+		ready: () => { ready() },
+		messageCreate: (bot, msg) => { msgCreate(msg) },
+		guildMemberAdd: (bot, member, user) => { guildMemberAdd(member, user) }
+	}),
+}) as BotWithCache
+
+// Add plugins
+enableHelpersPlugin(v);
+enableCachePlugin(v);
+enableCacheSweepers(v);
+enablePermissionsPlugin(v);
+
+// Start bot
+startBot(v)

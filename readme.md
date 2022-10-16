@@ -20,7 +20,8 @@ prefix: {command prefix} # optionnal, default is 'vega'
 - [ ] Delay reminder
 - [ ] Date reminder
 - [ ] Fix and reactivate randint command
-- [ ] Remove dong command
+- [X] Remove dong command
 - [ ] Auto-updating quotes as status message
 - [ ] Help menu
 - [ ] Language preference
+- [ ] Horo subscription : handle case of channel deleted or unreachabled

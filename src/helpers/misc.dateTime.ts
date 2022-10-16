@@ -47,12 +47,13 @@ export function readableTime(hours: number, minutes: number): string {
 	return `${hours > 9 ? hours : '0'+hours}:${minutes > 9 ? minutes : '0'+minutes}`
 }
 
-export function logFormatTime(date: Date): string{
+export function logFormatTime(date: Date, separator = '-', withMS = true): string{
 	const h = date.getHours()
 	const m = date.getMinutes()
 	const s = date.getSeconds()
 	const ms = date.getMilliseconds()
-	return `${h<10?'0'+h:h}-${m<10?'0'+m:m}-${s<10?'0'+s:s}-${ms}`
+
+	return (h<10?'0'+h:h) + separator + (m<10?'0'+m:m) + separator + (s<10?'0'+s:s) + (withMS ? separator + ms : '')
 }
 
 export function msToReadableDuration(ms: number) {

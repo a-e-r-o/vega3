@@ -1,16 +1,24 @@
-import { consts } from '../mod.ts'
+import { consts, dbCollections, vegaLog } from "../mod.ts";
 
-export async function getCollection(colName: string): Promise<Record<string, unknown> | unknown[]> {
-	const txt = await Deno.readTextFile(`${consts.dbDir}/${colName}`)
-	return JSON.parse(txt)
+export function readSet(collName: dbCollections){
+	try {
+		const value = Deno.readTextFileSync(`${consts.dbDir}/${collName}`)
+		return JSON.parse(value) as unknown[]
+	}
+	catch(err) {
+		vegaLog(err)
+		return []
+	}
 }
 
-export async function saveCollection(colName: string, colValue: Record<string, unknown> | unknown[]): Promise<boolean> {
+export function saveSet(collName: dbCollections, collection: unknown[]){
 	try {
-		await Deno.writeTextFile(`${consts.dbDir}/${colName}`, JSON.stringify(colValue))
+		const data = JSON.stringify(collection)
+		Deno.writeTextFileSync(`${consts.dbDir}/${collName}`, data)
 		return true
 	}
-	catch {
+	catch(err) {
+		vegaLog(err)
 		return false
 	}
 }
