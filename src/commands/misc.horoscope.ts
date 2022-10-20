@@ -13,7 +13,7 @@ export const horoscope: Cmd = {
 			return await ctx.horoService.unsub(call)
 
 		// Parse horo sign
-		const parsedSign = signs.find(x => call.args[0].match(strNormalize(x.fr)) || call.args[0].match(strNormalize(x.eng)))
+		const parsedSign = signs.find(x => strNormalize(call.args[0]).match(strNormalize(x.fr)) || call.args[0].match(strNormalize(x.eng)))
 		if (parsedSign)
 			selectedSign = parsedSign
 		// Warn if sign not correct

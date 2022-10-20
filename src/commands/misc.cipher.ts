@@ -14,8 +14,8 @@ export const decipher: Cmd = {
 	}
 }
 
-const blocs = '┡╅┮┟╹╿┴┾┯┇╇╽╋┙┄┌╀┠┕╆┲┦╶┧╎┣┪┫┎╌╍┤╵┊┝┈┃╁┏┆┘╻╷┹┿┷┰┱┬┽┵┚┉┗┶┻─▬┨╼│┛╴╂┸┐┋┢┖┺╾┭┅┳┒╄┥┓┞╺├╊╈┍╏┼┑╃└╸━╉┩'.split('')
-const letters = 'abcdefghijklmnopqrstuvwxyz1234567890àâäéèêëîïôöùûüÿçABCDEFGHIJKLMNOPQRSTUVWXYZ-,;:!?()=#/\\\'*_'.split('')
+const blocs = '┡╅┮┟╹╿┴┾┯┇╇╽╋┙┄┌╀┠┕╆┲┦╶┧╎┣┪┫┎╌╍┤╵┊┝┈┃╁┏┆┘╻╷┹┿┷┰┱┬┽┵┚┉┗┶┻─▬┨╼│┛╴╂┸┐┋┢┖┺╾┭┅┳┒╄┥┓┞╺├╊╈┍╏┼┑╃└╸━╉┩≡−⌐'.split('')
+const letters = 'abcdefghijklmnopqrstuvwxyz1234567890àâäéèêëîïôöùûüÿçABCDEFGHIJKLMNOPQRSTUVWXYZ-,;:!?()=#/\\\'*_%".'.split('')
 function cypher(str = '', uncipher = false){
 	let res = ''
 	const [A, B] = uncipher ?  [letters, blocs] : [blocs, letters]
