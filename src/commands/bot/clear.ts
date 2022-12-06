@@ -1,6 +1,7 @@
-import { v, getMessages, hasGuildPermissions, CmdCall, Cmd, deleteMsgs } from '../mod.ts'
+import { v, getMessages, hasGuildPermissions, CmdCall, Cmd, deleteMsgs } from '../../mod.ts'
 
 export const clear: Cmd = {
+	tags: 0,
 	aliases: ['clear', 'cls', 'clean'],
 	execute: async (call: CmdCall) => {
 

@@ -1,6 +1,7 @@
-import { v, Cmd, CmdCall, getAvatarURL, sendMessage, getUser, parseUserIds } from '../mod.ts'
+import { v, Cmd, CmdCall, getAvatarURL, sendMessage, getUser, parseUserIds } from '../../mod.ts'
 
 export const avatar: Cmd = {
+	tags: 0,
 	aliases: ['avatar', 'pp'],
 	execute: async (call: CmdCall) => {
 		// limit to 5 users at once to avoid sending to many requests

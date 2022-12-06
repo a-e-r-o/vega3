@@ -1,4 +1,4 @@
-import { CmdCall, Config, ctx, exists, Message, parse, strNormalize } from '../mod.ts'
+import { Embed, CmdCall, Config, ctx, exists, Message, parse, strNormalize } from '../../mod.ts'
 
 const cfgPath = './config'
 const defaultPrefix = 'vega'
@@ -23,8 +23,6 @@ export async function loadConfig(): Promise<Config> {
 	const config = parse(Deno.readTextFileSync(Deno.realPathSync(cfgPath+ext))) as Config
 	if (!config.token)
 		throw `\n!!! Missing or malformed token in config file`
-	if (!config?.clearances[0]?.userId)
-		throw `\n!!! Missing userId for clearances in config file`
 
 	return config as Config
 }
@@ -85,4 +83,25 @@ export function parseDesc(args: string[]): string {
  */
 export function vegaLog(...args: string[]){
 	console.log(`~ Error caught, ${new Date().toString()}\n${args.join('\n')}`)
+}
+
+
+/** Takes a sting, returns it in an an embed formatted as a basic embed response */
+export function formatBasic(input: string){
+	return { description: input }
+}
+
+/** Takes a sting, returns it in an an embed formatted as a success */
+export function formatSuccess(input: string): Embed{
+	return { color: 3380353, description: input }
+}
+
+/** Takes a sting, returns it in an an embed formatted as an error */
+export function formatErr(input: string): Embed {
+	return { color: 15087872, description: `\`\`\`diff\n-${input}\`\`\`` }
+}
+
+/** Takes a sting, returns it in an an embed formatted as a warning */
+export function formatWarn(input: string){
+	return { title: 'Command failed', color: 14971947, description: input }
 }

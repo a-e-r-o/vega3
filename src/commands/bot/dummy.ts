@@ -1,7 +1,7 @@
-import { getStr, Cmd, CmdCall, randInt } from '../mod.ts'
+import { Cmd, CmdCall, randInt, CmdTags } from '../../mod.ts'
 
 export const dummy: Cmd = {
-	disabled: true,
+	tags: CmdTags.Disabled,
 	aliases: ['test', 'tst', 'ping'],
 	execute: (call: CmdCall) => {
 		return 'pong'

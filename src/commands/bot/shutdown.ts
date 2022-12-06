@@ -1,8 +1,8 @@
-import { Cmd, CmdCall, } from '../mod.ts'
+import { Cmd, CmdCall, CmdTags, } from '../../mod.ts'
 
 export const shutdown: Cmd = {
+	tags: CmdTags.IsAdmin,
 	aliases: ['shutdown', 'exit(0)'],
-	clearance: 1,
 	execute: (call: CmdCall) => {
 		setTimeout(() => {
 			Deno.exit(0)

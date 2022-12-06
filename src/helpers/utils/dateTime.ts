@@ -20,6 +20,13 @@ export function msUntilTimeSlot(hours: number, minutes: number) {
 }
 
 /**
+ * Return ms until specified date. Given date must be in the future
+ */
+export function msUntilDate(target: Date){
+	return target.getTime() - (new Date).getTime()
+}
+
+/**
  * Parses a time slot written in 24 hours format with hours and minutes separated by ":" 
  * and returns an object with hours and minutes
  */
@@ -73,6 +80,7 @@ export function msToReadableDuration(ms: number) {
 		// if plural
 		if (count > 1)
 			res += 's '
+		res += ' '
 		// If no remainder
 		if (msRemain % uSizes[i] == 0)
 			continue

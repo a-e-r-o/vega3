@@ -1,4 +1,4 @@
-import { ctx, v, CmdCall, Cmd, Message, sendMessage, formatErr, formatWarn, parseCall, formatBasic } from '../mod.ts'
+import { ctx, v, CmdCall, CmdTags, Cmd, Message, sendMessage, formatErr, formatWarn, parseCall, formatBasic } from '../mod.ts'
 
 export async function msgCreate(msg: Message){
 	// If message is from a bot
@@ -19,10 +19,10 @@ export async function msgCreate(msg: Message){
 	if (!foundCmd)
 		return
 	// Check if command disabled
-	if (foundCmd.disabled)
+	if (foundCmd.tags & CmdTags.Disabled)
 		return sendMessage(v, call.channel, {embeds: [formatWarn('I am sorry to inform you this command is not available at this time.')]})
 	// Check clearance
-	if (foundCmd.clearance && !ctx.config.clearances.find(x => x.userId == call.msg.authorId.toString()))
+	if (foundCmd.tags & CmdTags.IsAdmin && !ctx.config.admins.includes(call.msg.authorId.toString()))
 		return sendMessage(v, call.channel, {embeds: [formatWarn('I am sorry to inform you do not have proper clearance to execute this command.')]})
 
 	try {
@@ -47,3 +47,12 @@ export async function msgCreate(msg: Message){
 		return sendMessage(v, call.channel, {embeds: [formatWarn(e)]})
 	}
 }
+
+//enum Status { Unknown = 0, New = 1 << 0, Dirty = 1 << 1, InError = 1 << 2, Processing = 1 << 3, PersistedEntity = 1 << 4 }
+// // New + Dirty value = Status.New; // Only new
+// let value: Status = Status.New; console.log("Only new", value); value = Status.New | Status.Dirty; 
+// // Not the right way console.log("Is it new?", Status.New === (value & Status.New)); // Right way console.log("Is it processing?", Status.Processing === (value & Status.Processing)); value &= ~Status.Processing;
+// value |= Status.Processing; console.log("New and processing", value); console.log("Is it new?", value === Status.New);
+// 
+// // Check bit : (value & bitValue) return bit value if true, return 0 if false
+// console.log("Is it new?", Status.New === (value & Status.New))

@@ -1,8 +1,8 @@
-import { CmdCall, Cmd, sendMessage } from '../mod.ts'
+import { CmdCall, Cmd, sendMessage, CmdTags } from '../../mod.ts'
 
 export const ip: Cmd = {
+	tags: CmdTags.IsAdmin,
 	aliases: ['ip'],
-	clearance: 1,
 	execute: async(call: CmdCall) => {
 		const rawData: Response = await fetch('https://api.ipify.org?format=json')
 		const data = await rawData.json()

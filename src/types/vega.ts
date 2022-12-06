@@ -1,11 +1,11 @@
 import { Message, Embed } from '../mod.ts'
 
-export type dbCollections = 'horoSubs' | 'prefs'
+export type dbCollections = 'horoSubs' | 'prefs' | 'reminders'
 
 export type Config = {
 	token: string
 	prefix: string
-	clearances: Clearance[]
+	admins: string[]
 }
 
 export type Clearance = {
@@ -22,9 +22,14 @@ export type CmdCall = {
 	args: string[]
 }
 
+export enum CmdTags {
+	Disabled = 1,
+	DisabledInDm = 2,
+	IsAdmin = 4
+}
+
 export type Cmd = {
-	disabled ?: true
-	clearance ?: number
+	tags: CmdTags
 	aliases: string[]
 	execute: (call: CmdCall) => Promise<Embed|string|void>|Embed|void|string
 }

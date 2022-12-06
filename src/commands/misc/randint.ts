@@ -1,6 +1,7 @@
-import { Embed, Cmd, CmdCall, parseDesc, randInt } from '../mod.ts'
+import { Embed, Cmd, CmdCall, parseDesc, randInt } from '../../mod.ts'
 
 export const randint: Cmd = {
+	tags: 0,
 	aliases: ['randint', 'dice', 'dé', 'randominteger', 'randomint'],
 	execute: (call: CmdCall) => {
 		const desc = parseDesc(call.args)

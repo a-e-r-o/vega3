@@ -1,4 +1,4 @@
-import { consts, dbCollections, vegaLog } from "../mod.ts";
+import { consts, dbCollections, vegaLog } from "../../mod.ts";
 
 export function readSet(collName: dbCollections){
 	try {
@@ -6,7 +6,7 @@ export function readSet(collName: dbCollections){
 		return JSON.parse(value) as unknown[]
 	}
 	catch(err) {
-		vegaLog(err)
+		// Normal behaviour, file does not exist; no data to return
 		return []
 	}
 }
@@ -18,6 +18,7 @@ export function saveSet(collName: dbCollections, collection: unknown[]){
 		return true
 	}
 	catch(err) {
+		// Error saving
 		vegaLog(err)
 		return false
 	}

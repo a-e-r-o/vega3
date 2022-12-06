@@ -1,7 +1,7 @@
-import { ctx, Cmd, CmdCall, langOptions } from '../mod.ts'
+import { ctx, Cmd, CmdCall, langOptions, CmdTags } from '../../mod.ts'
 
 export const prefs: Cmd = {
-	disabled: true,
+	tags: CmdTags.Disabled,
 	aliases: ['pref', 'prefs', 'param', 'params'],
 	execute: (call: CmdCall) => {
 		// Command can only be used on a discord server

@@ -1,6 +1,7 @@
-import { Embed, Cmd, CmdCall, res8bFr, randInt } from '../mod.ts'
+import { Embed, Cmd, CmdCall, res8bFr, randInt } from '../../mod.ts'
 
 export const heightball: Cmd = {
+	tags: 0,
 	aliases: ['8ball', 'mball', 'magicball', 'boulemagique'],
 	execute: (call: CmdCall) => {
 		

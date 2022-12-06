@@ -1,4 +1,4 @@
-import { ready, commandList, loadConfig, startBot, Intents, ensureDirSync, msgCreate, guildMemberAdd, HoroService, Cmd, clearDir, consts, PrefsService, createEventHandlers, createBot, enableHelpersPlugin, enableCachePlugin, enableCacheSweepers, enablePermissionsPlugin, BotWithCache } from './src/mod.ts'
+import { ready, commandList, loadConfig, startBot, Intents, ensureDirSync, msgCreate, guildMemberAdd, HoroService, ReminderService, Cmd, clearDir, consts, PrefsService, createEventHandlers, createBot, enableHelpersPlugin, enableCachePlugin, enableCacheSweepers, enablePermissionsPlugin, BotWithCache } from './src/mod.ts'
 
 // Init local database
 ensureDirSync(consts.dbDir)
@@ -14,6 +14,7 @@ export const ctx = {
 	commands: Object.values(commandList) as Cmd[],
 	horoService: new HoroService(),
 	prefsService: new PrefsService(),
+	reminderService: new ReminderService()
 }
 
 console.log('Initialization...')

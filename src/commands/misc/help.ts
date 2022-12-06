@@ -1,7 +1,7 @@
-import { Cmd, CmdCall } from '../mod.ts'
+import { Cmd, CmdCall, CmdTags } from '../../mod.ts'
 
 export const help: Cmd = {
-	disabled: true,
+	tags: CmdTags.Disabled,
 	aliases: ['help', 'h'],
 	execute: (call: CmdCall) => {
 	}

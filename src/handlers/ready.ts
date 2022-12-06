@@ -5,18 +5,23 @@ export function ready(){
 	Deno.stdout.writeSync(new TextEncoder().encode('\x1b[H\x1b[J'))
 
 	console.log('/// [ Service Online ] ///')
-	
-	editBotStatus(
-		v,
-		{
+
+	setQuote()
+	// New quote every 3 hours
+	setInterval( ()=>{ setQuote() }, 10800000)
+
+	async function setQuote(){
+		const response = await (await fetch(`https://api.quotable.io/random?minLength=10&maxLength=125`)).json()
+		const txt = response.content ?? 'Human music'
+		
+		editBotStatus(v, {
 			status: 'online', 
-			activities: [
-				{
-					createdAt: (new Date()).getTime(),
-					type: ActivityTypes.Custom,
-					name: `Si le savoir est une arme et bah nique ta mère`
-				}
-			]
-		}
-	)
+			activities: [{
+				createdAt: (new Date()).getTime(),
+				type: ActivityTypes.Listening,
+				name: `"${txt}"`
+			}]
+		})
+	}
+	
 }

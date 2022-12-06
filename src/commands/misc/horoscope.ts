@@ -1,6 +1,7 @@
-import { ctx, Cmd, CmdCall, signs, Sign, horoRoutes, strNormalize, getHoroscopeContent } from '../mod.ts'
+import { ctx, Cmd, CmdCall, signs, Sign, horoRoutes, strNormalize, getHoroscopeContent } from '../../mod.ts'
 
 export const horoscope: Cmd = {
+	tags: 0,
 	aliases: ['horoscope', 'horo', 'bullshit'],
 	execute: async (call: CmdCall) => {
 		let selectedSign: Sign | undefined
