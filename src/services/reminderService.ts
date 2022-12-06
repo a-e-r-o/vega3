@@ -75,7 +75,7 @@ export class ReminderService {
 		const list = this.getReminders(userId.toString())
 		
 		if (list.length == 0)
-			return 'You don\'t ahve any active reminder'
+			return 'You don\'t have any active reminder'
 		
 		let res = ''
 		list.forEach(rmdr => {
