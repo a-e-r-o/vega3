@@ -1,18 +1,24 @@
+// Admin
+export * from './admin/clear.ts'
+
+// Core
+export * from './core/help.ts'
+export * from './core/prefs.ts'
+export * from './core/dummy.ts'
+export * from './core/invite.ts'
+export * from './core/shutdown.ts'
+export * from './core/up.ts'
+
+// Misc
 export * from './misc/avatar.ts'
-export * from './misc/help.ts'
-export * from './misc/horoscope.ts'
-export * from './misc/random.ts'
-export * from './misc/cointoss.ts'
-export * from './misc/8ball.ts'
-export * from './misc/randint.ts'
 export * from './misc/reminder.ts'
 export * from './misc/cipher.ts'
 export * from './misc/emotes.ts'
 export * from './misc/ip.ts'
+export * from './misc/horoscope.ts'
 
-export * from './bot/clear.ts'
-export * from './bot/prefs.ts'
-export * from './bot/dummy.ts'
-export * from './bot/invite.ts'
-export * from './bot/shutdown.ts'
-export * from './bot/up.ts'
+// Random
+export * from './random/random.ts'
+export * from './random/cointoss.ts'
+export * from './random/randint.ts'
+export * from './random/8ball.ts'

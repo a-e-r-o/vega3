@@ -1,4 +1,4 @@
-import { consts, dbCollections, vegaLog } from "../../mod.ts";
+import { consts, dbCollections, vegaLog } from "../mod.ts";
 
 export function readSet(collName: dbCollections){
 	try {
