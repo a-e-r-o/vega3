@@ -1,7 +1,7 @@
-import { Cmd, CmdCall, strNormalize, ctx } from '../../mod.ts'
+import { Cmd, CmdCall, strNormalize, ctx, CmdTags } from '../../mod.ts'
 
 export const reminder: Cmd = {
-	tags: 0,
+	tags: CmdTags.Disabled,
 	aliases: ['timer','reminder', 'remindme'],
 	execute: async(call: CmdCall) => {
 		if (!call.args[0])
