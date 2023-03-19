@@ -1,7 +1,7 @@
 import { Cmd, CmdCall, CmdTags, } from '../../mod.ts'
 
 export const shutdown: Cmd = {
-	tags: CmdTags.IsAdmin,
+	tags: CmdTags.BotAdminRequired,
 	aliases: ['shutdown', 'exit(0)'],
 	execute: (call: CmdCall) => {
 		setTimeout(() => {

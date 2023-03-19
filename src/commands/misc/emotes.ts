@@ -1,7 +1,7 @@
-import { v, Cmd, CmdCall, formatBasic, parseEmotes, sendMessage, copy, ensureDirSync, vegaLog, compress, getStreamReader, logFormatTime, consts } from '../../mod.ts'
+import { v, Cmd, CmdCall, formatBasic, parseEmotes, sendMessage, copy, ensureDirSync, vegaLog, compress, getStreamReader, logFormatTime, consts, CmdTags } from '../../mod.ts'
 
 export const emotes: Cmd = {
-	tags: 0,
+	tags: CmdTags.None,
 	aliases: ['emojis', 'emoji', 'emotes'],
 	execute: async (call: CmdCall) => {
 		const emotes = parseEmotes(call.msg.content)

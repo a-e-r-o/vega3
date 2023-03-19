@@ -1,4 +1,4 @@
-import { deleteMessages, deleteMessage, Emote, BotWithCache } from '../../mod.ts'
+import { deleteMessages, deleteMessage, Emote, BotWithCache } from '../mod.ts'
 
 // === msg utility functions ===
 

@@ -1,31 +1,18 @@
 import { Message, Embed } from '../mod.ts'
 
-export type dbCollections = 'horoSubs' | 'prefs' | 'reminders'
-
 export type Config = {
 	token: string
 	prefix: string
 	admins: string[]
 }
 
-export type Clearance = {
-	userId: string
-	clearance: number
-}
-
-export type CmdCall = {
-	channel: bigint
-	lang: Language
-	msg: Message
-	msgStriped: string
-	cmd: string
-	args: string[]
-}
-
 export enum CmdTags {
+	None = 0,
 	Disabled = 1,
 	DisabledInDm = 2,
-	IsAdmin = 4
+	BotAdminRequired = 4,
+	GuildAdminRequired = 8,
+	GuildManageMsgRequired = 16,
 }
 
 export type Cmd = {
@@ -33,19 +20,18 @@ export type Cmd = {
 	aliases: string[]
 	execute: (call: CmdCall) => Promise<Embed|string|void>|Embed|void|string
 }
-	
-export type Preferences = {
-	guildId: string
-	lang?: Language
+
+export type CmdCall = {
+	channel: bigint
+	guildSettings: GuildSettings
+	msg: Message
+	msgStriped: string
+	cmd: string
+	args: string[]
 }
 
-/**
- * English 0 ; French 1
- */
-export type Language = 0 | 1
-
 export type LangOption = {
-	id: Language
+	id: number
 	arg: string
 	name: string
 }
@@ -57,3 +43,9 @@ export const langOptions: LangOption[] = [
 	{ id: 0, arg: 'en', name: 'English'},
 	{ id: 1, arg: 'fr', name: 'Français'}
 ]
+
+export type GuildSettings = {
+	guildId: string
+	lang: number
+	triggers: { regex: string, regexOptions: string, response: string }[]
+}

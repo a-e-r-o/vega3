@@ -1,4 +1,4 @@
-import { Embed } from "../mod.ts";
+import { Embed } from "../mod.ts"
 
 /** 
  * Standard method to log an error in the command line 

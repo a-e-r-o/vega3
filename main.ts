@@ -1,19 +1,14 @@
-import { ready, commandList, loadConfig, startBot, Intents, ensureDirSync, msgCreate, guildMemberAdd, ReminderService, Cmd, clearDir, consts, PrefsService, createEventHandlers, createBot, enableHelpersPlugin, enableCachePlugin, enableCacheSweepers, enablePermissionsPlugin, BotWithCache } from './src/mod.ts'
+import { ready, commandList, loadConfig, startBot, Intents, msgCreate, guildMemberAdd, Cmd, GuildSettingsService, createEventHandlers, createBot, enableHelpersPlugin, enableCachePlugin, enableCacheSweepers, enablePermissionsPlugin, BotWithCache, initTemp, initLocalDb } from './src/mod.ts'
 
-// Init local database
-ensureDirSync(consts.dbDir)
-
-// Ensure and clears temp folder
-ensureDirSync(consts.tmpDir)
-await clearDir(consts.tmpDir)
+initLocalDb()
+await initTemp()
 
 // Init globals
 export const ctx = {
 	upTime: new Date(),
 	config: await loadConfig(),
 	commands: Object.values(commandList) as Cmd[],
-	prefsService: new PrefsService(),
-	reminderService: new ReminderService()
+	guildSettingsService: new GuildSettingsService()
 }
 
 console.log('Initialization...')
@@ -30,10 +25,10 @@ export const v = createBot({
 }) as BotWithCache
 
 // Add plugins
-enableHelpersPlugin(v);
-enableCachePlugin(v);
-enableCacheSweepers(v);
-enablePermissionsPlugin(v);
+enableHelpersPlugin(v)
+enableCachePlugin(v)
+enableCacheSweepers(v)
+enablePermissionsPlugin(v)
 
 // Start bot
 startBot(v)

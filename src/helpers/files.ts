@@ -1,4 +1,4 @@
-import { Buffer, writeAll } from '../../mod.ts'
+import { Buffer, writeAll } from '../mod.ts'
 
 /** Creates a `Reader` from a `ReadableStreamDefaultReader` */
 export function getStreamReader(streamReader: ReadableStreamDefaultReader<Uint8Array>): Deno.Reader {

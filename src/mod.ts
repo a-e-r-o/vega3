@@ -6,7 +6,7 @@ export * from '../deps.ts'
 
 // Core
 export * from './core/core.ts'
-export * from './core/db.ts'
+export * from './core/fileSystem.ts'
 export * from './core/format.ts'
 export * from './core/consts.ts'
 
@@ -23,9 +23,10 @@ export * from './helpers/files.ts'
 export * from './helpers/dateTime.ts'
 export * from './helpers/discord.ts'
 export * from './helpers/horoscope.ts'
+export * from './helpers/triggers.ts'
 
 // Services
-export * from './services/prefsService.ts'
+export * from './services/guildSettingsService.ts'
 export * from './services/reminderService.ts'
 
 // handlers 
@@ -34,4 +35,4 @@ export * from './handlers/guild.memberadd.ts'
 export * from './handlers/msg.create.ts'
 
 // Commands
-export * as commandList from './commands/_commands.ts'
+export * as commandList from './commands/commandList.ts'

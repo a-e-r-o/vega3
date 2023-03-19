@@ -1,9 +1,18 @@
-import { ctx, v, CmdCall, CmdTags, Cmd, Message, sendMessage, formatErr, formatWarn, parseCall, formatBasic } from '../mod.ts'
+import { ctx, v, CmdCall, CmdTags, Cmd, Message, sendMessage, formatErr, formatWarn, parseCall, formatBasic, checkTriggers } from '../mod.ts'
 
 export async function msgCreate(msg: Message){
 	// If message is from a bot
 	if (msg.isFromBot)
 		return
+
+	const guildSettings = ctx.guildSettingsService.getGuildSettings(msg.guildId ?? 0n)
+	
+	// Only in guilds, check if message triggers patterns
+	if (msg.guildId) {
+		const response = checkTriggers(msg, guildSettings)
+		if (response)
+			return sendMessage(v, msg.channelId, {content: response})
+	}
 	
 	// If msg doesn't start with prefix, ignore
 	for(let j = 0; j < ctx.config.prefix.length; j++){
@@ -12,18 +21,28 @@ export async function msgCreate(msg: Message){
 	}
 
 	// Create the cmdcall object that will be used for basically everything
-	const call: CmdCall = parseCall(msg, ctx.config.prefix)
+	const call: CmdCall = parseCall(msg, ctx.config.prefix, guildSettings)
 	const foundCmd: Cmd | undefined = ctx.commands.find(x => x.aliases.includes(call.cmd))
 
 	// Check if command found
 	if (!foundCmd)
 		return
+
 	// Check if command disabled
 	if (foundCmd.tags & CmdTags.Disabled)
-		return sendMessage(v, call.channel, {embeds: [formatWarn('I am sorry to inform you this command is not available at this time.')]})
-	// Check clearance
-	if (foundCmd.tags & CmdTags.IsAdmin && !ctx.config.admins.includes(call.msg.authorId.toString()))
-		return sendMessage(v, call.channel, {embeds: [formatWarn('I am sorry to inform you do not have proper clearance to execute this command.')]})
+		return sendMessage(v, call.channel, {embeds: [formatWarn('This command is disabled')]})
+
+	// Check if command is disabled in DMs. If so, check if we are in a guild
+	if (foundCmd.tags & CmdTags.DisabledInDm) {
+		if (!call.msg.guildId)
+			return sendMessage(v, call.channel, {embeds: [formatWarn('Command disabled in direct messages')]})
+	}
+
+	// Check if admin permissions are required. If so, check if user has admin permissions
+	if (foundCmd.tags & CmdTags.BotAdminRequired){
+		if (!ctx.config.admins.includes(call.msg.authorId.toString()))
+			return sendMessage(v, call.channel, {embeds: [formatWarn('You are not allowed to execute this command')]})
+	}
 
 	try {
 		// Execute Command
@@ -34,7 +53,8 @@ export async function msgCreate(msg: Message){
 		// If return is not a string and not undefined, it's an embed
 		if (typeof feedback !== 'undefined')
 			return sendMessage(v, call.channel, {embeds: [feedback]})
-	} catch (e){
+	}
+	catch (e) {
 		// If the object caught is an error and not a string, then it is critical
 		if (e instanceof Error){
 			console.log(
@@ -47,6 +67,8 @@ export async function msgCreate(msg: Message){
 		return sendMessage(v, call.channel, {embeds: [formatWarn(e)]})
 	}
 }
+
+
 
 //enum Status { Unknown = 0, New = 1 << 0, Dirty = 1 << 1, InError = 1 << 2, Processing = 1 << 3, PersistedEntity = 1 << 4 }
 // // New + Dirty value = Status.New; // Only new

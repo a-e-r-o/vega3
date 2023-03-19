@@ -1,3 +1,4 @@
+/*
 import { Cmd, CmdCall, strNormalize, ctx, CmdTags } from '../../mod.ts'
 
 export const reminder: Cmd = {
@@ -31,3 +32,4 @@ export const reminder: Cmd = {
 		return ctx.reminderService.newReminder(call, delay, message)
 	}
 }
+*/

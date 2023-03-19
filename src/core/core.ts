@@ -1,28 +1,26 @@
-import { Embed, CmdCall, Config, ctx, exists, Message, parse, strNormalize } from '../mod.ts'
-
-const cfgPath = './config'
-const defaultPrefix = 'vega'
+import { CmdCall, Config, consts, ctx, exists, Message, parse, strNormalize, GuildSettings } from '../mod.ts'
 
 /** 
  * Check if config is present and not malformed. If so, returns a Config 
  */
 export async function loadConfig(): Promise<Config> {
-	let ext = ''
-	if (await exists(cfgPath+'.yaml')){
-		ext = '.yaml'
-	} 
-	else if(await exists(cfgPath+'.yml')){
-		ext = '.yml'
-	}
-	else {
-		console.log('config.yml created. Edit it to add token and userId ')
-		Deno.writeTextFileSync('config.yml', `token: \nprefix: ${defaultPrefix}\nclearances:\n  - clearance: 1\n    userId: ''#Important : put your discord user ID in between these quotes`)
-		Deno.exit(0)
-	}
+	// Check if config file exists
+	if (!(await exists(consts.cfgPath)))
+		throw `\n! Missing config.yml ; see README.MD to learn more`
 
-	const config = parse(Deno.readTextFileSync(Deno.realPathSync(cfgPath+ext))) as Config
+	const config = parse(Deno.readTextFileSync(Deno.realPathSync(consts.cfgPath))) as Config
+
+	// Token is required
 	if (!config.token)
-		throw `\n!!! Missing or malformed token in config file`
+		throw `\n! Missing token in config`
+
+	// Default prefix if missing from config
+	if (config.prefix === undefined || config.prefix === '')
+		config.prefix = consts.defaultPrefix
+
+	// Empty admin list as default
+	if (!config.admins)
+		config.admins = []
 
 	return config as Config
 }
@@ -30,23 +28,22 @@ export async function loadConfig(): Promise<Config> {
 /** 
  * Takes a message, parse it and returns a CmdCall 
  */
-export function parseCall(message: Message, prefix: string): CmdCall {
+export function parseCall(message: Message, prefix: string, guildSettings: GuildSettings): CmdCall {
 	const msgNoPre = message.content.replace(RegExp(`^${prefix}`,'i'),'').trim()
 	const args = msgNoPre.split(' ').filter(x => x !== ' ' && x !== '')
 	const cmd = strNormalize(args.shift() ?? '')
 	const msgStriped = msgNoPre.replace(cmd, '').trim()
-	const lang = ctx.prefsService.getLang(message.guildId)
 
 	if (!message.channelId)
 		message.channelId = 0n
 
 	return {
 		msg: message,
-		lang: lang,
 		msgStriped: msgStriped,
 		args: args,
 		cmd: cmd,
-		channel: message.channelId
+		channel: message.channelId,
+		guildSettings: guildSettings
 	}
 }
 

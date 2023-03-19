@@ -1,7 +1,7 @@
-import { Cmd, CmdCall } from '../../mod.ts'
+import { Cmd, CmdCall, CmdTags } from '../../mod.ts'
 
 export const cipher: Cmd = {
-	tags: 0,
+	tags: CmdTags.None,
 	aliases: ['cipher', 'bloc', 'slice'],
 	execute: (call: CmdCall) => {
 		return cypher(call.msgStriped)
