@@ -36,14 +36,3 @@ export enum horoRoutes {
 	'horoscope-dans-3-jours',
 	'horoscope-dans-4-jours'
 }
-
-export type HoroSubscriptionDto = {
-	channelId: string
-	userId: string
-	signId: number
-	timeslot: number[]
-}
-
-export interface HoroSubscription extends HoroSubscriptionDto {
-	timeOutId?: number
-}
