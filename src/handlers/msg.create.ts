@@ -1,8 +1,8 @@
 import { ctx, v, CmdCall, CmdTags, Cmd, Message, sendMessage, formatErr, formatWarn, parseCall, formatBasic, checkTriggers } from '../mod.ts'
 
 export async function msgCreate(msg: Message){
-	// If message content is too short, or if message if from a bot, ignore
-	if (msg.content.length < ctx.config.prefix.length || msg.isFromBot)
+	// If message is from a bot, ignore
+	if (msg.isFromBot)
 		return
 
 	const guildSettings = ctx.guildSettingsService.getGuildSettings(msg.guildId ?? 0n)
@@ -13,6 +13,11 @@ export async function msgCreate(msg: Message){
 		if (response)
 			return sendMessage(v, msg.channelId, {content: response})
 	}
+
+	// If message content is too short, it can't be a command so ignore it
+	// We do this check after trigger check because some patterns are shorter than the bot prefix
+	if (msg.content.length < ctx.config.prefix.length)
+		return
 	
 	// If msg doesn't start with prefix, ignore
 	for(let j = 0; j < ctx.config.prefix.length; j++){
