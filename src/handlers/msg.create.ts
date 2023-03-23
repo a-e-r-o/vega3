@@ -1,8 +1,8 @@
 import { ctx, v, CmdCall, CmdTags, Cmd, Message, sendMessage, formatErr, formatWarn, parseCall, formatBasic, checkTriggers } from '../mod.ts'
 
 export async function msgCreate(msg: Message){
-	// If message is from a bot
-	if (msg.isFromBot)
+	// If message content is too short, or if message if from a bot, ignore
+	if (msg.content.length < ctx.config.prefix.length || msg.isFromBot)
 		return
 
 	const guildSettings = ctx.guildSettingsService.getGuildSettings(msg.guildId ?? 0n)

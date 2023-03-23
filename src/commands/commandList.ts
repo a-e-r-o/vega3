@@ -20,6 +20,7 @@ export * from './misc/cipher.ts'
 export * from './misc/emotes.ts'
 export * from './misc/ip.ts'
 export * from './misc/horoscope.ts'
+export * from './misc/codeFormat.ts'
 
 // Random
 export * from './random/random.ts'
