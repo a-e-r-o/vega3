@@ -12,7 +12,7 @@ git clone https://gitlab.com/AeroCloud/vega.git
 - Create a `config.yml` file at the root of the project (see section below)
 
 Config file structure :
-```
+```yaml
 token: [bot_token]
 prefix: [command prefix] # optionnal, default is 'vega'
 admins: # Only users whose IDs are in this list will be able to execute commands with the BotAdminRequired tag
@@ -22,12 +22,12 @@ admins: # Only users whose IDs are in this list will be able to execute commands
 
 **Starting the bot :** <br>
 Once you have cloned the repo and made sure you have installed Deno
-```
+```bash
 deno run --allow-net --allow-read --unstable main.ts
 ```
 The repo also contains a bash script simply called `launch` which simply runs the bot and restarts it if it crashes for whatever reasons. <br>
 To use this script, make it executable and execute it in a bash shell. <br>
-```
+```bash
 chmod +x launch.sh
 ./launch.sh
 ```
