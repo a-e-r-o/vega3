@@ -1,44 +1,46 @@
-import { v, getMessages, hasGuildPermissions, CmdCall, Cmd, deleteMsgs } from '../../mod.ts'
+import { v, getMessages, hasGuildPermissions, CommandCall, Command, deleteMsgs } from '../../mod.ts'
 
-export const clear: Cmd = {
+export const clear: Command = {
 	tags: 0,
 	aliases: ['clear', 'cls', 'clean'],
-	execute: async (call: CmdCall) => {
+	execute: execute
+}
 
-		if (!call.msg.guildId)
-			throw 'Cannot delete messages in private conversation'
+async function execute (call: CommandCall) {
 
-		// if member has permission to manage messages
-		const canDelMsgPerm = hasGuildPermissions(v, call.msg.guildId, call.msg.authorId, ['MANAGE_MESSAGES'])
+	if (!call.msg.guildId)
+		throw 'Cannot delete messages in private conversation'
 
-		if (!canDelMsgPerm)
-			throw 'Messages deletion failed *(User missing permissions)*'
+	// if member has permission to manage messages
+	const canDelMsgPerm = hasGuildPermissions(v, call.msg.guildId, call.msg.authorId, ['MANAGE_MESSAGES'])
 
-		let msgNumber: number = parseInt(call.args[0])
-		// Check if not NaN and more than 0, default 5
-		if (!(msgNumber > 0))
-			msgNumber = 5
-		// +1 to include the message that triggered the command
-		msgNumber += 1
+	if (!canDelMsgPerm)
+		throw 'Messages deletion failed *(User missing permissions)*'
 
-		if (msgNumber > 1000)
-			throw 'This command is limited to 1000 messages at a time'
+	let msgNumber: number = parseInt(call.args[0])
+	// Check if not NaN and more than 0, default 5
+	if (!(msgNumber > 0))
+		msgNumber = 5
+	// +1 to include the message that triggered the command
+	msgNumber += 1
 
-		do {
-			const limit = msgNumber > 100 ? 100 : msgNumber
-			try {
-				const messages = await getMessages(v, call.channel, { limit: limit })
-				const msgIds = messages.map(x => x.id)
-				
-				if (msgIds.length == 0)
-					return
+	if (msgNumber > 1000)
+		throw 'This command is limited to 1000 messages at a time'
 
-				msgNumber -= limit
-				
-				await deleteMsgs(v, messages.map(x => x.id), call.channel)
-			} catch (_error) {
-				throw 'Could not delete messages *(messages too old, vega missing permission, or no messages found)*'
-			}
-		}	while (msgNumber > 0)
-	}
+	do {
+		const limit = msgNumber > 100 ? 100 : msgNumber
+		try {
+			const messages = await getMessages(v, call.channel, { limit: limit })
+			const msgIds = messages.map(x => x.id)
+			
+			if (msgIds.length == 0)
+				return
+
+			msgNumber -= limit
+			
+			await deleteMsgs(v, messages.map(x => x.id), call.channel)
+		} catch (_error) {
+			throw 'Could not delete messages *(messages too old, vega missing permission, or no messages found)*'
+		}
+	}	while (msgNumber > 0)
 }

@@ -1,9 +1,9 @@
-import { ctx, Cmd, CmdCall, langOptions, CmdTags } from '../../mod.ts'
+import { ctx, Command, CommandCall, langOptions, CommandTags } from '../../mod.ts'
 
-export const prefs: Cmd = {
-	tags: CmdTags.DisabledInDm,
+export const prefs: Command = {
+	tags: CommandTags.Disabled,
 	aliases: ['setlang', 'lang', 'langage', 'language'],
-	execute: (call: CmdCall) => {
+	execute: (call: CommandCall) => {
 
 		// If arg 2 is empty
 		if (!call.args[0])

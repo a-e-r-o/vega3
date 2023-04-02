@@ -6,7 +6,7 @@ export type Config = {
 	admins: string[]
 }
 
-export enum CmdTags {
+export enum CommandTags {
 	None = 0,
 	Disabled = 1,
 	DisabledInDm = 2,
@@ -15,14 +15,31 @@ export enum CmdTags {
 	GuildManageMsgRequired = 16,
 }
 
-export type Cmd = {
-	tags: CmdTags
+export type Command = {
+	/**
+	 * Options for the command. Mainly used for execution conditions
+	 */
+	tags: CommandTags
+	/** 
+	 * Aliases used to invoke the command. The first alias doubles as an ID for the command
+	 */
 	aliases: string[]
-	execute: (call: CmdCall) => Promise<Embed|string|void>|Embed|void|string
+	/**
+	 * Main part of the command : the function executed when the command is invoked
+	 * @param call object containing all the data parsed from the message used to invoke the command
+	 * @returns 
+	 */
+	execute: (call: CommandCall) => Promise<Embed|string|void>|Embed|void|string
 }
 
-export type CmdCall = {
+export type CommandCall = {
+	/**
+	 * Discord channel ID
+	 */
 	channel: bigint
+	/**
+	 * Settings for the message's guid, 
+	 */
 	guildSettings: GuildSettings
 	msg: Message
 	msgStriped: string

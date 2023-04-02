@@ -1,9 +1,9 @@
-import { Cmd, CmdCall, CmdTags, } from '../../mod.ts'
+import { Command, CommandCall, CommandTags, } from '../../mod.ts'
 
-export const shutdown: Cmd = {
-	tags: CmdTags.BotAdminRequired,
+export const shutdown: Command = {
+	tags: CommandTags.BotAdminRequired,
 	aliases: ['shutdown', 'exit(0)'],
-	execute: (call: CmdCall) => {
+	execute: (call: CommandCall) => {
 		setTimeout(() => {
 			Deno.exit(0)
 		}, 5000)

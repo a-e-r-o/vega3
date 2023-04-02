@@ -15,7 +15,6 @@ export * from  './types/horoscope.ts'
 export * from  './types/core.ts'
 export * from  './types/8ball.ts'
 export * from  './types/discord.ts'
-export * from  './types/reminders.ts'
 
 // Helpers
 export * from './helpers/misc.ts'
@@ -27,7 +26,6 @@ export * from './helpers/triggers.ts'
 
 // Services
 export * from './services/guildSettingsService.ts'
-export * from './services/reminderService.ts'
 
 // handlers 
 export * from './handlers/ready.ts'

@@ -1,9 +1,9 @@
-import { v, ctx, version, msToTime, CmdCall, Cmd, Embed, getAvatarURL, CmdTags} from '../../mod.ts'
+import { v, ctx, version, msToTime, CommandCall, Command, Embed, getAvatarURL, CommandTags} from '../../mod.ts'
 
-export const up: Cmd = {
-	tags: CmdTags.None,
+export const up: Command = {
+	tags: CommandTags.None,
 	aliases: ['up', 'uptime', 'stats', 'version'],
-	execute: (call: CmdCall) => {
+	execute: (call: CommandCall) => {
 		const changelog = 'https://gitlab.com/AeroCloud/vega2/-/tags/' + version
 
 		const self = v.users.get(v.id)

@@ -1,4 +1,4 @@
-import { ctx, v, CmdCall, CmdTags, Cmd, Message, sendMessage, formatErr, formatWarn, parseCall, formatBasic, checkTriggers } from '../mod.ts'
+import { ctx, v, CommandCall, CommandTags, Command, Message, sendMessage, formatErr, formatWarn, parseCall, formatBasic, checkTriggers } from '../mod.ts'
 
 export async function msgCreate(msg: Message){
 	// If message is from a bot, ignore
@@ -26,25 +26,25 @@ export async function msgCreate(msg: Message){
 	}
 
 	// Create the cmdcall object that will be used for basically everything
-	const call: CmdCall = parseCall(msg, ctx.config.prefix, guildSettings)
-	const foundCmd: Cmd | undefined = ctx.commands.find(x => x.aliases.includes(call.cmd))
+	const call: CommandCall = parseCall(msg, ctx.config.prefix, guildSettings)
+	const foundCmd: Command | undefined = ctx.commands.find(x => x.aliases.includes(call.cmd))
 
 	// Check if command found
 	if (!foundCmd)
 		return
 
 	// Check if command disabled
-	if (foundCmd.tags & CmdTags.Disabled)
+	if (foundCmd.tags & CommandTags.Disabled)
 		return sendMessage(v, call.channel, {embeds: [formatWarn('This command is disabled')]})
 
 	// Check if command is disabled in DMs. If so, check if we are in a guild
-	if (foundCmd.tags & CmdTags.DisabledInDm) {
+	if (foundCmd.tags & CommandTags.DisabledInDm) {
 		if (!call.msg.guildId)
 			return sendMessage(v, call.channel, {embeds: [formatWarn('Command disabled in direct messages')]})
 	}
 
 	// Check if admin permissions are required. If so, check if user has admin permissions
-	if (foundCmd.tags & CmdTags.BotAdminRequired){
+	if (foundCmd.tags & CommandTags.BotAdminRequired){
 		if (!ctx.config.admins.includes(call.msg.authorId.toString()))
 			return sendMessage(v, call.channel, {embeds: [formatWarn('You are not allowed to execute this command')]})
 	}

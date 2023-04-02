@@ -1,9 +1,9 @@
-import { CmdCall, Cmd, CmdTags, getMessage, v, sendMessage } from '../../mod.ts'
+import { CommandCall, Command, CommandTags, getMessage, v, sendMessage } from '../../mod.ts'
 
-export const format: Cmd = {
-	tags: CmdTags.DisabledInDm,
+export const format: Command = {
+	tags: CommandTags.DisabledInDm,
 	aliases: ['format'],
-	execute: async(call: CmdCall) => {
+	execute: async(call: CommandCall) => {
 		if (
 			!call.msg.messageReference ||
 			!call.msg.messageReference?.channelId ||

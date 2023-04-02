@@ -1,4 +1,4 @@
-import { CmdCall, Config, consts, ctx, exists, Message, parse, strNormalize, GuildSettings } from '../mod.ts'
+import { CommandCall, Config, consts, ctx, exists, Message, parse, strNormalize, GuildSettings } from '../mod.ts'
 
 /** 
  * Check if config is present and not malformed. If so, returns a Config 
@@ -26,9 +26,9 @@ export async function loadConfig(): Promise<Config> {
 }
 
 /** 
- * Takes a message, parse it and returns a CmdCall 
+ * Takes a message, parse it and returns a CommandCall 
  */
-export function parseCall(message: Message, prefix: string, guildSettings: GuildSettings): CmdCall {
+export function parseCall(message: Message, prefix: string, guildSettings: GuildSettings): CommandCall {
 	const msgNoPre = message.content.replace(RegExp(`^${prefix}`,'i'),'').trim()
 	const args = msgNoPre.split(' ').filter(x => x !== ' ' && x !== '')
 	const cmd = strNormalize(args.shift() ?? '')

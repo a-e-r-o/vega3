@@ -1,9 +1,9 @@
-import { Embed, Cmd, CmdCall, res8bFr, randInt } from '../../mod.ts'
+import { Embed, Command, CommandCall, res8bFr, randInt } from '../../mod.ts'
 
-export const heightball: Cmd = {
+export const heightball: Command = {
 	tags: 0,
 	aliases: ['8ball', 'mball', 'magicball', 'boulemagique'],
-	execute: (call: CmdCall) => {
+	execute: (call: CommandCall) => {
 		
 		const imperative = call.msg.content.match(/\?\?/gim) !== null
 		const desc = call.args.join(' ')

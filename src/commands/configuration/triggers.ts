@@ -1,12 +1,12 @@
-import { ctx, Cmd, CmdCall, CmdTags } from '../../mod.ts'
+import { ctx, Command, CommandCall, CommandTags } from '../../mod.ts'
 
 /**
  * List all triggers for the current guild, with their IDs (needed to delete them)
  */
-export const listTrigger: Cmd = {
-	tags: CmdTags.DisabledInDm + CmdTags.BotAdminRequired,
+export const listTrigger: Command = {
+	tags: CommandTags.DisabledInDm + CommandTags.BotAdminRequired,
 	aliases: ['triggerlist', 'triggers'],
-	execute: (call: CmdCall) => {
+	execute: (call: CommandCall) => {
 		const list = ctx.guildSettingsService.triggerList(call.msg.guildId!)
 		let res = ''
 		for (let i = 0; i < list.length; i++) {
@@ -21,10 +21,10 @@ export const listTrigger: Cmd = {
  * Create a new trigger
  * Syntax : vega +trigger [regex] ; [response] ; ([regex options])
  */
-export const addTrigger: Cmd = {
-	tags: CmdTags.DisabledInDm + CmdTags.BotAdminRequired,
+export const addTrigger: Command = {
+	tags: CommandTags.DisabledInDm + CommandTags.BotAdminRequired,
 	aliases: ['addtrigger', '+trigger'],
-	execute: (call: CmdCall) => {
+	execute: (call: CommandCall) => {
 		const options = call.msgStriped.split(';').map(x => x.trim()).filter(x => x !== '')
 
 		if (options.length < 2)
@@ -48,10 +48,10 @@ export const addTrigger: Cmd = {
 /**
  * Delete a trigger based on its ID. The ID is simply the INDEX of the trigger in the guild settings
  */
-export const deleteTrigger: Cmd = {
-	tags: CmdTags.DisabledInDm + CmdTags.BotAdminRequired,
+export const deleteTrigger: Command = {
+	tags: CommandTags.DisabledInDm + CommandTags.BotAdminRequired,
 	aliases: ['removetrigger', '-trigger'],
-	execute: (call: CmdCall) => {
+	execute: (call: CommandCall) => {
 		const argId = parseInt(call.args[0])
 		if (isNaN(argId))
 			return "Incorrect argument"

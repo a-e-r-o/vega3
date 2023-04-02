@@ -1,9 +1,9 @@
-import { v, Cmd, CmdCall, formatBasic, parseEmotes, sendMessage, copy, ensureDirSync, vegaLog, compress, getStreamReader, logFormatTime, consts, CmdTags } from '../../mod.ts'
+import { v, Command, CommandCall, formatBasic, parseEmotes, sendMessage, copy, ensureDirSync, vegaLog, compress, getStreamReader, logFormatTime, consts, CommandTags } from '../../mod.ts'
 
-export const emotes: Cmd = {
-	tags: CmdTags.None,
-	aliases: ['emojis', 'emoji', 'emotes'],
-	execute: async (call: CmdCall) => {
+export const emotes: Command = {
+	tags: CommandTags.None,
+	aliases: ['emotes', 'emojis', 'emoji'],
+	execute: async (call: CommandCall) => {
 		const emotes = parseEmotes(call.msg.content)
 		// If no emotes found
 		if (emotes.length < 1)

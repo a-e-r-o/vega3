@@ -1,9 +1,9 @@
-import { Embed, Cmd, CmdCall, parseDesc, randInt } from '../../mod.ts'
+import { Embed, Command, CommandCall, parseDesc, randInt } from '../../mod.ts'
 
-export const randint: Cmd = {
+export const randint: Command = {
 	tags: 0,
 	aliases: ['randint', 'dice', 'dé', 'randominteger', 'randomint'],
-	execute: (call: CmdCall) => {
+	execute: (call: CommandCall) => {
 		const desc = parseDesc(call.args)
 
 		// Join remaining options to reconstruct the original message, and split options with the semicolon

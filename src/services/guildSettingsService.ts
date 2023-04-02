@@ -37,7 +37,7 @@ export class GuildSettingsService {
 	// === Public functions ===
 
 	/**
-	 * Create and/or get preferences for a guild
+	 * Create and/or get preferences for a guild. If guid ID is 0n, returns default settings
 	 */
 	getGuildSettings(guildId: bigint): GuildSettings {
 		const setting = this.guildSettings[guildId.toString()]

@@ -1,9 +1,9 @@
-import { CmdCall, Cmd, sendMessage, CmdTags } from '../../mod.ts'
+import { CommandCall, Command, sendMessage, CommandTags } from '../../mod.ts'
 
-export const ip: Cmd = {
-	tags: CmdTags.BotAdminRequired,
+export const ip: Command = {
+	tags: CommandTags.BotAdminRequired,
 	aliases: ['ip'],
-	execute: async(call: CmdCall) => {
+	execute: async(call: CommandCall) => {
 		const rawData: Response = await fetch('https://api.ipify.org?format=json')
 		const data = await rawData.json()
 		if (!data.ip)

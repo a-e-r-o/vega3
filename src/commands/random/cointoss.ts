@@ -1,9 +1,9 @@
-import { Cmd, CmdCall, sendMessage, v } from '../../mod.ts'
+import { Command, CommandCall, sendMessage, v } from '../../mod.ts'
 
-export const cointoss: Cmd = {
+export const cointoss: Command = {
 	tags: 0,
-	aliases: ['pf', 'flip', 'cointoss', 'coinflip', 'pileface'],
-	execute: (call: CmdCall) => {
+	aliases: ['cointoss' ,'pf', 'flip', 'coinflip', 'pileface'],
+	execute: (call: CommandCall) => {
 		sendMessage(v, call.channel, {content: Math.random() < 0.5 ? 'Tails' : 'Heads'})
 	}
 }
