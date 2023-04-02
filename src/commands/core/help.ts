@@ -33,8 +33,8 @@ function execute (call: CommandCall) {
 		
 		if (description){
 			embed.fields!.push({
-				name: '`'+commandId+'`',
-				value: `> ${description}\n> \n> *Aliases : ${cmd.aliases.join(', ')}*`
+				name: `\`▶ ${commandId}\``,
+				value: `*(${cmd.aliases.join(', ')})*\n${description}`
 			})
 		}
 	})

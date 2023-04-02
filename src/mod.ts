@@ -13,7 +13,7 @@ export * from './core/consts.ts'
 // Types
 export * from  './types/horoscope.ts'
 export * from  './types/core.ts'
-export * from  './types/8ball.ts'
+
 export * from  './types/discord.ts'
 
 // Helpers
