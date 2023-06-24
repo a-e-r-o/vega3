@@ -21,7 +21,7 @@ export function getStreamReader(streamReader: ReadableStreamDefaultReader<Uint8A
 /** Takes a list of file paths and creates a zip file containing them all */
 export async function compress (files: string[], archiveName = './archive.zip'): Promise<boolean> {
 	const cmdWinArgs = ['PowerShell', 'Compress-Archive', '-Path', files.join(', '), '-DestinationPath',archiveName, '-Force',]
-	const cmdLinArgs = ['zip', archiveName, ...files]
+	const cmdLinArgs = ['zip', '-j', archiveName, ...files]
 	
   const compressCommandProcess = Deno.run({
     cmd: Deno.build.os === 'windows' ? cmdWinArgs : cmdLinArgs,
