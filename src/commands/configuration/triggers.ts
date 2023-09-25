@@ -61,7 +61,7 @@ export const deleteTrigger: Command = {
 		if (isNaN(argId))
 			return "Incorrect argument"
 
-		if (call.guildSettings.triggers[argId])
+		if (!call.guildSettings.triggers[argId])
 			throw 'No trigger with this ID. Use triggerlist to see yours triggers and their IDs'
 		
 		if (ctx.guildSettingsService.deleteTrigger(call.msg.guildId!, argId))
