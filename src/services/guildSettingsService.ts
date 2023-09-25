@@ -62,23 +62,39 @@ export class GuildSettingsService {
 
 	/**
 	 * Trigger CREATE
+	 * Returns a number, the ID of the new trigger
+	 * In case of error, returns -1
 	 */
-	addTrigger(guildId: bigint, regex: string, response: string, regexParams = ''){
-		const settings = this.getGuildSettings(guildId)
-		settings.triggers.push({
-			regex: regex,
-			regexOptions: regexParams,
-			response: response
-		})
-		this.writeGuildSettings(guildId)
+	addTrigger(guildId: bigint, regex: string, response: string, regexParams = ''): number {
+		try {
+			const settings = this.getGuildSettings(guildId)
+			settings.triggers.push({
+				regex: regex,
+				regexOptions: regexParams,
+				response: response
+			})
+			this.writeGuildSettings(guildId)
+			return settings.triggers.length - 1
+		}
+		catch(error) {
+			console.log('Error while adding a trigger to guild config : ', error)
+			return -1
+		}
 	}
 
 	/**
 	 * Trigger DELETE
 	 */
-	deleteTrigger(guildId: bigint, index: number) {
-		const settings = this.getGuildSettings(guildId)
-		settings.triggers.splice(index, 1)
-		this.writeGuildSettings(guildId)
+	deleteTrigger(guildId: bigint, index: number): boolean {
+		try {
+			const settings = this.getGuildSettings(guildId)
+			settings.triggers.splice(index, 1)
+			this.writeGuildSettings(guildId)
+			return true
+		}
+		catch(error){
+			console.log('Error while removing a trigger to guild config : ', error)
+			return false
+		}
 	}
 }

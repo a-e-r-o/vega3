@@ -38,10 +38,15 @@ export const addTrigger: Command = {
 			''.match(new RegExp(regex, regexOptions))
 		}
 		catch (error) {
-			throw `Malformed error \`${error}\``
+			throw `Malformed argument \`${error}\``
 		}
 
-		return ctx.guildSettingsService.addTrigger(call.msg.guildId!, regex, response, regexOptions)
+		const triggerId = ctx.guildSettingsService.addTrigger(call.msg.guildId!, regex, response, regexOptions)
+		// If id is -1, an error occurred
+		if (triggerId >= 0)
+			return `Successfully added trigger \`${regex}\` with ID \`${triggerId}\``
+		else
+			throw 'An error occurred, failed to remove trigger'
 	}
 }
 
@@ -57,8 +62,11 @@ export const deleteTrigger: Command = {
 			return "Incorrect argument"
 
 		if (call.guildSettings.triggers[argId])
-			return ctx.guildSettingsService.deleteTrigger(call.msg.guildId!, argId)
-		else
 			throw 'No trigger with this ID. Use triggerlist to see yours triggers and their IDs'
+		
+		if (ctx.guildSettingsService.deleteTrigger(call.msg.guildId!, argId))
+			return `Successfully removed trigger with ID \`${argId}\``
+		else
+			throw 'An error occurred, failed to add trigger'
 	}
 }
