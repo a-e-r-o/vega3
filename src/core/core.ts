@@ -1,4 +1,5 @@
-import { CommandCall, Config, consts, ctx, exists, Message, parse, strNormalize, GuildSettings } from '../mod.ts'
+import { Message, parse } from '../../deps.ts';
+import { CommandCall, Config, consts, exists, strNormalize, GuildSettings } from '../mod.ts'
 
 /** 
  * Check if config is present and not malformed. If so, returns a Config 
@@ -34,21 +35,22 @@ export function parseCall(message: Message, prefix: string, guildSettings: Guild
 	const cmd = strNormalize(args.shift() ?? '')
 	const msgStriped = msgNoPre.replace(cmd, '').trim()
 
-	if (!message.channelId)
-		message.channelId = 0n
+	if (!message.channelID)
+		message.channelID = ''
 
 	return {
 		msg: message,
 		msgStriped: msgStriped,
 		args: args,
 		cmd: cmd,
-		channel: message.channelId,
+		channel: message.channelID,
 		guildSettings: guildSettings
 	}
 }
 
 /** 
- * Parse the index and content of a description if found 
+ * USED IN 'RANDOM' COMMANDS
+ * Parse the index and content of a description if found
  */
 export function parseDesc(args: string[]): string {
 	// If first char of an arg is a dash, consider the first beginning of the description

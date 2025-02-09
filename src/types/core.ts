@@ -1,4 +1,4 @@
-import { Message, Embed } from '../mod.ts'
+import { Message, Embed } from '../../deps.ts'
 
 export type Config = {
 	token: string
@@ -36,7 +36,7 @@ export type CommandCall = {
 	/**
 	 * Discord channel ID
 	 */
-	channel: bigint
+	channel: string
 	/**
 	 * Settings for the message's guid, 
 	 */

@@ -1,4 +1,5 @@
-import { GuildSettings, Message, vegaLog } from "../mod.ts"
+import { Message } from "../../deps.ts";
+import { GuildSettings, vegaLog } from "../mod.ts"
 
 export function checkTriggers(msg: Message, guildSettings: GuildSettings){
 	let foundPattern = undefined

@@ -1,7 +1,6 @@
-import { Buffer, writeAll } from '../mod.ts'
+import { Buffer, writeAll } from '../../deps.ts'
 
-/** Creates a `Reader` from a `ReadableStreamDefaultReader` */
-export function getStreamReader(streamReader: ReadableStreamDefaultReader<Uint8Array>): Deno.Reader {
+export function getStreamReader(streamReader: ReadableStreamDefaultReader<Uint8Array>) {
   const buffer = new Buffer()
 	
   return {
@@ -20,6 +19,8 @@ export function getStreamReader(streamReader: ReadableStreamDefaultReader<Uint8A
 
 /** Takes a list of file paths and creates a zip file containing them all */
 export async function compress (files: string[], archiveName = './archive.zip'): Promise<boolean> {
+	return false
+	/*
 	const cmdWinArgs = ['PowerShell', 'Compress-Archive', '-Path', files.join(', '), '-DestinationPath',archiveName, '-Force',]
 	const cmdLinArgs = ['zip', '-j', archiveName, ...files]
 	
@@ -29,6 +30,7 @@ export async function compress (files: string[], archiveName = './archive.zip'):
     stderr: 'piped',
   })
   return (await compressCommandProcess.status()).success
+	*/
 }
 
 /** Method to remove all files in a folder */
@@ -45,12 +47,7 @@ export async function exists(path: string) {
 		// successful, file or directory must exist
 		return true
 	} catch (error) {
-		if (error && (error.name === Deno.errors.NotFound.name)) {
-			// file or directory does not exist
-			return false
-		} else {
-			// unexpected error, maybe permissions, pass it along
-			throw error
-		}
+		// unexpected error, maybe permissions, pass it along
+		throw error
 	}
 }

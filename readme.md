@@ -32,3 +32,8 @@ chmod +x launch.sh
 ./launch.sh
 ```
 *I recommend using [tmux](https://www.redhat.com/sysadmin/introduction-tmux-linux) to keep the bot running in the background wihtout needing to keep your shell opened*
+
+
+https://deno.land/x/harmony@v2.9.1
+
+https://harmony.mod.land/guide/beginner/basic_bot.html

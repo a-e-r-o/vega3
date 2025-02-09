@@ -1,15 +1,55 @@
-import { deleteMessages, deleteMessage, Emote, BotWithCache } from '../mod.ts'
+import { GuildBan, GuildManager, MessagesManager } from '../../deps.ts';
+import { BOT } from '../../main.ts';
+import { Emote } from '../mod.ts'
+
+import { ChannelsManager, Guild, GuildChannelsManager } from 'https://deno.land/x/harmony@v2.9.1/mod.ts'
+
+
+async function deltaTest(){
+	let channelManager = new ChannelsManager(BOT)
+	let channel = await channelManager.get('1234')
+
+	if (channel?.isText()){
+		channel.send('Hello World!')
+		let a = await channel.fetchMessages({limit: 20})
+		a.forEach(async msg => {
+			await msg.delete()
+		})
+	}
+
+	const guildId = 'azeraezr'
+	const guildManager = new GuildManager(BOT);
+	const guild = await guildManager.get(guildId)
+
+
+	if (guild){
+		let a = new GuildChannelsManager(BOT, channelManager, guild);
+		let b = await a.get('1234')
+	}
+}
 
 // === msg utility functions ===
 
-export async function deleteMsgs(bot: BotWithCache, msgIds: bigint[], channelID: bigint): Promise<void> {
+export async function deleteMsgs(msgIds: bigint[], channelID: bigint): Promise<void> {
+	let channelManager = new ChannelsManager(BOT)
+	let channel = await channelManager.get('1234')
+
+	if (channel?.isText()){
+		channel.send('Hello World!')
+		let a = await channel.fetchMessages({limit: 20})
+		a.forEach(async msg => {
+			await msg.delete()
+		})
+	}
+	return
+	/*
 	// if there is multiple messages, delete them all
 	if (msgIds.length > 1) {
 		await deleteMessages(bot, channelID, msgIds)
 	// if there is a single message, delete it
 	} else if (msgIds.length == 1) {
 		await deleteMessage(bot, channelID, msgIds[0])
-	}
+	}*/
 }
 
 export function parseEmotes(msg: string): Emote[] {

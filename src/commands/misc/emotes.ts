@@ -13,11 +13,11 @@ export const emotes: Command = {
 			throw `Maximum 50 emotes at once. Your message contains ${emotes.length} unique emotes`
 
 		// Inform user the command has been handled and the process can take a while to produce a result
-		sendMessage(v, call.msg.channelId, {embeds: [formatBasic('Working on it. This process might take several seconds...')]})
+		sendMessage(v, call.msg.channelID, {embeds: [formatBasic('Working on it. This process might take several seconds...')]})
 
 		// Create temporary directory that will be used to downlaod and zip emotes
 		const now = new Date()
-		const tmpDir = consts.tmpDir+`/emotes_${now.getTime()}_${call.msg.authorId}`
+		const tmpDir = consts.tmpDir+`/emotes_${now.getTime()}_${call.msg.author.id}`
 		ensureDirSync(tmpDir)
 
 		try {

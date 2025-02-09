@@ -1,5 +1,7 @@
 // Admin
+/*
 export * from './admin/clear.ts'
+*/
 
 // Core
 export * from './core/help.ts'
@@ -9,6 +11,7 @@ export * from './core/shutdown.ts'
 export * from './core/up.ts'
 
 // Configutation
+/*
 export * from './configuration/setLanguage.ts'
 export * from './configuration/triggers.ts'
 
@@ -25,3 +28,5 @@ export * from './random/random.ts'
 export * from './random/cointoss.ts'
 export * from './random/randint.ts'
 export * from './random/eightBall.ts'
+
+*/

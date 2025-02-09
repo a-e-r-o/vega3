@@ -1,4 +1,5 @@
-import { v, getMessages, hasGuildPermissions, CommandCall, Command, deleteMsgs } from '../../mod.ts'
+import { BOT, CONTEXT } from '../../../main.ts'
+import { hasGuildPermissions, CommandCall, Command, deleteMsgs } from '../../mod.ts'
 
 export const clear: Command = {
 	tags: 0,
@@ -8,11 +9,11 @@ export const clear: Command = {
 
 async function execute (call: CommandCall) {
 
-	if (!call.msg.guildId)
+	if (!call.msg.guildID)
 		throw 'Cannot delete messages in private conversation'
 
 	// if member has permission to manage messages
-	const canDelMsgPerm = hasGuildPermissions(v, call.msg.guildId, call.msg.authorId, ['MANAGE_MESSAGES'])
+	const canDelMsgPerm = hasGuildPermissions(BOT, call.msg.guildId, call.msg.authorId, ['MANAGE_MESSAGES'])
 
 	if (!canDelMsgPerm)
 		throw 'Messages deletion failed *(User missing permissions)*'

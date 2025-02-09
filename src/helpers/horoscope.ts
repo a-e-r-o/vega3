@@ -1,4 +1,5 @@
-import { HoroscopeSection, HoroscopeData, Embed, Sign, strNormalize } from '../mod.ts'
+import { HoroscopeSection, HoroscopeData, Sign, strNormalize } from '../mod.ts'
+import { Embed } from '../../deps.ts'
 
 export function parseHoroscope(rawHtml: string): HoroscopeData | undefined {
 	const categories: HoroscopeSection[] = []
@@ -64,7 +65,7 @@ export function toSectionEmoji(sectionName: string): string {
 
 export async function getHoroscopeContent(selectedSign: Sign, horoRoutes: string): Promise<Embed> {
 	// init embed
-	const embed: Embed = {}
+	const embed = new Embed()
 	embed.fields = []
 	embed.color = parseInt(selectedSign.color, 16)
 
