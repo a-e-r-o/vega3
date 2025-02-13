@@ -28,63 +28,6 @@ async function deltaTest(){
 	}
 }
 
-// === msg utility functions ===
-
-export async function deleteMsgs(msgIds: bigint[], channelID: bigint): Promise<void> {
-	let channelManager = new ChannelsManager(BOT)
-	let channel = await channelManager.get('1234')
-
-	if (channel?.isText()){
-		channel.send('Hello World!')
-		let a = await channel.fetchMessages({limit: 20})
-		a.forEach(async msg => {
-			await msg.delete()
-		})
-	}
-	return
-	/*
-	// if there is multiple messages, delete them all
-	if (msgIds.length > 1) {
-		await deleteMessages(bot, channelID, msgIds)
-	// if there is a single message, delete it
-	} else if (msgIds.length == 1) {
-		await deleteMessage(bot, channelID, msgIds[0])
-	}*/
-}
-
-export function parseEmotes(msg: string): Emote[] {
-	const matches = msg.match(/<(a)?:(.*?):(.*?)>/g) || []
-	const emotes: Emote[] = []
-	
-	matches?.forEach(x => {
-		x = x.replace(/[<,>]/g, '')
-		const parts = x.split(':').filter(x => x != '')
-
-		const anim = parts.length > 2
-		const id = parts.pop()
-		const name = parts.pop()
-		const filename = `${name}.${anim?'gif':'png'}`
-		const url = `https://cdn.discordapp.com/emojis/${id}.${anim?'gif':'png'}?size=512&quality=lossless`
-
-		// If parsed data is malfrmed, abort
-		if (!id || !name || !url)
-			return
-		// If emote is a duplicate, abort
-		if (emotes.find(y => y.id == id))
-			return
-
-		emotes.push({
-			animated: anim,
-			id: id,
-			name: name,
-			url: url,
-			filename: filename
-		})
-	})
-	
-	return emotes
-}
-
 /**
  * Checks if strinf provided is a discord id
  */
@@ -112,16 +55,16 @@ export function mentionToId(mentionStr: string): string {
 /**
  * Extract user ids from a list of strings
  */
-export function parseUserIds(args: string[]): bigint[] {
-	const ids = new Set<bigint>()
+export function parseUserIds(args: string[]): string[] {
+	const ids = new Set<string>()
 
 	for (const arg of args) {
 		// If discord id, convert to bigint and add
 		if (isDiscordId(arg))
-			ids.add(BigInt(arg))
+			ids.add(arg)
 		// If mention, extract id, convert to bigint and add
 		else if (isDiscordMention(arg))
-			ids.add(BigInt(mentionToId(arg)))
+			ids.add(mentionToId(arg))
 	}
 
 	return Array.from(ids)

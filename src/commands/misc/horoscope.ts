@@ -1,4 +1,4 @@
-import { ctx, Command, CommandCall, signs, Sign, horoRoutes, strNormalize, getHoroscopeContent, CommandTags } from '../../mod.ts'
+import { Command, CommandCall, signs, Sign, horoRoutes, strNormalize, getHoroscopeContent, CommandTags } from '../../mod.ts'
 
 export const horoscope: Command = {
 	tags: CommandTags.None,

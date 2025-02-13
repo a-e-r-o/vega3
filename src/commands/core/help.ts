@@ -18,7 +18,7 @@ function execute (call: CommandCall) {
 			title: "Commands available",
 			color: 16316664,
 			footer: { 
-				text: "V E G A   v" + version,
+				text: `v${version}`,
 				icon_url: self!.avatarURL()
 			},
 			fields: []

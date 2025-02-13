@@ -1,4 +1,4 @@
-import { CommandCall, Command, sendMessage, CommandTags } from '../../mod.ts'
+import { CommandCall, Command, CommandTags } from '../../mod.ts'
 
 export const ip: Command = {
 	tags: CommandTags.BotAdminRequired,

@@ -1,4 +1,5 @@
-import { ctx, Command, CommandCall, CommandTags } from '../../mod.ts'
+import { CONTEXT } from '../../../main.ts'
+import { Command, CommandCall, CommandTags } from '../../mod.ts'
 
 /**
  * List all triggers for the current guild, with their IDs (needed to delete them)
@@ -7,7 +8,7 @@ export const listTrigger: Command = {
 	tags: CommandTags.DisabledInDm + CommandTags.BotAdminRequired,
 	aliases: ['triggerlist', 'triggers'],
 	execute: (call: CommandCall) => {
-		const list = ctx.guildSettingsService.triggerList(call.msg.guildId!)
+		const list = CONTEXT.guildSettingsService.triggerList(call.msg.guildID!)
 		let res = ''
 		for (let i = 0; i < list.length; i++) {
 			res += `\`ID\` : ${i} => \`${list[i].regex}\`\n`
@@ -41,7 +42,7 @@ export const addTrigger: Command = {
 			throw `Malformed argument \`${error}\``
 		}
 
-		const triggerId = ctx.guildSettingsService.addTrigger(call.msg.guildId!, regex, response, regexOptions)
+		const triggerId = CONTEXT.guildSettingsService.addTrigger(call.msg.guildID!, regex, response, regexOptions)
 		// If id is -1, an error occurred
 		if (triggerId >= 0)
 			return `Successfully added trigger \`${regex}\` with ID \`${triggerId}\``
@@ -64,7 +65,7 @@ export const deleteTrigger: Command = {
 		if (!call.guildSettings.triggers[argId])
 			throw 'No trigger with this ID. Use triggerlist to see yours triggers and their IDs'
 		
-		if (ctx.guildSettingsService.deleteTrigger(call.msg.guildId!, argId))
+		if (CONTEXT.guildSettingsService.deleteTrigger(call.msg.guildID!, argId))
 			return `Successfully removed trigger with ID \`${argId}\``
 		else
 			throw 'An error occurred, failed to add trigger'

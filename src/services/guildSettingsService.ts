@@ -1,4 +1,4 @@
-import { consts, GuildSettings, readFolderSets, recordToArray, saveSet } from "../mod.ts"
+import { consts, GuildSettings, readFolderSets, saveSet } from "../mod.ts"
 
 export class GuildSettingsService {
 	private guildSettings: Record<string, GuildSettings> = {}

@@ -1,5 +1,5 @@
-import { HoroscopeSection, HoroscopeData, Sign, strNormalize } from '../mod.ts'
-import { Embed } from '../../deps.ts'
+import { HoroscopeSection, HoroscopeData, Sign, strNormalize } from '../../mod.ts'
+import { Embed } from '../../../deps.ts'
 
 export function parseHoroscope(rawHtml: string): HoroscopeData | undefined {
 	const categories: HoroscopeSection[] = []

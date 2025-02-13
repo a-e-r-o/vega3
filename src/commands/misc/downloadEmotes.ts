@@ -1,4 +1,6 @@
-import { v, Command, CommandCall, formatBasic, parseEmotes, sendMessage, copy, ensureDirSync, vegaLog, compress, getStreamReader, logFormatTime, consts, CommandTags } from '../../mod.ts'
+import { Command, CommandCall, formatBasic, parseEmotes, vegaLog, compress, getStreamReader, logFormatTime, consts, CommandTags } from '../../mod.ts'
+import { ensureDirSync, copy } from '../../../deps.ts'
+import { MessageAttachment } from 'https://deno.land/x/harmony@v2.9.1/src/structures/message.ts';
 
 export const emotes: Command = {
 	tags: CommandTags.None,
@@ -13,7 +15,7 @@ export const emotes: Command = {
 			throw `Maximum 50 emotes at once. Your message contains ${emotes.length} unique emotes`
 
 		// Inform user the command has been handled and the process can take a while to produce a result
-		sendMessage(v, call.msg.channelID, {embeds: [formatBasic('Working on it. This process might take several seconds...')]})
+		call.msg.channel.send({embeds: [formatBasic(`Downloading ${emotes.length} emotes...`)]})
 
 		// Create temporary directory that will be used to downlaod and zip emotes
 		const now = new Date()
@@ -50,7 +52,11 @@ export const emotes: Command = {
 				const zipBuffer = Deno.readFileSync(zipPath)
 				const zipBlob = new Blob([zipBuffer])
 				// SEND ZIP
-				sendMessage(v, call.msg.channelId, {file: {name: zipName, blob: zipBlob}})
+				const resMsg = {
+					content: `<@!${call.msg.author.id}>, here is your zip file containing ${emotes.length} emotes`,
+					file: new MessageAttachment(zipName, zipBlob, 'Emotes')
+				}
+				call.msg.channel.send(resMsg)
 			}
 			// If there was an error during the compression
 			else
@@ -59,7 +65,7 @@ export const emotes: Command = {
 		catch (err) {
 			let resMsg = 'An error occured in the process'
 			// If err contains a message, it's a runtime error, not a vega-throw error
-			if (err.message){
+			if (err instanceof Error){
 				vegaLog(err.message)
 				throw resMsg
 			}

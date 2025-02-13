@@ -66,18 +66,23 @@ export async function msgCreate(msg: Message){
 			return msg.channel.send({embeds: [feedback]})
 			//return sendMessage(BOT, call.channel, {embeds: [feedback]})
 	}
-	catch (e) {
+	catch (error: Error | string | unknown) {
 		// If the object caught is an error and not a string, then it is critical
-		if (e instanceof Error){
+		if (error instanceof Error){
 			console.log(
 				`Error executing command : ${call.cmd} with args [${call.args.join(',')}]\n`,
-				`└ ${e.message}`
+				`└ ${error.message}`
 			)
-			return msg.channel.send({embeds: [formatErr(`[Critical error]\n${e.message}`)]})
-			//return sendMessage(BOT, call.channel, {embeds: [formatErr(`[Critical error]\n${e.message}`)]})
+			return msg.channel.send({embeds: [formatErr(`[Critical error]\n${error.message}`)]})
 		}
-		return msg.channel.send({embeds: [formatWarn('unkown error')]})
-		//return sendMessage(BOT, call.channel, {embeds: [formatWarn(e)]})
+		// If error was thrown volontarily
+		else if (typeof error === 'string') {
+			return msg.channel.send({embeds: [formatWarn(error)]})
+		}
+		// If error wasn't expected
+		else {
+			return msg.channel.send({embeds: [formatWarn('Unkown error')]})
+		}
 	}
 }
 

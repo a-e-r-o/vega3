@@ -19,18 +19,37 @@ export function getStreamReader(streamReader: ReadableStreamDefaultReader<Uint8A
 
 /** Takes a list of file paths and creates a zip file containing them all */
 export async function compress (files: string[], archiveName = './archive.zip'): Promise<boolean> {
-	return false
+
 	/*
 	const cmdWinArgs = ['PowerShell', 'Compress-Archive', '-Path', files.join(', '), '-DestinationPath',archiveName, '-Force',]
 	const cmdLinArgs = ['zip', '-j', archiveName, ...files]
 	
   const compressCommandProcess = Deno.run({
-    cmd: Deno.build.os === 'windows' ? cmdWinArgs : cmdLinArgs,
-    stdout: 'piped',
-    stderr: 'piped',
+  cmd: Deno.build.os === 'windows' ? cmdWinArgs : cmdLinArgs,
+  stdout: 'piped',
+  stderr: 'piped',
   })
-  return (await compressCommandProcess.status()).success
+	(await compressCommandProcess.status()).success
 	*/
+	const encoder = new TextEncoder();
+	const tempDir = await Deno.makeTempDir();
+
+	for (const file of files) {
+		const src = await Deno.open(file);
+		const dest = await Deno.open(`${tempDir}/${file.split('/').pop()}.gz`, {
+			create: true,
+			write: true,
+		});
+
+		await src.readable
+			.pipeThrough(new CompressionStream("gzip"))
+			.pipeTo(dest.writable);
+
+		src.close();
+		dest.close();
+	}
+
+  return false
 }
 
 /** Method to remove all files in a folder */
