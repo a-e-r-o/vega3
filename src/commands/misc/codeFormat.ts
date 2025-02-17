@@ -1,3 +1,5 @@
+import { MessagesManager } from '../../../deps.ts';
+import { BOT } from '../../../main.ts';
 import { CommandCall, Command, CommandTags } from '../../mod.ts'
 
 export const format: Command = {
@@ -11,7 +13,8 @@ export const format: Command = {
 			!call.msg.messageReference?.message_id
 		) return 'Use this command in response to an existing message'
 
-		const refMsg = await call.msg.channel.messages.get(call.msg.id)
+		const refMsg = 
+			await call.msg.channel.messages.resolve(call.msg.messageReference.message_id)
 
 		if(!refMsg)
 			throw 'Cannot get referenced message'

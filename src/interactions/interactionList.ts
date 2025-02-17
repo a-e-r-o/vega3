@@ -1,1 +1,0 @@
-export { YeeInteraction } from './ketamine.ts'

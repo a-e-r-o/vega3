@@ -18,8 +18,6 @@ export * from './configuration/triggers.ts'
 export * from './misc/avatar.ts'
 export * from './misc/cipher.ts'
 export * from './misc/codeFormat.ts'
-export * from './misc/downloadEmotes.ts'
-export * from './misc/horoscope.ts'
 export * from './misc/ip.ts'
 
 // Random
