@@ -1,6 +1,4 @@
-import { Interaction, InteractionApplicationCommandData, InteractionMessageOptions, InteractionResponse, InteractionResponseModal, SlashCommandInteraction } from "../../../deps.ts";
-import { actionRowComponent } from "./Components/ketamine.components.ts";
-
+import { InteractionResponseModal, SlashCommandInteraction } from "../../../deps.ts";
 
 // Create handler function
 export async function ClearMsgs (interaction: SlashCommandInteraction){
@@ -10,11 +8,11 @@ export async function ClearMsgs (interaction: SlashCommandInteraction){
 		if (isNaN(msgCountArg))
 			interaction.respond({ephemeral: true, content: '\'fin bro tu es cringe mets un nombre en fait'})
 
-		
+		// let beeo = await interaction.respond({ephemeral: true, content: 'Deleting messages...'})
 		
 		interaction.defer(true)
 
-		await new Promise( resolve => setTimeout(resolve, 1000) );
+		await new Promise( resolve => setTimeout(resolve, 5000) );
 
 		const X = 5;
 
@@ -38,15 +36,11 @@ export async function ClearMsgs (interaction: SlashCommandInteraction){
 			customID: '933299078840156596',
 			title: 'HEY HEY HEY',
 			//customID: '9',
-			components: [actionRowComponent]
+			components: []
 		}
 
-		const response: InteractionMessageOptions = {
-			ephemeral: true,
-			content: `Cleared ${X} messages`,
-		}
 
-		interaction.editResponse(response)
+		interaction.editResponse({ephemeral: true,  content: `Cleared ${X} messages`})
 	}
 	catch (e){
 		console.log(e)

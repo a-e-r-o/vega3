@@ -1,21 +1,23 @@
-import { ApplicationCommandHandler, ApplicationCommand } from '../../deps.ts';
-import { ClearMsgsHandler, ClearMsgsInteraction } from './ClearMessages/clearMsgs.interaction.ts';
+import { ApplicationCommandHandler, ApplicationCommand, ApplicationCommandPartial, ComponentInteractionHandler } from '../../deps.ts';
+import { ClearMsgsHandler, ClearMsgsInteraction } from './ClearMessages/clearMsgs.ts';
 
-import { KetamineHandler, KetamineInteraction } from './ketamine/ketamine.interaction.ts'
+import * as ket from './ketamine/ketamine.ts'
 
 //import * as KetamineHandlers from './ketamine/handlers.ts'
 
+export const Interactions: ApplicationCommandPartial[] = 
+[
+	ket.interaction,
+	ClearMsgsInteraction
+]
 
-export const Interactions = Object.values (
-	[
-		KetamineInteraction,
-		ClearMsgsInteraction
-	]
-) as ApplicationCommand[]
+export const InteractionHandlers: ApplicationCommandHandler[] = 
+[
+	ket.handler,
+	ClearMsgsHandler
+]
 
-export const InteractionHandlers = Object.values(
-	[
-		KetamineHandler,
-		ClearMsgsHandler
-	]
-) as ApplicationCommandHandler[]
+export const ComponentInteractionHandlers: ComponentInteractionHandler[] = 
+[
+	ket.validateHandler
+]
