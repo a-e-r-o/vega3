@@ -4,7 +4,7 @@ import { ClearMsgs } from "./clearMsgs.function.ts";
 
 
 // Creater interation object
-export const ClearMsgsInteraction: ApplicationCommandPartial = {
+export const interaction: ApplicationCommandPartial = {
 	name: 'clearmessages',
 	description: 'Deletes a bunch of messages in current channel',
 	defaultPermission: false,
@@ -19,7 +19,7 @@ export const ClearMsgsInteraction: ApplicationCommandPartial = {
 }
 
 // Create interaction handler
-export const ClearMsgsHandler: ApplicationCommandHandler = {
+export const handler: ApplicationCommandHandler = {
 	name: 'clearmessages',
 	type: ApplicationCommandType.CHAT_INPUT,
 	handler: ClearMsgs

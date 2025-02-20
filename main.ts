@@ -54,8 +54,8 @@ Interactions.forEach(command => {
 		// TODO : see if possible with Harmony to require server wide permission for slash commands
 		// else fork harmony and implement it
 		.create(command, '376040838540820481')
-		// TODO : register in the DB cmd.id & cmd.guid to delete all commands when needed
 		.then((cmd) => {
+			// TODO : register in the DB cmd.id & cmd.guid to delete all commands when needed
 			console.log(`Created Slash Command ${cmd.name}!`)
 			//cmd.setPermissions([{id: '376040838540820481', type: "", permission: true}])
 		})

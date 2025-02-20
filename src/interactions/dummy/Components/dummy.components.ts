@@ -2,15 +2,15 @@ import { ActionRowComponent, ButtonComponent, ButtonStyle, MessageComponentType,
 
 export const options = [
 	{
-		label: 'Ketamine',
-		value: 'ket',
+		label: 'Option1',
+		value: 'one1',
 		default: true,
-		description: 'to drive your honda civic better'
+		description: 'The first option'
 	},
 	{
-		label: 'Fentanyl',
-		value: 'fent',
-		description: 'die, you will'
+		label: 'Option2',
+		value: 'two2',
+		description: 'The second, more dangerous option'
 	}
 ]
 
@@ -21,10 +21,9 @@ export const selectComponent: SelectComponent = {
 };
 export const buttonComponent: ButtonComponent = {
 	type: MessageComponentType.Button,
-	label: 'Ketamine',
+	label: 'dummy',
 	style: ButtonStyle.GREEN,
-	customID: '112229907884085659',
-	//url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRonKsMgGRfRj9KCQByj3C_I4FpkZYQWCfRiQ&s',
+	customID: 'DummyValidateButtonClick',
 	disabled: false
 };
 export const actionRowComponent: ActionRowComponent = {
