@@ -1,6 +1,6 @@
 # *V E G A*
 
-VEGA is multi-purpose Discord bot, but really mainly a playground project for me to test things or just speed up some things by adding a command on vega instead of doing it manually
+VEGA is multi-purpose Discord bot, but really mainly a playground project.
 
 ## Getting started
 

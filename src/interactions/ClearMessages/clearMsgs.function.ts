@@ -9,17 +9,12 @@ export async function ClearMsgs (interaction: SlashCommandInteraction){
 	try {
 		const msgCountArg = parseInt(interaction.data.options[0]?.value)
 
-		if (isNaN(msgCountArg) || msgCountArg <= 0)
-			return interaction.respond({ephemeral: true, content: '\'fin bro tu es cringe mets un nombre en fait'})
+		if (isNaN(msgCountArg) || msgCountArg <= 1 || msgCountArg > MAX_MSG_NUMBER)
+			return interaction.respond({ephemeral: true, content: 'Please pick a number beteween 2 and 100'})
 
 		// if member has permission to manage messages
 		if (!(interaction.member?.permissions.has('MANAGE_MESSAGES')))
 			return interaction.respond({ephemeral: true, content: `You don't have the right, O you don't have the right.`})
-
-		if (msgCountArg > MAX_MSG_NUMBER)
-			return interaction.respond({ephemeral: true, content: `This command is limited to ${MAX_MSG_NUMBER} messages at a time`}) 
-		
-		// let beeo = await interaction.respond({ephemeral: true, content: 'Deleting messages...'})
 		
 		await interaction.respond({ephemeral: true,  content: `Deleting ${msgCountArg} messages...`})
 		
