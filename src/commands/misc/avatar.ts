@@ -1,4 +1,5 @@
-import { v, Command, CommandCall, getAvatarURL, sendMessage, getUser, parseUserIds, CommandTags } from '../../mod.ts'
+import { BOT, CONTEXT } from '../../../main.ts';
+import { Command, CommandCall, parseUserIds, CommandTags } from '../../mod.ts'
 
 export const avatar: Command = {
 	tags: CommandTags.None,
@@ -7,6 +8,8 @@ export const avatar: Command = {
 		// limit to 5 users at once to avoid sending to many requests
 		if (call.args.length > 5)
 			throw 'Command limited to max 5 users at once'
+		else if (call.args.length === 0)
+			call.args.push(call.msg.author.id)
 
 		// user ids
 		const userIds = parseUserIds(call.args)
@@ -15,9 +18,9 @@ export const avatar: Command = {
 
 		for (const id of userIds) {
 			try {
-				const user = await getUser(v, id)
-				if (user.avatar){
-					res += getAvatarURL(v, user.id, user.discriminator, {avatar: user.avatar, size: 2048}) + '\n'
+				const user = await BOT.users.get(id)
+				if (user?.avatar){
+					res += user.avatarURL('png', 2048) + '\n'
 				}
 			}
 			catch {
@@ -26,7 +29,7 @@ export const avatar: Command = {
 		}
 			
 		if (res)
-			sendMessage(v, call.channel, {content: res})
+			call.msg.channel.send(res)
 		else
 			throw 'Incorrect or missing user ids'
 	}

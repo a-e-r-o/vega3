@@ -1,4 +1,5 @@
-import { Embed, Command, CommandCall, parseDesc, randInt } from '../../mod.ts'
+import { Command, CommandCall, parseDesc, randInt } from '../../mod.ts'
+import { Embed } from '../../../deps.ts'
 
 export const randint: Command = {
 	tags: 0,
@@ -43,7 +44,7 @@ export const randint: Command = {
 		const result = randInt(max, min)
 		
 		// Create embed
-		const res: Embed = {}
+		const res = new Embed()
 
 		// If description set, it's used as title
 		res.title = desc ? desc : undefined

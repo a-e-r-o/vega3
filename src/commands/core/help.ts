@@ -1,4 +1,6 @@
-import { Command, CommandCall, CommandTags, ctx, Embed, getAvatarURL, v, version } from '../../mod.ts'
+import { BOT, CONTEXT } from '../../../main.ts';
+import { Command, CommandCall, CommandTags } from '../../mod.ts'
+import { Embed, version } from '../../../deps.ts';
 import { strings } from '../../assets/strings.ts'
 
 export const help: Command = {
@@ -8,26 +10,28 @@ export const help: Command = {
 }
 
 function execute (call: CommandCall) {
-	const self = v.users.get(v.id)
+	const self = BOT.user
 
 	// Response embed
-	const embed: Embed = {
-		title: "Commands available",
-		color: 16316664,
-		footer: { 
-			text: "V E G A   v" + version,
-			iconUrl: getAvatarURL(v, self!.id, self!.discriminator, {avatar: self!.avatar, size: 2048})
-		},
-		fields: []
-	}
+	const embed: Embed = new Embed(
+		{
+			title: "Commands available",
+			color: 16316664,
+			footer: { 
+				text: `v${version}`,
+				icon_url: self!.avatarURL()
+			},
+			fields: []
+		}
+	)
 
 	// Order commands alphabetically
-	ctx.commands.sort(function(a, b) {
+	CONTEXT.commands.sort(function(a, b) {
 		return a.aliases[0].localeCompare(b.aliases[0]);
  	});
 
 	// Populates the responsed embed
-	ctx.commands.forEach(cmd => {
+	CONTEXT.commands.forEach(cmd => {
 		const commandId = cmd.aliases[0]
 		const description = strings.commandDescriptions[commandId]
 		

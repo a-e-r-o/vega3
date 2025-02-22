@@ -1,4 +1,6 @@
-import { v, ctx, version, msToTime, CommandCall, Command, Embed, getAvatarURL, CommandTags} from '../../mod.ts'
+import { version, Embed } from '../../../deps.ts';
+import { BOT, CONTEXT } from '../../../main.ts';
+import { msToTime, CommandCall, Command, CommandTags} from '../../mod.ts'
 
 export const up: Command = {
 	tags: CommandTags.None,
@@ -6,14 +8,14 @@ export const up: Command = {
 	execute: (call: CommandCall) => {
 		const changelog = 'https://gitlab.com/AeroCloud/vega2/-/tags/' + version
 
-		const self = v.users.get(v.id)
+		const self = BOT.user
 
 		if (!self)
 			return
 
-		const embed: Embed = {}
+		const embed = new Embed()
 		embed.thumbnail = {
-			url: getAvatarURL(v, self.id, self?.discriminator, {avatar: self.avatar, size: 2048})
+			url: self.avatarURL()
 		}
 		embed.title = 'ᴠ.ᴇ.ɢ.ᴀ.'
 		embed.color = 16316664
@@ -21,7 +23,7 @@ export const up: Command = {
 		embed.fields = [
 			{
 				name: 'Uptime',
-				value:  msToTime((new Date().getTime() - ctx?.upTime.getTime()))
+				value:  msToTime(BOT.uptime)
 			},
 			{
 				name: 'Changelog',

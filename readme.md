@@ -1,6 +1,6 @@
 # *V E G A*
 
-VEGA is multi-purpose Discord bot, but really mainly a playground project for me to test things or just speed up some things by adding a command on vega instead of doing it manually
+VEGA is multi-purpose Discord bot, but really mainly a playground project.
 
 ## Getting started
 
@@ -32,3 +32,8 @@ chmod +x launch.sh
 ./launch.sh
 ```
 *I recommend using [tmux](https://www.redhat.com/sysadmin/introduction-tmux-linux) to keep the bot running in the background wihtout needing to keep your shell opened*
+
+
+https://deno.land/x/harmony@v2.9.1
+
+https://harmony.mod.land/guide/beginner/basic_bot.html
