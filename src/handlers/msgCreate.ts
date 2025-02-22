@@ -1,8 +1,8 @@
-import { CommandCall, CommandTags, formatErr, formatWarn, parseCall, formatBasic, checkTriggers, Command } from '../mod.ts'
+import { CommandCall, CommandTags, formatErr, formatWarn, formatBasic, checkTriggers, Command } from '../mod.ts'
 import { Embed, Message } from '../../deps.ts'
 import { CONTEXT, BOT } from '../../main.ts'
 
-export async function msgCreate(msg: Message){
+export async function onMsgCreate(msg: Message){
 	// If message is from a bot, ignore
 	if (msg.author.bot || !msg.guildID)
 		return
@@ -28,10 +28,10 @@ export async function msgCreate(msg: Message){
 	}
 
 	// Create the cmdcall object that will be used for basically everything
-	const call: CommandCall = parseCall(msg, CONTEXT.config.prefix, guildSettings)
-	const foundCmd: Command | undefined = CONTEXT.commands.find(x => x.aliases.includes(call.cmd))
+	const call = new CommandCall(msg, CONTEXT.config.prefix, guildSettings)
+	const foundCmd: Command | undefined = CONTEXT.commands.find(x => x.aliases.includes(call.commandName))
 
-	// Check if command found
+	// Check if any command alias is recognized
 	if (!foundCmd)
 		return
 
@@ -42,14 +42,14 @@ export async function msgCreate(msg: Message){
 
 	// Check if command is disabled in DMs. If so, check if we are in a guild
 	if (foundCmd.tags & CommandTags.DisabledInDm) {
-		if (!call.msg.guildID)
+		if (!call.message.guildID)
 			return msg.channel.send({embeds: [formatWarn('Command disabled in direct messages')]})
 			//return sendMessage(BOT, call.channel, {embeds: [formatWarn('Command disabled in direct messages')]})
 	}
 
 	// Check if admin permissions are required. If so, check if user has admin permissions
 	if (foundCmd.tags & CommandTags.BotAdminRequired){
-		if (!CONTEXT.config.admins.includes(call.msg.author.id))
+		if (!CONTEXT.config.admins.includes(call.message.author.id))
 			return msg.channel.send({embeds: [formatWarn('You are not allowed to execute this command')]})
 			//return sendMessage(BOT, call.channel, {embeds: [formatWarn('You are not allowed to execute this command')]})
 	}
@@ -67,10 +67,10 @@ export async function msgCreate(msg: Message){
 			//return sendMessage(BOT, call.channel, {embeds: [feedback]})
 	}
 	catch (error: Error | string | unknown) {
-		// If the object caught is an error and not a string, then it is critical
+		// If the object caught is an error and not a string, then it not expected
 		if (error instanceof Error){
 			console.log(
-				`Error executing command : ${call.cmd} with args [${call.args.join(',')}]\n`,
+				`Error executing command : ${call.commandName} with args [${call.args.join(',')}]\n`,
 				`└ ${error.message}`
 			)
 			return msg.channel.send({embeds: [formatErr(`[Critical error]\n${error.message}`)]})

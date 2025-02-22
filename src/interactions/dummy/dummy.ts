@@ -1,8 +1,9 @@
-import { ApplicationCommandHandler, ApplicationCommandPartial, ApplicationCommandType, Interaction, InteractionApplicationCommandData, InteractionResponse, InteractionResponseModal, SlashCommandInteraction, SlashCommandOptionType } from "../../../deps.ts";
+import { ApplicationCommandHandler, ApplicationCommandPartial, ApplicationCommandType, InteractionResponse, SlashCommandInteraction, SlashCommandOptionType } from "../../../deps.ts";
 import { actionRowComponent } from "./Components/dummy.components.ts";
 
 // Component Handlers
 export { validateHandler } from './Components/dummy.validate.ts'
+
 
 // --- Interaction ---
 export const interaction : ApplicationCommandPartial = {

@@ -1,7 +1,7 @@
 // Lib
-import { CommandClient } from "./deps.ts";
+import { Client, CommandClient, Interaction, Message } from "./deps.ts";
 // Src
-import { ready, loadConfig, msgCreate, GuildSettingsService, initTemp, initLocalDb, Command, commandList } from './src/mod.ts'
+import { ready, loadConfig, onMsgCreate, GuildSettingsService, initTemp, initLocalDb, Command, commandList, onInteractionCreate } from './src/mod.ts'
 // Slash commands
 import { Interactions, InteractionHandlers, ComponentInteractionHandlers } from './src/interactions/interactions.ts'
 
@@ -23,13 +23,10 @@ export const CONTEXT = {
 	commands: Object.values(commandList) as Command[]
 }
 
-export const BOT = new CommandClient({
-  prefix: ['yoda'],
-  caseSensitive: false,
+export const BOT = new Client({
   intents: ['GUILDS', 'DIRECT_MESSAGES', 'GUILD_MESSAGES', 'GUILD_MEMBERS', 'MESSAGE_CONTENT'],
 	token: CONTEXT.config.token
 })
-
 
 // --- Event handlers ---
 
@@ -39,10 +36,14 @@ BOT.on('ready', () => {
 })
 
 // On message created by anyone, anywhere
-BOT.on('messageCreate', (message) => {
-	msgCreate(message)
+BOT.on('messageCreate', (message: Message) => {
+	onMsgCreate(message)
 })
 
+// Fired BEFORE interaction handler function
+BOT.on('interactionCreate', (interaction: Interaction) => {
+	onInteractionCreate(interaction)
+})
 
 // --- Interactions and interaction handlers ---
 
