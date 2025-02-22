@@ -1,7 +1,7 @@
 // Lib
 import { Client, CommandClient, Interaction, Message } from "./deps.ts";
 // Src
-import { ready, loadConfig, onMsgCreate, GuildSettingsService, initTemp, initLocalDb, Command, commandList, onInteractionCreate } from './src/mod.ts'
+import { ready, loadConfig, onMsgCreate, onInteractionCreate, GuildSettingsService, initTemp, initLocalDb, Command, commandList,  } from './src/mod.ts'
 // Slash commands
 import { Interactions, InteractionHandlers, ComponentInteractionHandlers } from './src/interactions/interactions.ts'
 
