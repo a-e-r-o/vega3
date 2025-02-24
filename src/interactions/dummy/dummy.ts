@@ -1,22 +1,27 @@
-import { ApplicationCommandHandler, ApplicationCommandPartial, ApplicationCommandType, InteractionResponse, SlashCommandInteraction, SlashCommandOptionType } from "../../../deps.ts";
-import { actionRowComponent } from "./Components/dummy.components.ts";
+import { ApplicationCommandHandler, ApplicationCommandType, InteractionResponse, SlashCommandInteraction, SlashCommandOptionType } from "../../../deps.ts";
+import { VegaAppCommand } from "../../mod.ts";
 
-// Component Handlers
+// Components
+import { actionRowComponent } from "./Components/dummy.components.ts";
 export { validateHandler } from './Components/dummy.validate.ts'
 
 
 // --- Interaction ---
-export const interaction : ApplicationCommandPartial = {
-	name: 'yee',
-	description: '*Should* send a pong.',
-	options: [
-		{
-			name: 'content',
-			description: 'Content of the expected pong from the bot',
-			required: true,
-			type: SlashCommandOptionType.STRING
-		}
-	]
+export const interaction : VegaAppCommand = {
+	superAdmin: false,
+	permissions: [],
+	appCommand: {
+		name: 'yee',
+		description: '*Should* send a pong.',
+		options: [
+			{
+				name: 'content',
+				description: 'Content of the expected pong from the bot',
+				required: true,
+				type: SlashCommandOptionType.STRING
+			}
+		]
+	}
 }
 
 // --- Handler ---

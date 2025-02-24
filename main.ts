@@ -1,9 +1,10 @@
 // Lib
-import { Client, CommandClient, Interaction, Message } from "./deps.ts";
+import { Client, Interaction, Message } from "./deps.ts";
 // Src
-import { ready, loadConfig, onMsgCreate, onInteractionCreate, GuildSettingsService, initTemp, initLocalDb, Command, commandList,  } from './src/mod.ts'
+import { ready, loadConfig, onMsgCreate, onInteractionCreate, GuildSettingsService, initTemp, initLocalDb, Command, commandList, VegaAppCommand } from './src/mod.ts'
 // Slash commands
-import { Interactions, InteractionHandlers, ComponentInteractionHandlers } from './src/interactions/interactions.ts'
+import { appCommandList, interactionHandlerList, componentInteractionHandlerList} from './src/interactions/interactions.ts'
+
 
 // --- BEGIN ---
 
@@ -20,7 +21,8 @@ await initTemp()
 export const CONTEXT = {
 	config: await loadConfig(),
 	guildSettingsService: new GuildSettingsService(),
-	commands: Object.values(commandList) as Command[]
+	commands: Object.values(commandList) as Command[],
+	interactions: {} as Record<string, VegaAppCommand>,
 }
 
 export const BOT = new Client({
@@ -40,7 +42,8 @@ BOT.on('messageCreate', (message: Message) => {
 	onMsgCreate(message)
 })
 
-// Fired BEFORE interaction handler function
+// Clear default handler then override it
+BOT.off('interactionCreate') 
 BOT.on('interactionCreate', (interaction: Interaction) => {
 	onInteractionCreate(interaction)
 })
@@ -48,28 +51,27 @@ BOT.on('interactionCreate', (interaction: Interaction) => {
 // --- Interactions and interaction handlers ---
 
 // Push all interactions
-Interactions.forEach(command => {
+appCommandList.forEach(VegaAppCommand => {
 	// If you want to create command globally, just remove 'Your Server/Guild ID' part
 	// I recommend making it for only one guild for now because Global Slash Commands can take max 1 hour to come live.
 	BOT.interactions.commands
 		// TODO : see if possible with Harmony to require server wide permission for slash commands
 		// else fork harmony and implement it
-		.create(command, '376040838540820481')
-		.then((cmd) => {
-			// TODO : register in the DB cmd.id & cmd.guid to delete all commands when needed
-			console.log(`Created Slash Command ${cmd.name}!`)
-			//cmd.setPermissions([{id: '376040838540820481', type: "", permission: true}])
+		.create(VegaAppCommand.appCommand, '376040838540820481')
+		.then((registeredCommand) => {
+			console.log(`Created Slash Command ${registeredCommand.name}!`)
+			CONTEXT.interactions[registeredCommand.id] = VegaAppCommand;
 		})
-		.catch((e) => console.log(`Failed to create command : ${command.name}`));
+		.catch((e) => console.log(`Failed to create command : ${VegaAppCommand.appCommand.name}`));
 })
 
 // Push all interaction handlers
-InteractionHandlers.forEach(handler => {
+interactionHandlerList.forEach(handler => {
 	BOT.interactions.handlers.push(handler)
 })
 
 // Push all component interaction handlers
-ComponentInteractionHandlers.forEach(handler => {
+componentInteractionHandlerList.forEach(handler => {
 	BOT.interactions.componentHandlers.push(handler)
 })
 

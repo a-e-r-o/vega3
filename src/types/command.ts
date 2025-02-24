@@ -19,8 +19,8 @@ export type Command = {
 }
 
 
-export interface IntCommand {
+export interface VegaAppCommand {
 	superAdmin: boolean
 	permissions: []
-	interaction: ApplicationCommandPartial
+	appCommand: ApplicationCommandPartial
 }

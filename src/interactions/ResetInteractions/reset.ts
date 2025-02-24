@@ -1,10 +1,15 @@
-import { ApplicationCommandHandler, ApplicationCommandPartial, ApplicationCommandType, InteractionResponse, InteractionResponseModal, SlashCommandInteraction, SlashCommandOptionType } from "../../../deps.ts";
+import { ApplicationCommandHandler, ApplicationCommandType, SlashCommandInteraction } from "../../../deps.ts";
 import { BOT, CONTEXT } from "../../../main.ts";
+import { VegaAppCommand } from "../../mod.ts";
 
 // --- Interaction ---
-export const interaction : ApplicationCommandPartial = {
-	name: 'resetinteractions',
-	description: 'Unregisters all interactions and terminates the bot',
+export const interaction : VegaAppCommand = {
+	superAdmin: true,
+	permissions: [],
+	appCommand: {
+		name: 'resetinteractions',
+		description: 'Unregisters all interactions and terminates the bot'
+	}
 }
 
 // --- Handler ---
