@@ -11,4 +11,6 @@ export { ensureDirSync } from 'https://deno.land/std@0.192.0/fs/mod.ts'
 export { copy, writeAll } from 'https://deno.land/std@0.192.0/streams/mod.ts'
 export { Buffer, BufReader } from 'https://deno.land/std@0.192.0/io/mod.ts'
 
+export { Client as PostgreClient} from 'https://deno.land/x/postgres@v0.19.3/mod.ts'
+
 export * from 'https://deno.land/x/harmony@v2.9.1/mod.ts'
