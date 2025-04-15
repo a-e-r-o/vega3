@@ -1,37 +1,38 @@
-import { consts, GuildSettings, readFolderSets, saveSet } from "../mod.ts"
+import { Cache, consts, GuildSettings, GuildSettingsCache, GuildSettingsProvider, Trigger } from "../mod.ts"
+
+interface TriggerDto {
+	regex: string
+	regexOptions: string
+	response: string
+	triggerId: number
+	guildId: string
+	// TODO ADD a NAME ?
+}
 
 export class GuildSettingsService {
-	private guildSettings: Record<string, GuildSettings> = {}
+	private readonly provider: GuildSettingsProvider
+	private cache: Cache<GuildSettings>
+	public ready = false
 
-	constructor(){
-		const dbGuildSettings = readFolderSets('guildSettings') as GuildSettings[]
-		for (const guidlSetting of dbGuildSettings) {
-			this.guildSettings[guidlSetting.guildId] = guidlSetting
-		}
+	constructor(dbConnectionString: string){
+		this.provider = new GuildSettingsProvider(dbConnectionString)
+		this.cache = new Cache<GuildSettings>()
+		this.initCache()
 	}
 
 	// === Private functions ===
 
-	/**
-	 * Adds (ONLY IN MEMORY) a preference object for the provided guild id, and return it
-	 */
-	private initNewGuildSetting(id: string){
-		const setting = consts.defaultGuildSetting
-		// 0n is default ID, for DMs
-		if (id != '0') {
-			// If not in DM, init settings with default, then set id
-			setting.guildId = id
-			this.guildSettings[id] = setting
-			// return reference to list item
-			return this.guildSettings[id]
+	private async initCache(){
+		const dbSettings = await this.provider.fetchAll();
+		for (const row of dbSettings) {
+			this.cache.set(row.guildId, row.setting)
 		}
-		else 
-			// return object as-is
-			return setting
+		this.ready = true
 	}
 
-	private writeGuildSettings(guildId: string){
-		saveSet(guildId, [this.guildSettings[guildId]], 'guildSettings')
+	private updateGuildSetting(guildId: string, setting: GuildSettings){
+		this.cache.set(guildId, setting)
+		this.provider.update(guildId, setting)
 	}
 	
 	// === Public functions ===
@@ -39,25 +40,33 @@ export class GuildSettingsService {
 	/**
 	 * Create and/or get preferences for a guild. If guid ID is 0n, returns default settings
 	 */
-	getGuildSettings(guildId: string): GuildSettings {
-		const setting = this.guildSettings[guildId]
-		return setting == null ? this.initNewGuildSetting(guildId) : setting
+	async getGuildSettings(guildId: string): Promise<GuildSettings> {
+		let value = this.cache.get(guildId)
+
+		if (!value) {
+			const dbSetting = await this.provider.fetchOne(guildId)
+			value = dbSetting ?? consts.defaultGuildSetting
+			this.updateGuildSetting(guildId, value)
+		}
+
+		return value
 	}
 	
 	/**
 	 * Update language preference for a guild
 	 */
-	setLang(guildId: string, lang: number){
-		const settings = this.getGuildSettings(guildId)
+	async setLang(guildId: string, lang: number): Promise<void> {
+		const settings = await this.getGuildSettings(guildId)
 		settings.lang = lang
-		this.writeGuildSettings(guildId)
+		this.updateGuildSetting(guildId, settings)
 	}
 
 	/**
 	 * Trigger READ
 	 */
-	triggerList(guildId: string){
-		return this.getGuildSettings(guildId)?.triggers
+	async getTriggerList(guildId: string): Promise<Trigger[]> {
+		const settings = await this.getGuildSettings(guildId)
+		return settings.triggers
 	}
 
 	/**
@@ -65,15 +74,15 @@ export class GuildSettingsService {
 	 * Returns a number, the ID of the new trigger
 	 * In case of error, returns -1
 	 */
-	addTrigger(guildId: string, regex: string, response: string, regexParams = ''): number {
+	async addTrigger(guildId: string, regex: string, response: string, regexParams = ''): Promise<number> {
 		try {
-			const settings = this.getGuildSettings(guildId)
+			const settings = await this.getGuildSettings(guildId)
 			settings.triggers.push({
 				regex: regex,
 				regexOptions: regexParams,
 				response: response
 			})
-			this.writeGuildSettings(guildId)
+			this.updateGuildSetting(guildId, settings)
 			return settings.triggers.length - 1
 		}
 		catch(error) {
@@ -85,11 +94,11 @@ export class GuildSettingsService {
 	/**
 	 * Trigger DELETE
 	 */
-	deleteTrigger(guildId: string, index: number): boolean {
+	async deleteTrigger(guildId: string, index: number): Promise<boolean> {
 		try {
-			const settings = this.getGuildSettings(guildId)
+			const settings = await this.getGuildSettings(guildId)
 			settings.triggers.splice(index, 1)
-			this.writeGuildSettings(guildId)
+			this.updateGuildSetting(guildId, settings)
 			return true
 		}
 		catch(error){

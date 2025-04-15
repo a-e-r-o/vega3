@@ -7,8 +7,8 @@ import { Command, CommandCall, CommandTags } from '../../mod.ts'
 export const listTrigger: Command = {
 	tags: CommandTags.DisabledInDm + CommandTags.BotAdminRequired,
 	aliases: ['triggerlist', 'triggers'],
-	execute: (call: CommandCall) => {
-		const list = CONTEXT.guildSettingsService.triggerList(call.msg.guildID!)
+	execute: async(call: CommandCall) => {
+		const list = await CONTEXT.guildSettingsService.getTriggerList(call.message.guildID!)
 		let res = ''
 		for (let i = 0; i < list.length; i++) {
 			res += `\`ID\` : ${i} => \`${list[i].regex}\`\n`
@@ -25,7 +25,7 @@ export const listTrigger: Command = {
 export const addTrigger: Command = {
 	tags: CommandTags.DisabledInDm + CommandTags.BotAdminRequired,
 	aliases: ['addtrigger', '+trigger'],
-	execute: (call: CommandCall) => {
+	execute: async(call: CommandCall) => {
 		const options = call.msgStriped.split(';').map(x => x.trim()).filter(x => x !== '')
 
 		if (options.length < 2)
@@ -42,7 +42,7 @@ export const addTrigger: Command = {
 			throw `Malformed argument \`${error}\``
 		}
 
-		const triggerId = CONTEXT.guildSettingsService.addTrigger(call.msg.guildID!, regex, response, regexOptions)
+		const triggerId = await CONTEXT.guildSettingsService.addTrigger(call.message.guildID!, regex, response, regexOptions)
 		// If id is -1, an error occurred
 		if (triggerId >= 0)
 			return `Successfully added trigger \`${regex}\` with ID \`${triggerId}\``
@@ -57,7 +57,7 @@ export const addTrigger: Command = {
 export const deleteTrigger: Command = {
 	tags: CommandTags.DisabledInDm + CommandTags.BotAdminRequired,
 	aliases: ['removetrigger', '-trigger'],
-	execute: (call: CommandCall) => {
+	execute: async(call: CommandCall) => {
 		const argId = parseInt(call.args[0])
 		if (isNaN(argId))
 			return "Incorrect argument"
@@ -65,7 +65,7 @@ export const deleteTrigger: Command = {
 		if (!call.guildSettings.triggers[argId])
 			throw 'No trigger with this ID. Use triggerlist to see yours triggers and their IDs'
 		
-		if (CONTEXT.guildSettingsService.deleteTrigger(call.msg.guildID!, argId))
+		if (await CONTEXT.guildSettingsService.deleteTrigger(call.message.guildID!, argId))
 			return `Successfully removed trigger with ID \`${argId}\``
 		else
 			throw 'An error occurred, failed to add trigger'

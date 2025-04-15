@@ -1,7 +1,7 @@
 // Lib
-import { Client, Interaction, Message } from "./deps.ts";
+import { Client, ensureDirSync, Interaction, Message } from "./deps.ts";
 // Src
-import { ready, loadConfig, onMsgCreate, onInteractionCreate, GuildSettingsService, initTemp, initLocalDb, Command, commandList, VegaAppCommand } from './src/mod.ts'
+import { ready, loadConfig, onMsgCreate, onInteractionCreate, GuildSettingsService, initTemp, Command, commandList, VegaAppCommand, clearDir, consts } from './src/mod.ts'
 // Slash commands
 import { appCommandList, interactionHandlerList, componentInteractionHandlerList} from './src/interactions/interactions.ts'
 
@@ -10,17 +10,16 @@ import { appCommandList, interactionHandlerList, componentInteractionHandlerList
 
 console.log('Initialization...')
 
-// --- Prepair local DB and temp folders ---
+// --- Prepair and clear temp folder, and read config file ---
 
-initLocalDb()
-await initTemp()
+ensureDirSync(consts.tmpDir)
+await clearDir(consts.tmpDir)
+const config = await loadConfig()
 
-
-// --- Bot client and global context ---
-
+// --- Create global context and bot client---
 export const CONTEXT = {
-	config: await loadConfig(),
-	guildSettingsService: new GuildSettingsService(),
+	config: config,
+	guildSettingsService: new GuildSettingsService(config.dbConnectionString),
 	commands: Object.values(commandList) as Command[],
 	interactions: {} as Record<string, VegaAppCommand>,
 }
