@@ -1,4 +1,5 @@
-import { ctx, Command, CommandCall, langOptions, CommandTags } from '../../mod.ts'
+import { CONTEXT } from '../../../main.ts'
+import { Command, CommandCall, langOptions, CommandTags } from '../../mod.ts'
 
 export const prefs: Command = {
 	tags: CommandTags.Disabled,
@@ -17,7 +18,7 @@ export const prefs: Command = {
 			throw 'Unknown language. Language list : en, fr'
 		// If correct lang
 		else
-			ctx.guildSettingsService.setLang(call.msg.guildId!, foundLang.id)
+			CONTEXT.guildSettingsService.setLang(call.msg.guildID!, foundLang.id)
 
 		return `Vega language set to ${foundLang.name}`
 	}

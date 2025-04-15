@@ -1,5 +1,4 @@
 export const consts = {
-	dbDir: './.database',
 	tmpDir: './.temp',
 	cfgPath: './config.yml',
 	defaultPrefix: 'vega',
@@ -7,5 +6,6 @@ export const consts = {
 		guildId: '0',
 		lang: 0,
 		triggers: []
-	}
+	},
+	defaultCacheTtl: 1000 * 500 // 500 secondes
 }
