@@ -1,6 +1,6 @@
 ## This project is abandonned and unfinished. See github.com/a-e-r-o/vega4. 
 This version of VEGA discord bot was a rewrite of VEGA2, but using [Harmony](https://github.com/harmonyland/harmony) instead of [Discordeno](https://github.com/discordeno/discordeno)
-It has now evolved into [Vega4](https://github.com/a-e-r-o/vega3) using C# .net9 and NetCord
+It has now evolved into [Vega4](https://github.com/a-e-r-o/vega4) using C# .net9 and NetCord
 
 
 ---
