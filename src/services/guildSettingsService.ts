@@ -1,4 +1,4 @@
-import { consts, GuildSettings, readFolderSets, recordToArray, saveSet } from "../mod.ts"
+import { consts, GuildSettings, readFolderSets, saveSet } from "../mod.ts"
 
 export class GuildSettingsService {
 	private guildSettings: Record<string, GuildSettings> = {}
@@ -30,8 +30,8 @@ export class GuildSettingsService {
 			return setting
 	}
 
-	private writeGuildSettings(guildId: bigint){
-		saveSet(guildId.toString(), [this.guildSettings[guildId.toString()]], 'guildSettings')
+	private writeGuildSettings(guildId: string){
+		saveSet(guildId, [this.guildSettings[guildId]], 'guildSettings')
 	}
 	
 	// === Public functions ===
@@ -39,15 +39,15 @@ export class GuildSettingsService {
 	/**
 	 * Create and/or get preferences for a guild. If guid ID is 0n, returns default settings
 	 */
-	getGuildSettings(guildId: bigint): GuildSettings {
-		const setting = this.guildSettings[guildId.toString()]
-		return setting == null ? this.initNewGuildSetting(guildId.toString()) : setting
+	getGuildSettings(guildId: string): GuildSettings {
+		const setting = this.guildSettings[guildId]
+		return setting == null ? this.initNewGuildSetting(guildId) : setting
 	}
 	
 	/**
 	 * Update language preference for a guild
 	 */
-	setLang(guildId: bigint, lang: number){
+	setLang(guildId: string, lang: number){
 		const settings = this.getGuildSettings(guildId)
 		settings.lang = lang
 		this.writeGuildSettings(guildId)
@@ -56,7 +56,7 @@ export class GuildSettingsService {
 	/**
 	 * Trigger READ
 	 */
-	triggerList(guildId: bigint){
+	triggerList(guildId: string){
 		return this.getGuildSettings(guildId)?.triggers
 	}
 
@@ -65,7 +65,7 @@ export class GuildSettingsService {
 	 * Returns a number, the ID of the new trigger
 	 * In case of error, returns -1
 	 */
-	addTrigger(guildId: bigint, regex: string, response: string, regexParams = ''): number {
+	addTrigger(guildId: string, regex: string, response: string, regexParams = ''): number {
 		try {
 			const settings = this.getGuildSettings(guildId)
 			settings.triggers.push({
@@ -85,7 +85,7 @@ export class GuildSettingsService {
 	/**
 	 * Trigger DELETE
 	 */
-	deleteTrigger(guildId: bigint, index: number): boolean {
+	deleteTrigger(guildId: string, index: number): boolean {
 		try {
 			const settings = this.getGuildSettings(guildId)
 			settings.triggers.splice(index, 1)

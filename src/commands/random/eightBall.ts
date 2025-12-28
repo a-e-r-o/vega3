@@ -1,4 +1,5 @@
-import { Embed, Command, CommandCall, randInt } from '../../mod.ts'
+import { Command, CommandCall, randInt } from '../../mod.ts'
+import { Embed } from '../../../deps.ts';
 import { eightBallResponses } from "../../assets/strings.ts";
 
 export const heightball: Command = {
@@ -21,7 +22,7 @@ function execute(call: CommandCall) {
 	const selectedItem: string = options[randInt(options.length-1)]
 	
 	// Create embed
-	const res: Embed = {}
+	const res = new Embed()
 
 	// If description set, it's used as title
 	res.title = desc ? desc : undefined

@@ -1,12 +1,18 @@
-import { clearDir,ensureDirSync, consts, vegaLog } from "../mod.ts";
+import { ensureDirSync } from "../../deps.ts";
+import { clearDir, consts, vegaLog } from "../mod.ts";
 
 
+/**
+ * Ensures folders for local database
+ */
 export function initLocalDb() {
-	// Init local database
 	ensureDirSync(consts.dbDir)
 	ensureDirSync(consts.dbDir + '/guildSettings')
 }
 
+/**
+ * Ensures or clears folder for temp files
+ */
 export async function initTemp(){
 	// Ensure and clears temp folder
 	ensureDirSync(consts.tmpDir)
@@ -28,7 +34,7 @@ export function readSet(collectionId: string, folder = ''){
 		return JSON.parse(value) as unknown[]
 	}
 	catch(err) {
-		// Normal behaviour, file does not exist; no data to return
+		// Normal behaviour if file does not exist; no data to return
 		return []
 	}
 }
@@ -62,7 +68,7 @@ export function saveSet(collectionId: string, collection: unknown[], folder = ""
 	}
 	catch(err) {
 		// Error saving
-		vegaLog(err)
+		vegaLog(`Error saving collection : ${collection}`)
 		return false
 	}
 }

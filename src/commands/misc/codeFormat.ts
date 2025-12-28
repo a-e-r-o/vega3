@@ -1,4 +1,6 @@
-import { CommandCall, Command, CommandTags, getMessage, v, sendMessage } from '../../mod.ts'
+import { MessagesManager } from '../../../deps.ts';
+import { BOT } from '../../../main.ts';
+import { CommandCall, Command, CommandTags } from '../../mod.ts'
 
 export const format: Command = {
 	tags: CommandTags.DisabledInDm,
@@ -6,17 +8,20 @@ export const format: Command = {
 	execute: async(call: CommandCall) => {
 		if (
 			!call.msg.messageReference ||
-			!call.msg.messageReference?.channelId ||
-			!call.msg.messageReference?.guildId ||
-			!call.msg.messageReference?.messageId
+			!call.msg.messageReference?.channel_id ||
+			!call.msg.messageReference?.guild_id ||
+			!call.msg.messageReference?.message_id
 		) return 'Use this command in response to an existing message'
 
+		const refMsg = 
+			await call.msg.channel.messages.resolve(call.msg.messageReference.message_id)
 
-		const refMsg = await getMessage(v, call.msg.messageReference.channelId, call.msg.messageReference.messageId)
+		if(!refMsg)
+			throw 'Cannot get referenced message'
 
 		if (refMsg.content.length == 0)
-			return 'Referenced message is empty'
+			return 'Referenced message has no text'
 
-		sendMessage(v, call.msg.channelId, {content: `\`\`\`${refMsg.content}\`\`\``})
+		call.msg.channel.send(`\`\`\`${refMsg.content}\`\`\``)
 	}
 }
